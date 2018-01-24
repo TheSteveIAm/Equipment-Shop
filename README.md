@@ -4,4 +4,4 @@
 
 ### Technical Info ###
 
-* Unity Version: 2017.2.0f3
+* Unity Version: 2017.3.0f3
