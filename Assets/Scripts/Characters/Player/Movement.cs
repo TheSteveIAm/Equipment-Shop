@@ -33,6 +33,7 @@ public class Movement : MonoBehaviour
 
     }
 
+    ///Push rigidbody objects around when the player runs into them
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
