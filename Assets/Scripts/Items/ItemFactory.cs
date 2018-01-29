@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemList { None, IronOre }
+
 public class ItemFactory : MonoBehaviour {
 
     public Item[] itemListToLoad;
@@ -11,9 +13,11 @@ public class ItemFactory : MonoBehaviour {
     void Start()
     {
         //Load items into a dictionary so we can reference and do lookups by name
+        //This may be completely replaced by enums, but we'll leave it for now as it can be handy for console use
         for (int i = 0; i < itemListToLoad.Length; i++)
         {
-            itemList.Add(itemListToLoad[i].itemName, itemListToLoad[i]);
+            itemList.Add(itemListToLoad[i].itemType.ToString(), itemListToLoad[i]);
+            Debug.Log(itemListToLoad[i].itemType.ToString());
         }
     }
 
