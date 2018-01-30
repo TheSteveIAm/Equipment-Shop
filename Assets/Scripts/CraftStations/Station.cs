@@ -18,8 +18,32 @@ public class Station : MonoBehaviour {
         itemList = FindObjectOfType<ItemFactory>();
 	}
 
+    /// <summary>
+    /// Processes items, checks to see if this station will accept it based on recipes
+    /// each station will process this in their own way
+    /// </summary>
+    /// <param name="item"></param>
     public virtual void GiveItem(Item item)
     {
-        //if this station accepts that item, receive it
+        //this function may be completely useless
+        //if this station accepts that item, receive it, and give it to the recipe
+        //otherwise, spit it back out
+    }
+
+    /// <summary>
+    /// When an item collides with the station, it will attempt to accept it
+    /// </summary>
+    /// <param name="col"></param>
+    void OnCollisionEnter(Collision col)
+    {
+        Item item = col.gameObject.GetComponent<Item>();
+
+        if(item != null)
+        {
+            GiveItem(item);
+        }
+
+        //Thought: it may be possible for a newly created item to be spit out and thrown into another station.
+        //it may be worth created a boolean variable on item "newItem", if it's true, stations will not accept the item
     }
 }

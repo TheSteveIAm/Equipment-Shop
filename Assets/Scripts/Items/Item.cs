@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
 
-    public ItemList itemType;
+    public ItemCode itemType;
     private Rigidbody body;
     private Collider col;
 

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemList { None, IronOre }
+public enum ItemCode { None, IronOre }
 
-public class ItemFactory : MonoBehaviour {
+public class ItemFactory : MonoBehaviour
+{
 
     public Item[] itemListToLoad;
     private Dictionary<string, Item> itemList = new Dictionary<string, Item>();
@@ -25,7 +26,7 @@ public class ItemFactory : MonoBehaviour {
     {
         if (itemList.ContainsKey(itemName))
         {
-        Instantiate(itemList[itemName], transform.position, Quaternion.identity);
+            Instantiate(itemList[itemName], transform.position, Quaternion.identity);
         }
         else
         {
