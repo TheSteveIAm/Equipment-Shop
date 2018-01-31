@@ -24,21 +24,23 @@ public class ItemFactory : MonoBehaviour
         for (int i = 0; i < itemListToLoad.Length; i++)
         {
             itemList.Add(itemListToLoad[i].itemType, itemListToLoad[i]);
-            Debug.Log(itemListToLoad[i].itemType.ToString());
+            //Debug.Log(itemListToLoad[i].itemType.ToString());
         }
 
         CreateItem(ItemCode.IronOre);
     }
 
-    public void CreateItem(ItemCode item)
+    public Item CreateItem(ItemCode item)
     {
         if (itemList.ContainsKey(item)){
-            Instantiate(itemList[item], transform.position, Quaternion.identity);
+            return Instantiate(itemList[item], transform.position, Quaternion.identity);
         }
         else
         {
             Debug.LogError("Item Factory did not find item: " + item.ToString());
         }
+
+        return null;
     }
 
     //public void CreateItem(string itemName)
