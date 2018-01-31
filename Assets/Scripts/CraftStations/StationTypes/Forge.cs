@@ -13,10 +13,10 @@ public class Forge : Station {
 
     private bool processingItem;
 
+    public ParticleSystem forgeParticles;
+
     public override void GiveItem(Item item)
     {
-        base.GiveItem(item);
-
         //Find matching recipe, if it exists, start processing item
         for(int i = 0; i < possibleRecipes.Length; i++)
         {
@@ -27,21 +27,37 @@ public class Forge : Station {
             {
                 //accept item, give to recipe, start smelting timer
                 processingItem = true;
-                currentRecipe = possibleRecipes[i];
+                currentRecipe = Instantiate(possibleRecipes[i], transform); //APPARENTLY THIS WORKS ON THE PREFAB. CREATE AN INSTANCE OF THE RECIPE AND USE THAT PLEASE.
                 currentRecipe.GiveItem(item);
             }
         }
     }
 
+    void CreateItem(ItemCode item)
+    {
+        itemList.CreateItem(item);
+    }
+
     void Update()
     {
-        if (processingItem)
+        if (currentRecipe != null &&
+            currentRecipe.requirementsMet &&
+            !currentRecipe.itemReady)
         {
-
+            currentRecipe.ProcessItem();
+            if(!forgeParticles.isPlaying) forgeParticles.Play();
             //count timer down until metal bar comes out
-
-            //when timer is complete, item must be taken out, the closer to the exact finish time the item is taken out, the higher quality the result will be
-
+            if (currentRecipe.itemReady)
+            {
+                CreateItem(currentRecipe.CraftItem());
+                if(forgeParticles.isPlaying) forgeParticles.Stop();
+                currentRecipe = null;
+            }
+            //when timer is complete, item must be taken out, the closer to the exact finish time the item is taken out, the higher quality the result will 
+        }
+        else
+        {
+            //itemList
         }
     }
 

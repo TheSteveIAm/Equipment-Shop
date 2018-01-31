@@ -6,10 +6,11 @@ using UnityEngine;
 /// Any item required in this recipe
 /// Use a list of these for more complex recipes
 /// </summary>
+[System.Serializable]
 public struct ItemRequirement
 {
     public ItemCode item;
-    public int amount;
+    //public int amount;
     public bool filled;
 }
 
@@ -21,7 +22,7 @@ public struct ItemRequirement
 /// </summary>
 public class Recipe : MonoBehaviour
 {
-
+    #region Properties
     //List of items given to this receipe (via crafting station)
     public List<Item> givenItems = new List<Item>();
     //List of item requirements this receipe needs to craft an item
@@ -29,12 +30,16 @@ public class Recipe : MonoBehaviour
     //Item this recipe produces
     public ItemCode itemCreated;
     //Time it takes to process this recipe (if any)
-    public float processTime;
+    public float processTime = 0;
     //Production time put into this recipe
-    private float currentProcessingTime;
+    private float currentProcessingTime = 0;
     //Does this recipe contain all the requirements necessary to craft the item?
     public bool requirementsMet;
+    //Item will be set to ready when processing is complete
+    public bool itemReady;
+    #endregion
 
+    #region Functions
     /// <summary>
     /// Gives an item to the recipe, after checking if the recipe accepts it
     /// </summary>
@@ -42,15 +47,19 @@ public class Recipe : MonoBehaviour
     public bool GiveItem(Item item)
     {
         //check if given item matches an unfilled requirement
-        for(int i = 0; i < requirements.Length; i++)
+        for (int i = 0; i < requirements.Length; i++)
         {
-            if(requirements[i].item == item.itemType && !requirements[i].filled)
+            if (requirements[i].item == item.itemType && !requirements[i].filled)
             {
                 //fill requirement
+                requirements[i].filled = true;
+                Destroy(item.gameObject);
+                CheckRequirements();
+                //Tell craft station fulfillment was successful
                 return true;
             }
         }
-
+        //Tell craft station fulfillment was a failure
         return false;
     }
 
@@ -58,8 +67,19 @@ public class Recipe : MonoBehaviour
     /// Remove an item from this recipe (by pulling it out of a station)
     /// </summary>
     /// <param name="item"></param>
-    public void RemoveItem(Item item)
+    public ItemCode RemoveItem(Item item)
     {
+        for (int i = 0; i < requirements.Length; i++)
+        {
+            if (item.itemType == requirements[i].item && requirements[i].filled)
+            {
+                requirements[i].filled = false;
+                CheckRequirements();
+                return item.itemType;
+            }
+        }
+
+        return ItemCode.None;
         //remove specified item, then re-evaluate the recipe requirement fulfillment
     }
 
@@ -67,53 +87,53 @@ public class Recipe : MonoBehaviour
     /// Evaluates the requirements and determines whether or not they've been fulfilled
     /// </summary>
     /// <returns>Whether the recipe can be completed</returns>
-    bool CheckRequirements()
+    void CheckRequirements()
     {
-        //Key: Item Code, Value: Required Item Count
-        Dictionary<ItemCode, int> itemReqCount = new Dictionary<ItemCode, int>();
-        //Key: Item Code, Value: Given Item Count
-        Dictionary<ItemCode, int> itemCount = new Dictionary<ItemCode, int>();
 
-        //loop through requirements, create required counts of each item code
         for (int i = 0; i < requirements.Length; i++)
         {
-            if (!itemReqCount.ContainsKey(requirements[i].item))
+            if (!requirements[i].filled)
             {
-                itemReqCount.Add(requirements[i].item, 0);
-            }
-            else
-            {
-                itemReqCount[requirements[i].item]++; //TEST THIS! (I've never incremented a number in a dicitonary before)
+                requirementsMet = false;
+                return;
             }
         }
 
-        //loop through list of given items, count each item code
-        for(int i = 0; i < givenItems.Count; i++)
+        requirementsMet = true;
+
+        if (currentProcessingTime >= processTime)
         {
-            if (!itemCount.ContainsKey(givenItems[i].itemType))
-            {
-                itemCount.Add(givenItems[i].itemType, 0);
-            }
-            else
-            {
-                itemCount[givenItems[i].itemType]++; //TEST THIS! (I've never incremented a number in a dicitonary before)
-            }
+            itemReady = true;
         }
+    }
 
-        //Compare counts of item codes, if given item counts are not equal to requirement counts, requirements have NOT been met,
-        //otherwise they have
+    public void ProcessItem()
+    {
+        currentProcessingTime += Time.deltaTime;
 
-
-        return requirementsMet;
+        if (currentProcessingTime >= processTime)
+        {
+            itemReady = true;
+        }
     }
 
     /// <summary>
     /// Craft the item this recipe is inteded to create
     /// </summary>
-    void CompleteRecipe()
+    public ItemCode CraftItem()
     {
-        //Create item, place it where it needs to go
-        //if item has processing time, add to currentProcessing
+
+        if (itemReady)
+        {
+            requirementsMet = false;
+            itemReady = false;
+            currentProcessingTime = 0;
+
+            return itemCreated;
+        }
+
+        return ItemCode.None;
     }
+    #endregion
 
 }

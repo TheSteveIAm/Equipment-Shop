@@ -13,12 +13,11 @@ public class Item : MonoBehaviour {
         col = GetComponent<Collider>();
         body = GetComponent<Rigidbody>();
     }
-	
-	// Update is called once per frame
-	//void Update () {
-		
-	//}
 
+    /// <summary>
+    /// Allows a character to pickup this item
+    /// </summary>
+    /// <param name="newParent"></param>
     public void Pickup(Transform newParent)
     {
         transform.parent = newParent;
@@ -29,11 +28,22 @@ public class Item : MonoBehaviour {
         col.enabled = false;
     }
 
+    /// <summary>
+    /// Allows player to drop this item
+    /// </summary>
     public void Drop()
     {
         transform.parent = null;
         body.isKinematic = false;
         col.enabled = true;
-        body.AddForce(transform.forward * 4f, ForceMode.Impulse);
+        body.AddForce(transform.forward * 5f, ForceMode.Impulse);
+    }
+
+    /// <summary>
+    /// Get directly given to a station, therefore disappear
+    /// </summary>
+    public void DirectGive()
+    {
+
     }
 }

@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     Movement move;
     Vector3 targetDir;
+    public float speed = 7.5f;
     public Transform pickupPoint;
 
     GameObject selectionTarget;
@@ -29,15 +30,19 @@ public class Player : MonoBehaviour
 
     void Interact()
     {
-        Debug.Log("trying to, boss");
-
         //while carrying an object
         if (carriedObject != null)
         {
-            Station selectedStation = selectionTarget.GetComponent<Station>();
 
-            if (selectionTarget != null && selectedStation != null)
+            if (selectionTarget != null )
             {
+                Station selectedStation = selectionTarget.GetComponent<Station>();
+
+                if (selectedStation != null)
+                {
+                    selectedStation.GiveItem(carriedObject);
+                    carriedObject = null;
+                }
                 //try to use item on station based on the station's rules
 
             }
@@ -48,7 +53,7 @@ public class Player : MonoBehaviour
                 carriedObject = null;
             }
         }
-        else if(selectionTarget != null) //no held item
+        else if (selectionTarget != null) //no held item
         {
             Item selectedItem = selectionTarget.GetComponent<Item>();
             Station selectedStation = selectionTarget.GetComponent<Station>();
@@ -57,11 +62,12 @@ public class Player : MonoBehaviour
                 //pickup item
                 selectedItem.Pickup(pickupPoint);
                 carriedObject = selectedItem;
+                selectionTarget = null;
 
             }
             else if (selectedStation != null)
             {
-                //interact with station, no item in hand
+                //interact with station, no item in hand, will be used to remove selected item from station
             }
         }
     }
@@ -69,18 +75,18 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         targetDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        move.MoveDelta(targetDir * 7.5f);
+        move.MoveDelta(targetDir * speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
 
         if (selectionTarget == null &&
-        (other.GetComponent<Station>() || other.GetComponent<Item>()))
+        (other.GetComponent<Station>() || (other.GetComponent<Item>() && carriedObject == null)))
         {
             selectionTarget = other.gameObject;
-            Debug.Log(selectionTarget.name);
+            //Debug.Log(selectionTarget.name);
         }
     }
 
@@ -89,7 +95,6 @@ public class Player : MonoBehaviour
         if (selectionTarget != null)
         {
             selectionTarget = null;
-            Debug.Log("Null Target");
         }
     }
 }

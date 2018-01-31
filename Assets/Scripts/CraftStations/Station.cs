@@ -19,15 +19,21 @@ public class Station : MonoBehaviour {
 	}
 
     /// <summary>
-    /// Processes items, checks to see if this station will accept it based on recipes
-    /// each station will process this in their own way
+    /// Passes Item to recipe, in each station's own unique way
     /// </summary>
     /// <param name="item"></param>
     public virtual void GiveItem(Item item)
     {
-        //this function may be completely useless
-        //if this station accepts that item, receive it, and give it to the recipe
-        //otherwise, spit it back out
+        //currentRecipe.GiveItem(item);
+    }
+
+    /// <summary>
+    /// Removes selected item from the recipe, if able to
+    /// </summary>
+    /// <param name="item"></param>
+    public virtual void RemoveItem(Item item)
+    {
+        //currentRecipe.RemoveItem(item);
     }
 
     /// <summary>
