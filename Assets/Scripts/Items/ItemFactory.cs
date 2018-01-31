@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Codes to represent every item in the game, allowing us to create and reference items by these codes
+/// </summary>
 public enum ItemCode {
     None,
     IronOre,
@@ -10,17 +13,15 @@ public enum ItemCode {
 
 public class ItemFactory : MonoBehaviour
 {
-
     public Item[] itemListToLoad;
     private Dictionary<ItemCode, Item> itemList = new Dictionary<ItemCode, Item>();
 
     // Use this for initialization
     void Start()
     {
-        //Load items into a dictionary so we can reference and do lookups by name
-        //This may be completely replaced by enums, but we'll leave it for now as it can be handy for console use
+        //Thought: In the future i might load prefabs from folder, it will all depend on memory/load times
 
-        //Thought: In the future i might load prefabs from folder, but I don't think the time spent creating that (again) will be worth it
+        //load prefabs into dictionary so we can reference an item object by its code
         for (int i = 0; i < itemListToLoad.Length; i++)
         {
             itemList.Add(itemListToLoad[i].itemType, itemListToLoad[i]);

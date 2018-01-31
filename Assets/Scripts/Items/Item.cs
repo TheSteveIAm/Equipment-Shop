@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// An item describes something that can be picked up and moved around
+/// It can potentially be used in a Recipe by being manipulated by crafting Stations
+/// Items can be sold to Heroes, who use them for their Quests
+/// </summary>
 public class Item : MonoBehaviour {
 
     public ItemCode itemType;

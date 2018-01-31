@@ -10,7 +10,6 @@ using UnityEngine;
 public struct ItemRequirement
 {
     public ItemCode item;
-    //public int amount;
     public bool filled;
 }
 
