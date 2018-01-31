@@ -12,6 +12,8 @@ public class Station : MonoBehaviour {
 
     protected Recipe currentRecipe;
 
+    public Transform itemSpitPosition;
+
 	// Use this for initialization
 	void Start () {
         //give each station the ability to access the item factory, for easier item management
@@ -34,6 +36,13 @@ public class Station : MonoBehaviour {
     public virtual void RemoveItem(Item item)
     {
         //currentRecipe.RemoveItem(item);
+    }
+
+    public virtual void CreateItem(ItemCode item)
+    {
+        Item craftedItem = itemList.CreateItem(item);
+        craftedItem.transform.position = itemSpitPosition.position;
+        craftedItem.GetComponent<Rigidbody>().AddForce(itemSpitPosition.forward * 2f, ForceMode.Impulse);
     }
 
     /// <summary>
