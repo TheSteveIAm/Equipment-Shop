@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Movement module for the player
+/// </summary>
 public class Movement : MonoBehaviour
 {
     //private Animator anim;
     public float speed = 1f;
     public float pushPower = 1f;
     private CharacterController charControl;
-    //Rigidbody body;
 
     void Start()
     {
-        //    //anim = GetComponentInChildren<Animator>();
-        //body = GetComponent<Rigidbody>();
+        //anim = GetComponentInChildren<Animator>();
         charControl = GetComponent<CharacterController>();
     }
 
+    /// <summary>
+    /// Sends movement data to the character controller
+    /// </summary>
+    /// <param name="dir"></param>
     public void MoveDelta(Vector3 dir)
     {
-        //anim.SetFloat("Speed", (restrictMovement) ? 0f : dir.magnitude);
-
-        //transform.position += dir * speed * Time.deltaTime;
-
         charControl.SimpleMove(dir * speed);
-
-        //body.MovePosition(body.position + dir * speed * Time.deltaTime);
+        
         if (dir.magnitude > 0.1f)
         {
             transform.LookAt(transform.position + dir);
@@ -33,7 +33,7 @@ public class Movement : MonoBehaviour
 
     }
 
-    ///Push rigidbody objects around when the player runs into them
+    //Push rigidbody objects around when the player runs into them
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;

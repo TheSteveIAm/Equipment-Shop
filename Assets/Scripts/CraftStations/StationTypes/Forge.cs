@@ -11,16 +11,21 @@ using UnityEngine;
 /// </summary>
 public class Forge : Station
 {
-
+    //if true, currently processing an item and don't accept an other items until finished
     private bool processingItem;
 
+    //particles to play when processing
     public ParticleSystem forgeParticles;
 
+    /// <summary>
+    /// Receive an item if not already processing another
+    /// And there is an existing recipe for that item
+    /// </summary>
+    /// <param name="item"></param>
     public override void GiveItem(Item item)
     {
         if (!processingItem)
         {
-
             //Find matching recipe, if it exists, start processing item
             for (int i = 0; i < possibleRecipes.Length; i++)
             {
@@ -55,11 +60,6 @@ public class Forge : Station
                 currentRecipe = null;
                 processingItem = false;
             }
-            //when timer is complete, item must be taken out, the closer to the exact finish time the item is taken out, the higher quality the result will 
-        }
-        else
-        {
-            //itemList
         }
     }
 

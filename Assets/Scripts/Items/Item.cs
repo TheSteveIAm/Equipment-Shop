@@ -13,6 +13,12 @@ public class Item : MonoBehaviour {
     private Rigidbody body;
     private Collider col;
 
+    /// <summary>
+    /// Inform if the item has been touched by the player after coming out of a crafting station
+    /// </summary>
+    public bool untouched = true;
+    
+
     void Start()
     {
         col = GetComponent<Collider>();
@@ -31,6 +37,7 @@ public class Item : MonoBehaviour {
 
         body.isKinematic = true;
         col.enabled = false;
+        untouched = false;
     }
 
     /// <summary>
@@ -42,6 +49,8 @@ public class Item : MonoBehaviour {
         body.isKinematic = false;
         col.enabled = true;
         body.AddForce(transform.forward * 5f, ForceMode.Impulse);
+
+        //TODO: create a very short "No Pickup" timer after dropping item
     }
 
     /// <summary>
@@ -50,5 +59,13 @@ public class Item : MonoBehaviour {
     public void DirectGive()
     {
 
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if(untouched && col.gameObject.GetComponent<Player>() != null)
+        {
+            untouched = false;
+        }
     }
 }

@@ -106,9 +106,28 @@ public class Recipe : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Process the item closer to completion, this version is to be used every frame,
+    /// to update the process by actual time
+    /// </summary>
     public void ProcessItem()
     {
         currentProcessingTime += Time.deltaTime;
+
+        if (currentProcessingTime >= processTime)
+        {
+            itemReady = true;
+        }
+    }
+
+    /// <summary>
+    /// Process the item closer to completion, this version is used to manually update
+    /// the amount of processed time, and should not be used every frame
+    /// </summary>
+    /// <param name="time"></param>
+    public void ProcessItem(float time)
+    {
+        currentProcessingTime += time;
 
         if (currentProcessingTime >= processTime)
         {
@@ -121,7 +140,6 @@ public class Recipe : MonoBehaviour
     /// </summary>
     public ItemCode CraftItem()
     {
-
         if (itemReady)
         {
             requirementsMet = false;
@@ -130,9 +148,8 @@ public class Recipe : MonoBehaviour
 
             return itemCreated;
         }
-
         return ItemCode.None;
     }
-    #endregion
 
+    #endregion
 }

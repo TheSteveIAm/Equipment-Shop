@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
 
     Movement move;
@@ -15,8 +15,10 @@ public class Player : MonoBehaviour
     Item carriedObject;
 
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         move = GetComponent<Movement>();
     }
 
@@ -28,6 +30,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Deals with interacting with objects in the world
+    /// </summary>
     void Interact()
     {
         //while carrying an object
@@ -51,12 +56,14 @@ public class Player : MonoBehaviour
                 //drop item
                 carriedObject.Drop();
                 carriedObject = null;
+                selectionTarget = null;
             }
         }
         else if (selectionTarget != null) //no held item
         {
             Item selectedItem = selectionTarget.GetComponent<Item>();
             Station selectedStation = selectionTarget.GetComponent<Station>();
+
             if (selectedItem != null)
             {
                 //pickup item
@@ -68,6 +75,10 @@ public class Player : MonoBehaviour
             else if (selectedStation != null)
             {
                 //interact with station, no item in hand, will be used to remove selected item from station
+                Item removedItem = selectedStation.RemoveItem();
+                //removedItem.Pickup(pickupPoint);
+                //carriedObject = removedItem;
+                //selectionTarget = null;
             }
         }
     }
@@ -78,15 +89,12 @@ public class Player : MonoBehaviour
         move.MoveDelta(targetDir * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        //Debug.Log(other.name);
-
         if (selectionTarget == null &&
         (other.GetComponent<Station>() || (other.GetComponent<Item>() && carriedObject == null)))
         {
             selectionTarget = other.gameObject;
-            //Debug.Log(selectionTarget.name);
         }
     }
 
