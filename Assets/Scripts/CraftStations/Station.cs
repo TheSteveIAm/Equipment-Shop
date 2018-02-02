@@ -11,6 +11,7 @@ public class Station : MonoBehaviour
 
     /// <summary>
     /// Recipes that this station will handle
+    /// Some stations won't use recipes
     /// </summary>
     public Recipe[] possibleRecipes;
 
@@ -21,6 +22,7 @@ public class Station : MonoBehaviour
 
     /// <summary>
     /// position to spit out created items
+    /// Some stations don't use this and instead the player grabs an item directly from it
     /// </summary>
     public Transform itemSpitPosition;
 
@@ -96,8 +98,5 @@ public class Station : MonoBehaviour
         {
             GiveItem(item);
         }
-
-        //Thought: it may be possible for a newly created item to be spit out and thrown into another station.
-        //it may be worth created a boolean variable on item "newItem", if it's true, stations will not accept the item
     }
 }

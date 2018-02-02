@@ -7,4 +7,16 @@ public class Stats : MonoBehaviour {
     private int gold;
     private int health, strength, intelligence, dexterity;
 
+    public int Gold
+    {
+        get
+        {
+            return gold;
+        }
+
+        set
+        {
+            gold += value;
+        }
+    }
 }
