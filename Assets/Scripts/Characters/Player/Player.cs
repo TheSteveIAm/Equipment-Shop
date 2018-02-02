@@ -39,14 +39,16 @@ public class Player : Character
         if (carriedObject != null)
         {
 
-            if (selectionTarget != null )
+            if (selectionTarget != null)
             {
                 Station selectedStation = selectionTarget.GetComponent<Station>();
 
                 if (selectedStation != null)
                 {
-                    selectedStation.GiveItem(carriedObject);
-                    carriedObject = null;
+                    if (selectedStation.GiveItem(carriedObject))
+                    {
+                        carriedObject = null;
+                    }
                 }
                 //try to use item on station based on the station's rules
 
@@ -59,27 +61,34 @@ public class Player : Character
                 selectionTarget = null;
             }
         }
-        else if (selectionTarget != null) //no held item
+        else
         {
-            Item selectedItem = selectionTarget.GetComponent<Item>();
-            Station selectedStation = selectionTarget.GetComponent<Station>();
+            if (selectionTarget != null)
+            { //no held item
+                Item selectedItem = selectionTarget.GetComponent<Item>();
+                Station selectedStation = selectionTarget.GetComponent<Station>();
 
-            if (selectedItem != null)
-            {
-                //pickup item
-                selectedItem.Pickup(pickupPoint);
-                carriedObject = selectedItem;
-                selectionTarget = null;
+                if (selectedItem != null)
+                {
+                    //pickup item
+                    selectedItem.Pickup(pickupPoint);
+                    carriedObject = selectedItem;
+                    selectionTarget = null;
 
+                }
+                else if (selectedStation != null)
+                {
+                    //interact with station, no item in hand, will be used to remove selected item from station
+                    Item removedItem = selectedStation.RemoveItem();
+                    if (removedItem != null)
+                    {
+                        removedItem.Pickup(pickupPoint);
+                        carriedObject = removedItem;
+                        selectionTarget = null;
+                    }
+                }
             }
-            else if (selectedStation != null)
-            {
-                //interact with station, no item in hand, will be used to remove selected item from station
-                Item removedItem = selectedStation.RemoveItem();
-                //removedItem.Pickup(pickupPoint);
-                //carriedObject = removedItem;
-                //selectionTarget = null;
-            }
+
         }
     }
 

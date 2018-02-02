@@ -26,12 +26,12 @@ GameObject:
   - component: {fileID: 64238021809364410}
   - component: {fileID: 114737481131241370}
   - component: {fileID: 54977291698452092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Iron Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &4659799194760674
 Transform:
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 2
+  untouched: 1
 --- !u!114 &114762900451078552
 MonoBehaviour:
   m_ObjectHideFlags: 1

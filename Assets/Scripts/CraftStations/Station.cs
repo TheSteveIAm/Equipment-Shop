@@ -39,9 +39,10 @@ public class Station : MonoBehaviour
     /// Passes Item to recipe, in each station's own unique way
     /// </summary>
     /// <param name="item"></param>
-    public virtual void GiveItem(Item item)
+    public virtual bool GiveItem(Item item)
     {
         Debug.LogWarning("GiveItem(Item item) not implemented in: " + name, this);
+        return false;
         //currentRecipe.GiveItem(item);
     }
 

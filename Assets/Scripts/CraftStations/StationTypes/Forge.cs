@@ -22,7 +22,7 @@ public class Forge : Station
     /// And there is an existing recipe for that item
     /// </summary>
     /// <param name="item"></param>
-    public override void GiveItem(Item item)
+    public override bool GiveItem(Item item)
     {
         if (!processingItem)
         {
@@ -38,9 +38,11 @@ public class Forge : Station
                     processingItem = true;
                     currentRecipe = Instantiate(possibleRecipes[i], transform); //APPARENTLY THIS WORKS ON THE PREFAB. CREATE AN INSTANCE OF THE RECIPE AND USE THAT PLEASE.
                     currentRecipe.GiveItem(item);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     void Update()

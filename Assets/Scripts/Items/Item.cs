@@ -7,17 +7,19 @@ using UnityEngine;
 /// It can potentially be used in a Recipe by being manipulated by crafting Stations
 /// Items can be sold to Heroes, who use them for their Quests
 /// </summary>
-public class Item : MonoBehaviour {
+public class Item : MonoBehaviour
+{
 
     public ItemCode itemType;
     private Rigidbody body;
     private Collider col;
+    //private float noTouchTime = 0.2f, noTouchTimer = 0f;
+    //private bool untouchable = false;
 
     /// <summary>
     /// Inform if the item has been touched by the player after coming out of a crafting station
     /// </summary>
     public bool untouched = true;
-    
 
     void Start()
     {
@@ -26,18 +28,48 @@ public class Item : MonoBehaviour {
     }
 
     /// <summary>
+    /// This is to ensure the item has references to its components when creating it and the player picking it up at the same time,
+    /// the item doesn't have time to call its Start() method otherwise
+    /// </summary>
+    void EnsureComponents()
+    {
+        if (body == null || col == null)
+        {
+            Start();
+        }
+    }
+
+    //private void Update()
+    //{
+    //    if (untouchable)
+    //    {
+    //        noTouchTimer += Time.deltaTime;
+
+    //        if (noTouchTimer >= noTouchTime)
+    //        {
+    //            untouchable = false;
+    //            noTouchTimer = 0f;
+    //        }
+    //    }
+    //}
+
+    /// <summary>
     /// Allows a character to pickup this item
     /// </summary>
     /// <param name="newParent"></param>
     public void Pickup(Transform newParent)
     {
-        transform.parent = newParent;
-        transform.rotation = newParent.rotation;
-        transform.position = newParent.position;
+        EnsureComponents();
+        //if (!untouchable)
+        //{
+            transform.parent = newParent;
+            transform.rotation = newParent.rotation;
+            transform.position = newParent.position;
 
-        body.isKinematic = true;
-        col.enabled = false;
-        untouched = false;
+            body.isKinematic = true;
+            col.enabled = false;
+            untouched = false;
+        //}
     }
 
     /// <summary>
@@ -51,21 +83,6 @@ public class Item : MonoBehaviour {
         body.AddForce(transform.forward * 5f, ForceMode.Impulse);
 
         //TODO: create a very short "No Pickup" timer after dropping item
-    }
-
-    /// <summary>
-    /// Get directly given to a station, therefore disappear
-    /// </summary>
-    public void DirectGive()
-    {
-
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if(untouched && col.gameObject.GetComponent<Player>() != null)
-        {
-            untouched = false;
-        }
+        //untouchable = true;
     }
 }

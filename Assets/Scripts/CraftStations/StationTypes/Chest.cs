@@ -14,10 +14,11 @@ public class Chest : Station
         inventory = GetComponent<Inventory>();
     }
 
-    public override void GiveItem(Item item)
+    public override bool GiveItem(Item item)
     {
         inventory.items.Add(item.itemType);
         Destroy(item.gameObject);
+        return true;
     }
 
     public override Item RemoveItem()
@@ -34,8 +35,8 @@ public class Chest : Station
         return null;
     }
 
-    //public override Item CreateItem(ItemCode item)
-    //{
-    //    return itemList.CreateItem(item);
-    //}
+    public override Item CreateItem(ItemCode item)
+    {
+        return itemList.CreateItem(item);
+    }
 }

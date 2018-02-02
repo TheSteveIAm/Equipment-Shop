@@ -26,12 +26,12 @@ GameObject:
   - component: {fileID: 64158802487207606}
   - component: {fileID: 54852909194109940}
   - component: {fileID: 114946288729454770}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Iron Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &4058738336846600
 Transform:
@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1545615853722992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 2}
+  m_LocalPosition: {x: 0.34810832, y: 1.8506596, z: 4.3545957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1084,3 +1084,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 1
+  untouched: 1
