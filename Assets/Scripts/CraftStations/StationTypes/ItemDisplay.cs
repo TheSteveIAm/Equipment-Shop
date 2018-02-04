@@ -2,15 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDisplay : MonoBehaviour {
+public class ItemDisplay : Station
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private Item displayedItem;
+
+    public override bool GiveItem(Item item)
+    {
+        if (displayedItem == null)
+        {
+            displayedItem = item;
+            displayedItem.Pickup(itemSpitPosition);
+            return true;
+        }
+        return false;
+    }
+
+    public override Item RemoveItem()
+    {
+        if (displayedItem != null)
+        {
+            Item itemToReturn = displayedItem;
+            displayedItem = null;
+            return itemToReturn;
+        }
+        return null;
+    }
 }

@@ -2,44 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Hero : Character
-{
 
-    private Inventory inventory;
-    private Item carriedItem;
+
+public class HeroBrain : MonoBehaviour
+{
     private NavMeshAgent agent;
 
     private PointOfInterest[] points;
     //private PointOfInterest currentInterest;
 
-    [Range(1, 4)]
     private float lingerTime = 1f;
     private float lingerTimer;
 
+    private float rotationSpeed = 6f;
+
     private bool lingering;
+
     private Station currentStation;
 
-    // Use this for initialization
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-
         agent = GetComponent<NavMeshAgent>();
-
-        inventory = GetComponent<Inventory>();
-
         points = FindObjectsOfType<PointOfInterest>();
 
         //test
-        ChoosePointOfInterest(POIType.Item);
+        ChoosePointOfInterest();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (lingering)
         {
             lingerTimer += Time.deltaTime;
+
+            if (currentStation != null)
+            {
+                RotateTowards(currentStation.transform);
+            }
 
             if (lingerTimer >= lingerTime)
             {
@@ -50,18 +50,19 @@ public class Hero : Character
             return;
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) <= 1.1f)
+        if (!lingering && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
         {
             lingering = true;
-            //lingerTime = Random.Range(0f, 4f);
-            lingerTime = 1;
+            lingerTime = Random.Range(1f, 5f);
         }
-
     }
 
+    /// <summary>
+    /// Chooses a point of interest by type
+    /// </summary>
+    /// <param name="poi"></param>
     void ChoosePointOfInterest(POIType poi)
     {
-
         List<PointOfInterest> pointsOfSelectedType = new List<PointOfInterest>();
 
         for (int i = 0; i < points.Length; i++)
@@ -73,19 +74,33 @@ public class Hero : Character
 
         }
 
-        agent.destination = pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count - 1)].transform.position;
+        agent.SetDestination(pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count - 1)].transform.position);
     }
 
+    /// <summary>
+    /// This version chooses a random point of interest
+    /// </summary>
     void ChoosePointOfInterest()
     {
-        agent.destination = points[Random.Range(0, points.Length - 1)].transform.position;
+        agent.SetDestination(points[Random.Range(0, points.Length - 1)].transform.position);
+    }
+
+    /// <summary>
+    /// Rotates the transform to look at the station they're standing at
+    /// </summary>
+    /// <param name="target"></param>
+    private void RotateTowards(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Station station = other.GetComponent<Station>();
-        
-        if(station != null)
+
+        if (station != null)
         {
             currentStation = station;
         }

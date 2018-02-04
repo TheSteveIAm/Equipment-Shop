@@ -94,6 +94,7 @@ public class Player : Character
 
     void FixedUpdate()
     {
+        //this isn't normalized yet, because this method of moving the character causes normalized vectors to act janky
         targetDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         move.MoveDelta(targetDir * speed);
     }
