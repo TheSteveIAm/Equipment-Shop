@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(HeroBrain))]
+[RequireComponent(typeof(Inventory))]
 public class Hero : Character
 {
 
     private Inventory inventory;
-    private Item carriedItem;
+    public Item carriedItem;
     public Transform pickupPoint;
+    private Trade trade;
 
     private HeroBrain brain;
 
@@ -25,5 +27,16 @@ public class Hero : Character
     public void PickupItem(Item item)
     {
         item.Pickup(pickupPoint);
+        carriedItem = item;
     }
+
+    public void AddItemToInventory(Item item)
+    {
+        inventory.AddItem(item);
+        Destroy(item.gameObject);
+        carriedItem = null;
+        brain.StopTrading();
+    }
+
+    //public 
 }

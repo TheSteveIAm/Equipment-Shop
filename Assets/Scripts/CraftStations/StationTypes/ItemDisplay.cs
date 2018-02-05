@@ -18,7 +18,7 @@ public class ItemDisplay : Station
         return false;
     }
 
-    public override Item RemoveItem()
+    public override Item Interact()
     {
         if (displayedItem != null)
         {

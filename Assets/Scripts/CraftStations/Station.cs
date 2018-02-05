@@ -52,18 +52,19 @@ public class Station : MonoBehaviour
     /// Removes selected item from the station, if able to
     /// </summary>
     /// <param name="item"></param>
-    public virtual void RemoveItem(Item item)
+    public virtual Item RemoveItem(Item item)
     {
         Debug.LogWarning("RemoveItem(Item item) not implemented in: " + name, this);
         //currentRecipe.RemoveItem(item);
+        return item;
     }
 
     /// <summary>
     /// Generic remove item function for each station to define
     /// </summary>
-    public virtual Item RemoveItem()
+    public virtual Item Interact()
     {
-        Debug.LogWarning("RemoveItem() not implemented in: " + name, this);
+        Debug.LogWarning("Interact() not implemented in: " + name, this);
         return null;
     }
 

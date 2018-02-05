@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Each character has stats
     /// </summary>
-    private Stats stats;
+    public Stats stats;
 
     protected virtual void Start()
     {

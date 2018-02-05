@@ -16,18 +16,16 @@ public class Chest : Station
 
     public override bool GiveItem(Item item)
     {
-        inventory.items.Add(item.itemType);
+        inventory.AddItem(item.itemType);
         Destroy(item.gameObject);
         return true;
     }
 
-    public override Item RemoveItem()
+    public override Item Interact()
     {
-        if (inventory.items.Count > 0)
+        if (inventory.ItemCount() > 0)
         {
-            Item item = CreateItem(inventory.items[inventory.items.Count - 1]);
-
-            inventory.items.RemoveAt(inventory.items.Count - 1);
+            Item item = CreateItem(inventory.RemoveLastItem());
 
             return item;
         }

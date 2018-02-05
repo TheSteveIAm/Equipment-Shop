@@ -99,8 +99,16 @@ public class Player : Character
                 }
                 else if (selectedStation != null)
                 {
-                    //interact with station, no item in hand, will be used to remove selected item from station
-                    Item removedItem = selectedStation.RemoveItem();
+                    //interact with station, no item in hand, will be used to remove selected item from station or
+                    //activate its own behavior
+                    if(selectedStation is TradeTable)
+                    {
+                        selectedStation.Interact();
+                        return;
+                    }
+
+                    Item removedItem = selectedStation.Interact();
+
                     if (removedItem != null)
                     {
                         removedItem.Pickup(pickupPoint);

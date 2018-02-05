@@ -60,7 +60,7 @@ public class HeroBrain : MonoBehaviour
                         {
                             if (wantedItems[i] == display.displayedItem.itemType)
                             {
-                                hero.PickupItem(currentStation.RemoveItem());
+                                hero.PickupItem(currentStation.Interact());
                                 lingering = false;
                                 lingerTimer = 0f;
                                 ChoosePointOfInterest(POIType.Trade);
@@ -84,6 +84,20 @@ public class HeroBrain : MonoBehaviour
             lingering = true;
             lingerTime = Random.Range(1f, 5f);
         }
+        else if (waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
+        {
+            if (currentStation != null && currentStation is TradeTable)
+            {
+                TradeTable table = (TradeTable)currentStation;
+                table.CreateTrade(hero.carriedItem, hero.stats.Gold, hero);
+            }
+        }
+    }
+
+    public void StopTrading()
+    {
+        waitingToTrade = false;
+        lingering = true;
     }
 
     /// <summary>
