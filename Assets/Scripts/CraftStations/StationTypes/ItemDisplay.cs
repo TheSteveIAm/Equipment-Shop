@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemDisplay : Station
 {
 
-    private Item displayedItem;
+    public Item displayedItem;
 
     public override bool GiveItem(Item item)
     {

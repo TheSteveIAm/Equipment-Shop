@@ -30,6 +30,20 @@ public class Player : Character
         }
     }
 
+    void FixedUpdate()
+    {
+        //this isn't normalized yet, because this method of moving the character causes normalized vectors to act janky
+        targetDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        move.MoveDelta(targetDir * speed);
+    }
+
+    void DropItem()
+    {
+        carriedObject.Drop();
+        carriedObject = null;
+        selectionTarget = null;
+    }
+
     /// <summary>
     /// Deals with interacting with objects in the world
     /// </summary>
@@ -38,29 +52,36 @@ public class Player : Character
         //while carrying an object
         if (carriedObject != null)
         {
-
             if (selectionTarget != null)
             {
                 Station selectedStation = selectionTarget.GetComponent<Station>();
 
                 if (selectedStation != null)
                 {
-                    if (selectedStation.GiveItem(carriedObject))
+                    Vector3 toStation = selectedStation.transform.position - transform.position;
+
+                    Debug.Log(Vector3.Dot(transform.forward, toStation));
+
+                    if (Vector3.Dot(transform.forward, toStation) > 0)
                     {
-                        carriedObject = null;
+                        if (selectedStation.GiveItem(carriedObject))
+                        {
+                            carriedObject = null;
+                        }
+                    }
+                    else
+                    {
+                        DropItem();
                     }
                 }
-                //try to use item on station based on the station's rules
 
             }
             else
             {
-                //drop item
-                carriedObject.Drop();
-                carriedObject = null;
-                selectionTarget = null;
+                DropItem();
             }
         }
+        //While not carrying an object
         else
         {
             if (selectionTarget != null)
@@ -92,17 +113,15 @@ public class Player : Character
         }
     }
 
-    void FixedUpdate()
-    {
-        //this isn't normalized yet, because this method of moving the character causes normalized vectors to act janky
-        targetDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        move.MoveDelta(targetDir * speed);
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (selectionTarget == null &&
         (other.GetComponent<Station>() || (other.GetComponent<Item>() && carriedObject == null)))
+        {
+            selectionTarget = other.gameObject;
+        }
+
+        if (selectionTarget != null && selectionTarget.GetComponent<Station>() && other.GetComponent<Item>())
         {
             selectionTarget = other.gameObject;
         }

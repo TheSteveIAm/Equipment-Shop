@@ -8,11 +8,9 @@ public class Hero : Character
 
     private Inventory inventory;
     private Item carriedItem;
+    public Transform pickupPoint;
 
     private HeroBrain brain;
-
-  
-
 
     // Use this for initialization
     protected override void Start()
@@ -22,5 +20,10 @@ public class Hero : Character
         inventory = GetComponent<Inventory>();
         brain = GetComponent<HeroBrain>();
 
+    }
+
+    public void PickupItem(Item item)
+    {
+        item.Pickup(pickupPoint);
     }
 }

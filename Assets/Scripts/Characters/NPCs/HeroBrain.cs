@@ -6,28 +6,38 @@ using UnityEngine.AI;
 
 public class HeroBrain : MonoBehaviour
 {
+    /// <summary>
+    /// List of all points a hero can be interested in
+    /// </summary>
+    private PointOfInterest[] points;
+
+    /// <summary>
+    /// List of items the hero is interested in buying
+    /// </summary>
+    public ItemCode[] wantedItems;
+
     private NavMeshAgent agent;
 
-    private PointOfInterest[] points;
-    //private PointOfInterest currentInterest;
-
-    private float lingerTime = 1f;
-    private float lingerTimer;
-
+    private bool lingering, waitingToTrade;
+    private float lingerTime = 1f, lingerTimer = 0f;
     private float rotationSpeed = 6f;
 
-    private bool lingering;
-
     private Station currentStation;
+    private Hero hero;
+
+    public Station CurrentStation
+    {
+        get { return currentStation; }
+    }
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         points = FindObjectsOfType<PointOfInterest>();
+        hero = GetComponent<Hero>();
 
         //test
         ChoosePointOfInterest();
-
     }
 
     void Update()
@@ -36,9 +46,30 @@ public class HeroBrain : MonoBehaviour
         {
             lingerTimer += Time.deltaTime;
 
-            if (currentStation != null)
+            if (CurrentStation != null && lingerTimer <= lingerTime)
             {
-                RotateTowards(currentStation.transform);
+                RotateTowards(CurrentStation.transform);
+
+                if (currentStation is ItemDisplay)
+                {
+                    ItemDisplay display = (ItemDisplay)currentStation;
+
+                    if (display.displayedItem != null)
+                    {
+                        for (int i = 0; i < wantedItems.Length; i++)
+                        {
+                            if (wantedItems[i] == display.displayedItem.itemType)
+                            {
+                                hero.PickupItem(currentStation.RemoveItem());
+                                lingering = false;
+                                lingerTimer = 0f;
+                                ChoosePointOfInterest(POIType.Trade);
+                                waitingToTrade = true;
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
             if (lingerTimer >= lingerTime)
@@ -47,10 +78,8 @@ public class HeroBrain : MonoBehaviour
                 lingerTimer = 0f;
                 ChoosePointOfInterest();
             }
-            return;
         }
-
-        if (!lingering && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
+        else if (!waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
         {
             lingering = true;
             lingerTime = Random.Range(1f, 5f);
