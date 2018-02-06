@@ -5,9 +5,11 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public bool isPlayer;
-    private int gold;
-    private int health, strength, intelligence, dexterity;
-    private int level, experience;
+    private int gold = 10;
+    private int health = 10, strength = 2, intelligence = 2, dexterity = 2;
+    private int level = 1, experience = 0;
+
+    //list of level experience requirements for next level
 
     public int Gold
     {
@@ -27,7 +29,7 @@ public class Stats : MonoBehaviour
     /// <returns></returns>
     public bool SpendGold(int amount)
     {
-        if (amount >= gold)
+        if (amount <= gold)
         {
             gold -= amount;
             ChangeGold();

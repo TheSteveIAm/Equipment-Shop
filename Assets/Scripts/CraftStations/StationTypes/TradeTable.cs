@@ -36,6 +36,7 @@ public class TradeTable : Station {
         if(pendingTrades.Count > 0)
         {
             pendingTrades[0].Confirm();
+            pendingTrades.RemoveAt(0);
         }
 
         //This is a bit of a hack, since other stations return items, but this one doesn't, we'll just return null. Not my favorite, but whatever!

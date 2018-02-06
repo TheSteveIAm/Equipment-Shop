@@ -24,6 +24,7 @@ public class HeroBrain : MonoBehaviour
 
     private Station currentStation;
     private Hero hero;
+    private Trade currentTrade;
 
     public Station CurrentStation
     {
@@ -86,10 +87,10 @@ public class HeroBrain : MonoBehaviour
         }
         else if (waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
         {
-            if (currentStation != null && currentStation is TradeTable)
+            if (currentStation != null && currentStation is TradeTable && currentTrade == null)
             {
                 TradeTable table = (TradeTable)currentStation;
-                table.CreateTrade(hero.carriedItem, hero.stats.Gold, hero);
+                currentTrade = table.CreateTrade(hero.carriedItem, 2, hero);
             }
         }
     }

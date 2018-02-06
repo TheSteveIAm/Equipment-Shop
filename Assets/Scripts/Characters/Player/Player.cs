@@ -60,8 +60,6 @@ public class Player : Character
                 {
                     Vector3 toStation = selectedStation.transform.position - transform.position;
 
-                    Debug.Log(Vector3.Dot(transform.forward, toStation));
-
                     if (Vector3.Dot(transform.forward, toStation) > 0)
                     {
                         if (selectedStation.GiveItem(carriedObject))
