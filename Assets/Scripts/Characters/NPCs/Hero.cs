@@ -35,6 +35,15 @@ public class Hero : Character
         inventory.AddItem(item);
         Destroy(item.gameObject);
         carriedItem = null;
+        brain.RemoveWantedItem(item.itemType);
+        brain.StopTrading();
+    }
+
+    public void CancelTrade()
+    {
+        //The hero just fucking DROPS the item on the ground, lol what a DICK!
+        carriedItem.Drop();
+        carriedItem = null;
         brain.StopTrading();
     }
 

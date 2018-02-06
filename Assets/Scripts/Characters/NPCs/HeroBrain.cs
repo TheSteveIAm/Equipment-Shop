@@ -14,8 +14,8 @@ public class HeroBrain : MonoBehaviour
     /// <summary>
     /// List of items the hero is interested in buying
     /// </summary>
-    public ItemCode[] wantedItems;
-
+    //public ItemCode[] wantedItems;
+    public List<ItemCode> wantedItems = new List<ItemCode>();
     private NavMeshAgent agent;
 
     private bool lingering, waitingToTrade;
@@ -25,6 +25,7 @@ public class HeroBrain : MonoBehaviour
     private Station currentStation;
     private Hero hero;
     private Trade currentTrade;
+    private PointOfInterest currentPOI;
 
     public Station CurrentStation
     {
@@ -37,8 +38,9 @@ public class HeroBrain : MonoBehaviour
         points = FindObjectsOfType<PointOfInterest>();
         hero = GetComponent<Hero>();
 
-        //test
-        ChoosePointOfInterest();
+        //Test Code:
+        ChoosePointOfInterest(POIType.Item);
+        //End test code
     }
 
     void Update()
@@ -57,7 +59,7 @@ public class HeroBrain : MonoBehaviour
 
                     if (display.displayedItem != null)
                     {
-                        for (int i = 0; i < wantedItems.Length; i++)
+                        for (int i = 0; i < wantedItems.Count; i++)
                         {
                             if (wantedItems[i] == display.displayedItem.itemType)
                             {
@@ -77,7 +79,7 @@ public class HeroBrain : MonoBehaviour
             {
                 lingering = false;
                 lingerTimer = 0f;
-                ChoosePointOfInterest();
+                ChoosePointOfInterest(POIType.Item);
             }
         }
         else if (!waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
@@ -99,6 +101,17 @@ public class HeroBrain : MonoBehaviour
     {
         waitingToTrade = false;
         lingering = true;
+        currentTrade = null;
+    }
+
+    public void AddWantedItem(ItemCode itemType)
+    {
+        wantedItems.Add(itemType);
+    }
+
+    public void RemoveWantedItem(ItemCode itemType)
+    {
+        wantedItems.Remove(itemType);
     }
 
     /// <summary>
@@ -111,23 +124,29 @@ public class HeroBrain : MonoBehaviour
 
         for (int i = 0; i < points.Length; i++)
         {
-            if (points[i].navPointOfInterest == poi)
+            if (points[i].navPointOfInterest == poi && !points[i].occupied)
             {
                 pointsOfSelectedType.Add(points[i]);
             }
-
         }
 
-        agent.SetDestination(pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count - 1)].transform.position);
+        if (currentPOI != null)
+        {
+            currentPOI.occupied = false;
+        }
+
+        currentPOI = pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count)];
+        agent.SetDestination(currentPOI.transform.position);
+        currentPOI.occupied = true;
     }
 
     /// <summary>
     /// This version chooses a random point of interest
     /// </summary>
-    void ChoosePointOfInterest()
-    {
-        agent.SetDestination(points[Random.Range(0, points.Length - 1)].transform.position);
-    }
+    //void ChoosePointOfInterest()
+    //{
+    //    agent.SetDestination(points[Random.Range(0, points.Length - 1)].transform.position);
+    //}
 
     /// <summary>
     /// Rotates the transform to look at the station they're standing at

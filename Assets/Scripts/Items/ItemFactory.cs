@@ -53,6 +53,12 @@ public class ItemFactory : MonoBehaviour
 
         return null;
     }
+
+    public ItemCode GetRandomItem()
+    {
+        return (ItemCode)Random.Range(1, System.Enum.GetNames(typeof(ItemCode)).Length);
+    }
+
 #if UNITY_EDITOR
     #region Debug Functions
 

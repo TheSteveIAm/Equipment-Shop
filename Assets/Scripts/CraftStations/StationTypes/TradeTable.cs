@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TradeTable : Station {
+public class TradeTable : Station
+{
 
     public List<Trade> pendingTrades = new List<Trade>();
 
@@ -32,14 +33,24 @@ public class TradeTable : Station {
     {
         //TODO: Make this bring up trade dialog
 
-        //TEST #1: Successful trade:
-        if(pendingTrades.Count > 0)
+        if (pendingTrades.Count > 0)
         {
+            //TODO: Choice between these options will go in after some UI is implemented.
+            //TEST #1: Successful trade:
             pendingTrades[0].Confirm();
+
+            //TEST #2: Decline Trade:
+            //pendingTrades[0].DeclineOffer();
+
             pendingTrades.RemoveAt(0);
+
+            //TODO: Create Counter offer. NOTE: Will be made after some UI is implemented, and after market prices go in
+            //TEST #3: Counter Offer
+            //counter too high for hero
+
+            //counter acceptable range for hero
         }
 
-        //This is a bit of a hack, since other stations return items, but this one doesn't, we'll just return null. Not my favorite, but whatever!
         return null;
     }
 }

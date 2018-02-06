@@ -64,7 +64,7 @@ public class Trade
     /// </summary>
     public void DeclineOffer()
     {
-        
+        hero.CancelTrade();
     }
 
     /// <summary>

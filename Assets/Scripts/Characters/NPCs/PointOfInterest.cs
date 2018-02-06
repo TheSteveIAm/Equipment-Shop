@@ -12,4 +12,5 @@ public enum POIType
 public class PointOfInterest : MonoBehaviour {
 
     public POIType navPointOfInterest;
+    public bool occupied;
 }
