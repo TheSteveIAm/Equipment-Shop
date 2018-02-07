@@ -7,6 +7,8 @@ public class Stats : MonoBehaviour
     public bool isPlayer;
     private int gold = 10;
     private int health = 10, strength = 2, intelligence = 2, dexterity = 2;
+    //In heroes: experienced is used to gain levels
+    //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
 
     //list of level experience requirements for next level
@@ -14,6 +16,27 @@ public class Stats : MonoBehaviour
     public int Gold
     {
         get { return gold; }
+    }
+
+    /// <summary>
+    /// Set the stats for a character
+    /// </summary>
+    /// <param name="goldValue"></param>
+    /// <param name="healthValue"></param>
+    /// <param name="strengthValue"></param>
+    /// <param name="intelligenceValue"></param>
+    /// <param name="dexterityValue"></param>
+    /// <param name="levelValue"></param>
+    /// <param name="experienceValue"></param>
+    public void SetStats(int goldValue, int healthValue, int strengthValue, int intelligenceValue, int dexterityValue, int levelValue, int experienceValue)
+    {
+        gold = goldValue;
+        health = healthValue;
+        strength = strengthValue;
+        intelligence = intelligenceValue;
+        dexterity = dexterityValue;
+        level = levelValue;
+        experience = experienceValue;
     }
 
     /// <summary>

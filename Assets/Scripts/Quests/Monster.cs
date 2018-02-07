@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public Stats stats;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Start()
+    {
+        stats = GetComponent<Stats>();
+    }
+
+
 }
