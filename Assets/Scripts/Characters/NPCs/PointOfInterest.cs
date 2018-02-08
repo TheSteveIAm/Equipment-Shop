@@ -5,9 +5,9 @@ using UnityEngine;
 public enum POIType
 {
     Item,
-    Trade
+    Trade,
+    Door
 }
-
 
 public class PointOfInterest : MonoBehaviour {
 
