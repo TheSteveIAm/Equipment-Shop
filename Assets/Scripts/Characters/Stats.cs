@@ -2,6 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Modifier
+{
+    Strong,
+    Weak,
+    Immune
+}
+
+public enum DamageTypes
+{
+    Physical,
+    Arcane,
+    Fire,
+    Water,
+    Lightning,
+    Earth,
+    Light,
+    Dark
+}
+
+[System.Serializable]
+public struct DamageModifier
+{
+    public Modifier modifierType;
+    public DamageTypes damageType;
+}
+
 public class Stats : MonoBehaviour
 {
     public bool isPlayer;
@@ -10,6 +36,8 @@ public class Stats : MonoBehaviour
     //In heroes: experienced is used to gain levels
     //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
+
+    public DamageModifier[] damageMods;
 
     //list of level experience requirements for next level
 

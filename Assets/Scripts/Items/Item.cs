@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
 {
 
     public ItemCode itemType;
+    public DamageModifier[] damageTypes;
     private Rigidbody body;
     private Collider col;
     //private float noTouchTime = 0.2f, noTouchTimer = 0f;
