@@ -128,6 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 2
+  damageTypes: []
+  dropChance: 15
   untouched: 1
 --- !u!114 &114762900451078552
 MonoBehaviour:

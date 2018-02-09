@@ -12,6 +12,10 @@ public enum ItemCode
     IronBar
 }
 
+/// <summary>
+/// Pseudo-Factory to manage items.
+/// I don't even care if this isn't a standard pattern, I love this thing.
+/// </summary>
 public class ItemFactory : MonoBehaviour
 {
     /// <summary>
@@ -33,6 +37,16 @@ public class ItemFactory : MonoBehaviour
         {
             itemList.Add(itemListToLoad[i].itemType, itemListToLoad[i]);
         }
+    }
+
+    void OnEnable()
+    {
+        Reward.OnLootRoll += GetItemDropChance;
+    }
+
+    void OnDisable()
+    {
+        Reward.OnLootRoll -= GetItemDropChance;
     }
 
     /// <summary>
@@ -57,6 +71,16 @@ public class ItemFactory : MonoBehaviour
     public ItemCode GetRandomItem()
     {
         return (ItemCode)Random.Range(1, System.Enum.GetNames(typeof(ItemCode)).Length);
+    }
+
+    /// <summary>
+    /// Returns drop chance of specified item
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public int GetItemDropChance(ItemCode item)
+    {
+        return itemList[item].dropChance;
     }
 
 #if UNITY_EDITOR

@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navPointOfInterest: 0
+  occupied: 0
 --- !u!114 &114204792377869750
 MonoBehaviour:
   m_ObjectHideFlags: 1

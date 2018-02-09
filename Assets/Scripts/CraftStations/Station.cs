@@ -8,6 +8,7 @@ public class Station : MonoBehaviour
     /// reference to the item factory, so we can create items from this station using it
     /// </summary>
     protected ItemFactory itemList;
+    //TODO: Change this to utilize events instead of every station referencing the item factory
 
     /// <summary>
     /// Recipes that this station will handle
