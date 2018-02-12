@@ -57,12 +57,15 @@ public enum QuestType
     Rescue
 }
 
-public class Quest
+public class Quest : MonoBehaviour
 {
     public List<Hero> heroes = new List<Hero>();
     public List<Monster> monsters = new List<Monster>();
+
     public QuestType questType;
     public Reward questReward;
+
+    private List<Reward> monsterDrops = new List<Reward>();
 
     //Track if the hero has run through the quest, and if they have
     //Was it a success or failure?
@@ -78,7 +81,7 @@ public class Quest
             //Same as monsters, but signify on Quest that it's a boss
 
             case QuestType.Monsters:
-
+                CalculateBattle();
                 break;
 
         }
@@ -95,6 +98,15 @@ public class Quest
     public void CalculateBattle()
     {
 
+        for (int i = 0; i < heroes.Count; i++)
+        {
+            //Stats targetMonsterStats;
+        }
+
+        for (int i = 0; i < monsters.Count; i++)
+        {
+
+        }
     }
 
 }

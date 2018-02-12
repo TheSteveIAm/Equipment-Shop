@@ -16,7 +16,7 @@ public class Chest : Station
 
     public override bool GiveItem(Item item)
     {
-        inventory.AddItem(item.itemType);
+        inventory.AddItem(item.itemCode);
         Destroy(item.gameObject);
         return true;
     }

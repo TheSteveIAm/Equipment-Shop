@@ -61,7 +61,7 @@ public class HeroBrain : MonoBehaviour
                     {
                         for (int i = 0; i < wantedItems.Count; i++)
                         {
-                            if (wantedItems[i] == display.displayedItem.itemType)
+                            if (wantedItems[i] == display.displayedItem.itemCode)
                             {
                                 hero.PickupItem(currentStation.Interact());
                                 lingering = false;

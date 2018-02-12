@@ -11,6 +11,7 @@ public class Hero : Character
     public Item carriedItem;
     public Transform pickupPoint;
     private Trade trade;
+    public Quest currentQuest;
 
     private HeroBrain brain;
 
@@ -21,7 +22,6 @@ public class Hero : Character
 
         inventory = GetComponent<Inventory>();
         brain = GetComponent<HeroBrain>();
-
     }
 
     public void PickupItem(Item item)
@@ -35,7 +35,7 @@ public class Hero : Character
         inventory.AddItem(item);
         Destroy(item.gameObject);
         carriedItem = null;
-        brain.RemoveWantedItem(item.itemType);
+        brain.RemoveWantedItem(item.itemCode);
         brain.StopTrading();
     }
 

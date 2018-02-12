@@ -35,7 +35,7 @@ public class ItemFactory : MonoBehaviour
         //example: foreach(ItemCode item in Enum.GetValues(typeof(ItemCode)))
         for (int i = 0; i < itemListToLoad.Length; i++)
         {
-            itemList.Add(itemListToLoad[i].itemType, itemListToLoad[i]);
+            itemList.Add(itemListToLoad[i].itemCode, itemListToLoad[i]);
         }
     }
 
@@ -97,7 +97,7 @@ public class ItemFactory : MonoBehaviour
             if (item != ItemCode.None)
             {
                 var newItem = CreateItem(item);
-                Debug.Log(newItem.itemType + " created successfully.");
+                Debug.Log(newItem.itemCode + " created successfully.");
                 Destroy(newItem.gameObject);
             }
         }

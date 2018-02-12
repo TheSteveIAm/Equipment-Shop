@@ -2,26 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : Character
 {
-
-    public Stats stats;
+    
     public Reward reward;
     //Percentage, 0-100% chance to drop an item
     [Range(0, 100)]
     public int dropChance;
 
-    private void Start()
+    protected override void Start()
     {
-        stats = GetComponent<Stats>();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            TestRewardCounts();
-        }
+        base.Start();
     }
 
     public Reward Defeat()

@@ -7,8 +7,9 @@ using UnityEngine;
 /// </summary>
 public class Inventory : MonoBehaviour
 {
-
     private List<ItemCode> items = new List<ItemCode>();
+
+
 
     public int ItemCount()
     {
@@ -17,7 +18,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        items.Add(item.itemType);
+        items.Add(item.itemCode);
     }
 
     public void AddItem(ItemCode itemCode)

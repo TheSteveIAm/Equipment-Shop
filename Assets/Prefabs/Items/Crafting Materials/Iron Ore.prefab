@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 33730547610090350}
   - component: {fileID: 114545085023664450}
   - component: {fileID: 64158802487207606}
-  - component: {fileID: 54852909194109940}
   - component: {fileID: 114946288729454770}
+  - component: {fileID: 54852909194109940}
   m_Layer: 9
   m_Name: Iron Ore
   m_TagString: Untagged
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d7565cbcd243c4fb9df1d6b6c7dc7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 1
+  itemCode: 1
   damageTypes: []
   dropChance: 50
   untouched: 1

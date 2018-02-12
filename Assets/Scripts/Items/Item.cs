@@ -10,10 +10,10 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
 
-    public ItemCode itemType;
+    public ItemCode itemCode;
     public DamageModifier[] damageTypes;
-    private Rigidbody body;
-    private Collider col;
+    protected Rigidbody body;
+    protected Collider col;
     public int dropChance;
     //private float noTouchTime = 0.2f, noTouchTimer = 0f;
     //private bool untouchable = false;
@@ -33,7 +33,7 @@ public class Item : MonoBehaviour
     /// This is to ensure the item has references to its components when creating it and the player picking it up at the same time,
     /// the item doesn't have time to call its Start() method otherwise
     /// </summary>
-    void EnsureComponents()
+    protected void EnsureComponents()
     {
         if (body == null || col == null)
         {

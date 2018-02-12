@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1c22d090c8518438fb12ce7f2755f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wantedItems: 02000000
+  wantedItems: 
 --- !u!114 &114529147118495694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 0
   damageMods: []
+  statGainsPerLevel: []
 --- !u!114 &114731056930778666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,6 +269,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   carriedItem: {fileID: 0}
   pickupPoint: {fileID: 4492239735016612}
+  currentQuest: {fileID: 0}
 --- !u!136 &136492117504229852
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -15,5 +15,8 @@ public class Character : MonoBehaviour
     protected virtual void Start()
     {
         stats = GetComponent<Stats>();
+        stats.Init();
     }
+
+
 }

@@ -32,7 +32,7 @@ public class Forge : Station
                 //Check if item matches requirement for this recipe
                 //ASSUMPTION: the forge will only require a single item to smelt, this is likely to change
                 //possible change: add a bellows, start the forge when player presses on the bellows instead of automatically
-                if (item.itemType == possibleRecipes[i].requirements[0].item)
+                if (item.itemCode == possibleRecipes[i].requirements[0].item)
                 {
                     //accept item, give to recipe, start smelting timer
                     processingItem = true;

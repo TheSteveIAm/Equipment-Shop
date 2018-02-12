@@ -48,7 +48,7 @@ public class Recipe : MonoBehaviour
         //check if given item matches an unfilled requirement
         for (int i = 0; i < requirements.Length; i++)
         {
-            if (requirements[i].item == item.itemType && !requirements[i].filled)
+            if (requirements[i].item == item.itemCode && !requirements[i].filled)
             {
                 //fill requirement
                 requirements[i].filled = true;
@@ -70,11 +70,11 @@ public class Recipe : MonoBehaviour
     {
         for (int i = 0; i < requirements.Length; i++)
         {
-            if (item.itemType == requirements[i].item && requirements[i].filled)
+            if (item.itemCode == requirements[i].item && requirements[i].filled)
             {
                 requirements[i].filled = false;
                 CheckRequirements();
-                return item.itemType;
+                return item.itemCode;
             }
         }
 
