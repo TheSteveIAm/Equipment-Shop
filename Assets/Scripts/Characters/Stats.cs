@@ -52,6 +52,8 @@ public struct DamageModifier
 
 public class Stats : MonoBehaviour
 {
+    public StatsInfo info;
+
     public bool isPlayer;
     private int gold = 10;
 
@@ -60,7 +62,7 @@ public class Stats : MonoBehaviour
         get { return gold; }
     }
 
-    private int currentHealth = 10;
+    private int currentHealth = 3;
     private int maxHealth = 3, strength = 1, intelligence = 1, dexterity = 1;
     private int baseDamage = 1, maxBonusDamage = 1, defence = 0;
     //In heroes: experienced is used to gain levels
@@ -246,6 +248,7 @@ public class Stats : MonoBehaviour
             strength += statGainsPerLevel[level - 1].strength;
             intelligence += statGainsPerLevel[level - 1].intelligence;
             dexterity += statGainsPerLevel[level - 1].dexterity;
+            currentHealth = maxHealth;
         }
     }
 

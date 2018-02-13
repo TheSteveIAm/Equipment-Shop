@@ -49,6 +49,8 @@ public class ItemFactory : MonoBehaviour
         Reward.OnLootRoll -= GetItemDropChance;
     }
 
+    //TODO: Change this to load data from a ScriptableObject, instead of creating a ton of prefabs
+
     /// <summary>
     /// Create an item object by its Item Code
     /// </summary>

@@ -96,43 +96,63 @@ public class Quest : MonoBehaviour
 
         if (completed)
         {
-            if(monsterDrops.Count > 0)
+            int totalGold = 0;
+            int goldShare = 0;
+            int totalExp = 0;
+            List<ItemCode> earnedItems = new List<ItemCode>();
+
+            if (monsterDrops.Count > 0)
             {
-                int totalGold = 0;
-                int goldShare = 0;
-                int totalExp = 0;
-                List<ItemCode> earnedItems = new List<ItemCode>();
 
                 for (int i = 0; i < monsterDrops.Count; i++)
                 {
                     totalExp += monsterDrops[i].experience;
                     totalGold += monsterDrops[i].gold;
 
-                    if(monsterDrops[i].rolledItem != ItemCode.None)
+                    if (monsterDrops[i].rolledItem != ItemCode.None)
                     {
                         earnedItems.Add(monsterDrops[i].rolledItem);
                     }
                 }
-
-                goldShare = Mathf.RoundToInt(totalGold / heroes.Count);
-
-                for (int i = 0; i < heroes.Count; i++)
-                {
-                    heroes[i].stats.ReceiveGold(goldShare);
-                    heroes[i].stats.EarnExperience(totalExp);
-
-                    if(earnedItems.Count > 0)
-                    {
-                        heroes[i].AddItemToInventory(earnedItems[0]);
-                        earnedItems.RemoveAt(0);
-                    }
-                }
-
             }
 
             if (success)
             {
+                totalGold += questReward.gold;
+                totalExp += questReward.experience;
 
+                if (questReward.rolledItem != ItemCode.None)
+                {
+                    earnedItems.Add(questReward.rolledItem);
+                }
+            }
+
+            goldShare = Mathf.RoundToInt(totalGold / heroes.Count);
+
+            int heroCount = 0;
+
+            //TODO: figure out how you're going to split the loot between heroes
+
+            //each hero earns their experience and share of gold
+            for (int i = 0; i < heroes.Count; i++)
+            {
+                heroes[i].stats.ReceiveGold(goldShare);
+                heroes[i].stats.EarnExperience(totalExp);
+            }
+
+            if (earnedItems.Count > 0)
+            {
+                for (int i = 0; i < earnedItems.Count; i++)
+                {
+                    heroes[heroCount].AddItemToInventory(earnedItems[0]);
+                    heroCount++;
+                    if (heroCount == heroCount - 1)
+                    {
+                        heroCount = 0;
+                    }
+                }
+
+                earnedItems.Clear();
             }
         }
     }

@@ -23,7 +23,9 @@ public enum EquipType
     Ring
 }
 
-public class Equipment : Item {
+public class Equipment : Item
+{
+    public EquipmentInfo info;
 
     public int minDamage, maxDamage;
     public int armor;
@@ -33,4 +35,24 @@ public class Equipment : Item {
 
     public EquipType equipmentType;
 
+    protected override void Start()
+    {
+        base.Start();
+
+        LoadInfo();
+    }
+
+    void LoadInfo()
+    {
+        minDamage = info.minDamage;
+        maxDamage = info.maxDamage;
+        armor = info.armor;
+        strBonus = info.strBonus;
+        intBonus = info.intBonus;
+        dexBonus = info.dexBonus;
+        dmgType = info.dmgType;
+        rarity = info.rarity;
+
+        equipmentType = info.equipmentType;
+    }
 }

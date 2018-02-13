@@ -22,7 +22,7 @@ public class Item : MonoBehaviour
     /// </summary>
     public bool untouched = true;
 
-    void Start()
+    protected virtual void Start()
     {
         col = GetComponent<Collider>();
         body = GetComponent<Rigidbody>();
