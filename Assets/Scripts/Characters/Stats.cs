@@ -96,6 +96,8 @@ public class Stats : MonoBehaviour
     {
         GainStats();
         CalculateBases();
+
+
     }
 
     public int RollAttack()
@@ -172,13 +174,13 @@ public class Stats : MonoBehaviour
     {
         equippedItems.Add(equip);
 
-        baseDamage += equip.minDamage;
-        maxBonusDamage += equip.maxDamage;
-        defence += equip.armor;
-        strength += equip.strBonus;
-        intelligence += equip.intBonus;
-        dexterity += equip.dexBonus;
-        damageMod = equip.dmgType;
+        baseDamage += equip.info.minDamage;
+        maxBonusDamage += equip.info.maxDamage;
+        defence += equip.info.armor;
+        strength += equip.info.strBonus;
+        intelligence += equip.info.intBonus;
+        dexterity += equip.info.dexBonus;
+        damageMod = equip.info.dmgType;
     }
 
     /// <summary>
@@ -190,17 +192,17 @@ public class Stats : MonoBehaviour
     {
         for (int i = 0; i < equippedItems.Count; i++)
         {
-            if (equippedItems[i].equipmentType == equip.equipmentType)
+            if (equippedItems[i].info.equipmentType == equip.info.equipmentType)
             {
                 Equipment tempEquip = equip;
                 equippedItems.Remove(equip);
 
-                baseDamage -= tempEquip.minDamage;
-                maxBonusDamage -= tempEquip.maxDamage;
-                defence -= tempEquip.armor;
-                strength -= tempEquip.strBonus;
-                intelligence -= tempEquip.intBonus;
-                dexterity -= tempEquip.dexBonus;
+                baseDamage -= tempEquip.info.minDamage;
+                maxBonusDamage -= tempEquip.info.maxDamage;
+                defence -= tempEquip.info.armor;
+                strength -= tempEquip.info.strBonus;
+                intelligence -= tempEquip.info.intBonus;
+                dexterity -= tempEquip.info.dexBonus;
                 damageMod = defaultDamageType;
 
                 return tempEquip;
