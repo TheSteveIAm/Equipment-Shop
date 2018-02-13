@@ -33,10 +33,14 @@ public class Hero : Character
     public void AddItemToInventory(Item item)
     {
         inventory.AddItem(item);
-        Destroy(item.gameObject);
         carriedItem = null;
         brain.RemoveWantedItem(item.itemCode);
         brain.StopTrading();
+    }
+
+    public void AddItemToInventory(ItemCode item)
+    {
+        inventory.AddItem(item);
     }
 
     public void CancelTrade()
@@ -47,5 +51,17 @@ public class Hero : Character
         brain.StopTrading();
     }
 
-    //public 
+    public void EquipItem(Equipment equip)
+    {
+        RemoveEquippedItem(equip);
+        stats.AddEquipment(equip);
+    }
+
+    public void RemoveEquippedItem(Equipment equip)
+    {
+        if (stats.HasEquipment(equip))
+        {
+            inventory.AddItem(stats.RemoveEquipment(equip));
+        }
+    }
 }

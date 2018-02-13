@@ -2,7 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
+public enum Rarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Legendary,
+    Unique
+}
+
+public enum EquipType
 {
     Helmet,
     Armor,
@@ -16,6 +25,12 @@ public enum ItemType
 
 public class Equipment : Item {
 
-    public ItemType itemType;
+    public int minDamage, maxDamage;
+    public int armor;
+    public int strBonus, intBonus, dexBonus;
+    public DamageTypes dmgType;
+    public Rarity rarity;
+
+    public EquipType equipmentType;
 
 }

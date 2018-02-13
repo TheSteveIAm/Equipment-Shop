@@ -9,8 +9,6 @@ public class Inventory : MonoBehaviour
 {
     private List<ItemCode> items = new List<ItemCode>();
 
-
-
     public int ItemCount()
     {
         return items.Count;
@@ -19,6 +17,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(Item item)
     {
         items.Add(item.itemCode);
+        Destroy(item.gameObject);
     }
 
     public void AddItem(ItemCode itemCode)
@@ -26,9 +25,16 @@ public class Inventory : MonoBehaviour
         items.Add(itemCode);
     }
 
-    public void RemoveItem(ItemCode item)
+    public ItemCode RemoveItem(ItemCode item)
     {
         //find item by type, if it exists in inventory
+        if (items.Contains(item))
+        {
+            items.Remove(item);
+            return item;
+        }
+
+        return ItemCode.None;
     }
 
     public ItemCode RemoveLastItem()

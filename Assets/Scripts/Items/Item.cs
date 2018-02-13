@@ -11,7 +11,6 @@ public class Item : MonoBehaviour
 {
 
     public ItemCode itemCode;
-    public DamageModifier[] damageTypes;
     protected Rigidbody body;
     protected Collider col;
     public int dropChance;

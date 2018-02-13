@@ -62,17 +62,21 @@ public class Stats : MonoBehaviour
 
     private int currentHealth = 10;
     private int maxHealth = 3, strength = 1, intelligence = 1, dexterity = 1;
-    private int baseDamage = 1, maxBonusDamage = 1, baseDefence = 0;
+    private int baseDamage = 1, maxBonusDamage = 1, defence = 0;
     //In heroes: experienced is used to gain levels
     //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
+
+    public List<Equipment> equippedItems = new List<Equipment>();
 
     /// <summary>
     /// Array of damage types this character interacts differently
     /// example: Weak Fire, means this character takes more damage from fire, etc.
     /// NOTE: there should never be more than 1 modifier for any DamageType!
     /// </summary>
-    public DamageModifier[] damageMods;
+    public DamageModifier[] defenceMods;
+    public DamageTypes damageMod;
+    public DamageTypes defaultDamageType = DamageTypes.Physical;
 
     /// <summary>
     /// Array of stat bonuses this character will gain each level
@@ -92,20 +96,25 @@ public class Stats : MonoBehaviour
         CalculateBases();
     }
 
+    public int RollAttack()
+    {
+        return DiceManager.RollDice(baseDamage, baseDamage + maxBonusDamage);
+    }
+
     /// <summary>
     /// Assigns damage to this character
     /// </summary>
-    /// <param name="amount">amount of damage to take, negative values are healing</param>
+    /// <param name="amount">amount of damage to take</param>
     /// <returns>Is this character defeated?</returns>
     public int TakeDamage(int amount, DamageTypes type)
     {
         int actualAmount = amount;
 
-        for (int i = 0; i < damageMods.Length; i++)
+        for (int i = 0; i < defenceMods.Length; i++)
         {
-            if (type == damageMods[i].damageType)
+            if (type == defenceMods[i].damageType)
             {
-                switch (damageMods[i].modifierType)
+                switch (defenceMods[i].modifierType)
                 {
                     case Modifier.Immune:
                         actualAmount = 0;
@@ -122,7 +131,7 @@ public class Stats : MonoBehaviour
             }
         }
 
-        currentHealth -= amount;
+        currentHealth -= ((actualAmount - defence) > 0) ? actualAmount : 0 ;
 
         if (currentHealth <= 0)
         {
@@ -150,7 +159,64 @@ public class Stats : MonoBehaviour
     private void CalculateBases()
     {
         baseDamage = (level) + (strength);
-        baseDefence = Mathf.FloorToInt(dexterity / 2);
+        defence = Mathf.FloorToInt(dexterity / 2);
+    }
+
+    /// <summary>
+    /// Adds a piece of equipment to this character's stats, and adds all the bonuses that equipment has
+    /// </summary>
+    /// <param name="equip"></param>
+    public void AddEquipment(Equipment equip)
+    {
+        equippedItems.Add(equip);
+
+        baseDamage += equip.minDamage;
+        maxBonusDamage += equip.maxDamage;
+        defence += equip.armor;
+        strength += equip.strBonus;
+        intelligence += equip.intBonus;
+        dexterity += equip.dexBonus;
+        damageMod = equip.dmgType;
+    }
+
+    /// <summary>
+    /// Checks if equipment of existing type is equipped, if so, removes it and returns it to inventory
+    /// </summary>
+    /// <param name="equip"></param>
+    /// <returns></returns>
+    public Equipment RemoveEquipment(Equipment equip)
+    {
+        for (int i = 0; i < equippedItems.Count; i++)
+        {
+            if (equippedItems[i].equipmentType == equip.equipmentType)
+            {
+                Equipment tempEquip = equip;
+                equippedItems.Remove(equip);
+
+                baseDamage -= tempEquip.minDamage;
+                maxBonusDamage -= tempEquip.maxDamage;
+                defence -= tempEquip.armor;
+                strength -= tempEquip.strBonus;
+                intelligence -= tempEquip.intBonus;
+                dexterity -= tempEquip.dexBonus;
+                damageMod = defaultDamageType;
+
+                return tempEquip;
+            }
+
+        }
+
+        return null;
+    }
+
+    public bool HasEquipment(Equipment equip)
+    {
+        if (equippedItems.Contains(equip))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
