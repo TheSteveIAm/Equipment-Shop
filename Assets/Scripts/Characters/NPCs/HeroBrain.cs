@@ -92,6 +92,7 @@ public class HeroBrain : MonoBehaviour
             if (currentStation != null && currentStation is TradeTable && currentTrade == null)
             {
                 TradeTable table = (TradeTable)currentStation;
+                //TODO: create actual gold offer logic
                 currentTrade = table.CreateTrade(hero.carriedItem, 2, hero);
             }
         }

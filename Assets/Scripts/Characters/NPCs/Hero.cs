@@ -36,11 +36,17 @@ public class Hero : Character
         carriedItem = null;
         brain.RemoveWantedItem(item.itemCode);
         brain.StopTrading();
+
+        if (item.GetType() == typeof(Equipment))
+        {
+            EquipItem((Equipment)item);
+        }
     }
 
     public void AddItemToInventory(ItemCode item)
     {
         inventory.AddItem(item);
+
     }
 
     public void CancelTrade()
@@ -53,15 +59,31 @@ public class Hero : Character
 
     public void EquipItem(Equipment equip)
     {
-        RemoveEquippedItem(equip);
+        RemoveEquippedItemSlots(equip);
         stats.AddEquipment(equip);
+        inventory.RemoveItem(equip.itemCode);
+
+        equip.gameObject.SetActive(false);
     }
 
-    public void RemoveEquippedItem(Equipment equip)
+    /// <summary>
+    /// Checks stats for equipped items that conflict with the one we're adding.
+    /// If so, unequip them and return them to the inventory
+    /// </summary>
+    /// <param name="equip"></param>
+    public void RemoveEquippedItemSlots(Equipment equip)
     {
-        if (stats.HasEquipment(equip))
+        //if (stats.HasEquipment(equip))
+        //{
+        List<Equipment> returnedItems = stats.RemoveEquipment(equip);
+
+        if (returnedItems.Count > 0)
         {
-            inventory.AddItem(stats.RemoveEquipment(equip));
+            for (int i = 0; i < returnedItems.Count; i++)
+            {
+                inventory.AddItem(returnedItems[i]);
+            }
         }
+        //}
     }
 }

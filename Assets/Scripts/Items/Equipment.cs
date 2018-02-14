@@ -31,5 +31,6 @@ public class Equipment : Item
     {
         base.Start();
 
+        itemCode = info.itemCode;
     }
 }

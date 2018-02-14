@@ -17,7 +17,10 @@ public class Inventory : MonoBehaviour
     public void AddItem(Item item)
     {
         items.Add(item.itemCode);
-        Destroy(item.gameObject);
+        if (item.GetType() != typeof(Equipment))
+        {
+            Destroy(item.gameObject);
+        }
     }
 
     public void AddItem(ItemCode itemCode)

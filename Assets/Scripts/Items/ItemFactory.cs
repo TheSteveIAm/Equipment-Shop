@@ -9,7 +9,8 @@ public enum ItemCode
 {
     None,
     IronOre,
-    IronBar
+    IronBar,
+    IronSword
 }
 
 /// <summary>

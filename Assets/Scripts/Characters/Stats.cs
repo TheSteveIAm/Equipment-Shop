@@ -135,7 +135,7 @@ public class Stats : MonoBehaviour
             }
         }
 
-        currentHealth -= ((actualAmount - defence) > 0) ? actualAmount : 0 ;
+        currentHealth -= ((actualAmount - defence) > 0) ? actualAmount : 0;
 
         if (currentHealth <= 0)
         {
@@ -188,39 +188,57 @@ public class Stats : MonoBehaviour
     /// </summary>
     /// <param name="equip"></param>
     /// <returns></returns>
-    public Equipment RemoveEquipment(Equipment equip)
+    public List<Equipment> RemoveEquipment(Equipment equip)
     {
+        List<Equipment> returnedItems = new List<Equipment>();
+
         for (int i = 0; i < equippedItems.Count; i++)
         {
+            //TODO: Add logic for two-handed weapons
+            switch (equip.info.equipmentType)
+            {
+                case EquipType.TwoHandWeapon:
+                    if (equippedItems[i].info.equipmentType == EquipType.OneHandWeapon ||
+                       equippedItems[i].info.equipmentType == EquipType.Shield)
+                    {
+                        returnedItems.Add(equippedItems[i]);
+                        RemoveStats(equippedItems[i]);
+                    }
+                    break;
+
+                case EquipType.OneHandWeapon:
+                case EquipType.Shield:
+                    if (equippedItems[i].info.equipmentType == EquipType.TwoHandWeapon)
+                    {
+                        returnedItems.Add(equippedItems[i]);
+                        RemoveStats(equippedItems[i]);
+                    }
+                    break;
+            }
+
             if (equippedItems[i].info.equipmentType == equip.info.equipmentType)
             {
-                Equipment tempEquip = equip;
-                equippedItems.Remove(equip);
-
-                baseDamage -= tempEquip.info.minDamage;
-                maxBonusDamage -= tempEquip.info.maxDamage;
-                defence -= tempEquip.info.armor;
-                strength -= tempEquip.info.strBonus;
-                intelligence -= tempEquip.info.intBonus;
-                dexterity -= tempEquip.info.dexBonus;
-                damageMod = defaultDamageType;
-
-                return tempEquip;
+                //Equipment tempEquip = equip;
+                returnedItems.Add(equippedItems[i]);
+                RemoveStats(equippedItems[i]);
             }
 
         }
 
-        return null;
+        return returnedItems;
     }
 
-    public bool HasEquipment(Equipment equip)
+    private void RemoveStats(Equipment equip)
     {
-        if (equippedItems.Contains(equip))
-        {
-            return true;
-        }
+        equippedItems.Remove(equip);
 
-        return false;
+        baseDamage -= equip.info.minDamage;
+        maxBonusDamage -= equip.info.maxDamage;
+        defence -= equip.info.armor;
+        strength -= equip.info.strBonus;
+        intelligence -= equip.info.intBonus;
+        dexterity -= equip.info.dexBonus;
+        damageMod = defaultDamageType;
     }
 
     /// <summary>

@@ -5,12 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEquipmet", menuName = "Equipment", order = 4)]
 public class EquipmentInfo : ScriptableObject {
 
+    public Mesh itemModel;
+    public Material itemMaterial;
+
     public int minDamage, maxDamage;
     public int armor;
     public int strBonus, intBonus, dexBonus;
     public DamageTypes dmgType;
     public Rarity rarity;
 
+    public ItemCode itemCode;
     public EquipType equipmentType;
+
 
 }
