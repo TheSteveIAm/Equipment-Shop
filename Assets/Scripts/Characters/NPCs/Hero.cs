@@ -12,6 +12,7 @@ public class Hero : Character
     public Transform pickupPoint;
     private Trade trade;
     public Quest currentQuest;
+    private ItemFactory itemList;
 
     private HeroBrain brain;
 
@@ -22,6 +23,7 @@ public class Hero : Character
 
         inventory = GetComponent<Inventory>();
         brain = GetComponent<HeroBrain>();
+        itemList = ItemFactory.Instance;
     }
 
     public void PickupItem(Item item)
@@ -36,17 +38,16 @@ public class Hero : Character
         carriedItem = null;
         brain.RemoveWantedItem(item.itemCode);
         brain.StopTrading();
-
-        if (item.GetType() == typeof(Equipment))
-        {
-            EquipItem((Equipment)item);
-        }
     }
 
     public void AddItemToInventory(ItemCode item)
     {
         inventory.AddItem(item);
+    }
 
+    public Item RemoveItemFromInventory(ItemCode item)
+    {
+        return itemList.CreateItem(inventory.RemoveItem(item));
     }
 
     public void CancelTrade()
@@ -59,6 +60,7 @@ public class Hero : Character
 
     public void EquipItem(Equipment equip)
     {
+        //TODO: compare at some point (probably before buying) the stats of the items, and then decide to equip
         RemoveEquippedItemSlots(equip);
         stats.AddEquipment(equip);
         inventory.RemoveItem(equip.itemCode);

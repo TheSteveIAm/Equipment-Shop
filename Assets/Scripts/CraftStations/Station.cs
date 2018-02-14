@@ -30,7 +30,7 @@ public class Station : MonoBehaviour
     protected virtual void Start()
     {
         //give each station the ability to access the item factory, for easier item management
-        itemList = FindObjectOfType<ItemFactory>();
+        itemList = ItemFactory.Instance;
 
         if (itemList == null)
         {

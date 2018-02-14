@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemModel: {fileID: 0}
   itemMaterial: {fileID: 0}
-  minDamage: 2
-  maxDamage: 4
+  minDamage: 1
+  maxDamage: 2
   armor: 0
   strBonus: 0
   intBonus: 0

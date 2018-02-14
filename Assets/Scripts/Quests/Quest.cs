@@ -138,6 +138,7 @@ public class Quest : MonoBehaviour
             {
                 heroes[i].stats.ReceiveGold(goldShare);
                 heroes[i].stats.EarnExperience(totalExp);
+                heroes[i].stats.Heal(9999);
             }
 
             if (earnedItems.Count > 0)
@@ -146,7 +147,7 @@ public class Quest : MonoBehaviour
                 {
                     heroes[heroCount].AddItemToInventory(earnedItems[0]);
                     heroCount++;
-                    if (heroCount == heroCount - 1)
+                    if (heroCount >= heroCount - 1)
                     {
                         heroCount = 0;
                     }
@@ -166,20 +167,25 @@ public class Quest : MonoBehaviour
                 for (int i = 0; i < heroes.Count; i++)
                 {
                     Stats hero = heroes[i].stats;
-                    Monster targetMonster = monsters[Random.Range(0, monsters.Count - 1)];
+                    Monster targetMonster = monsters[Random.Range(0, monsters.Count)];
                     Stats targetMonsterStats = targetMonster.stats;
-                    targetMonsterStats.TakeDamage(hero.RollAttack(), hero.damageMod);
+                    int dmg = targetMonsterStats.TakeDamage(hero.RollAttack(), hero.damageMod);
+
+                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", hero.name, targetMonster.name, dmg, hero.damageMod));
 
                     if (targetMonsterStats.IsDefeated())
                     {
+                        Debug.Log(targetMonster.name + " has been vanquished!");
+
                         monsterDrops.Add(targetMonster.Defeat());
                         monsters.Remove(targetMonster);
-                        //TODO: Maybe keep the monsters but in a defeated state somewhere
+                        //TODO: Maybe keep the monsters but in a defeated state
                     }
                 }
 
                 if (monsters.Count == 0)
                 {
+                    Debug.Log("All monsters have been defeated, Quest success!");
                     success = true;
                     completed = true;
                     return;
@@ -190,20 +196,26 @@ public class Quest : MonoBehaviour
                     Stats monster = monsters[i].stats;
                     Hero targetHero = heroes[Random.Range(0, heroes.Count - 1)];
                     Stats targetHeroStats = targetHero.stats;
-                    targetHeroStats.TakeDamage(monster.RollAttack(), monster.damageMod);
+                    int dmg = targetHeroStats.TakeDamage(monster.RollAttack(), monster.damageMod);
+
+                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", monster.name, targetHero.name, dmg, monster.damageMod));
 
                     int defeatedHeroes = 0;
 
                     for (int j = 0; j < heroes.Count; j++)
                     {
-                        if (heroes[i].stats.IsDefeated())
+                        if (heroes[j].stats.IsDefeated())
                         {
                             defeatedHeroes++;
+
+                            Debug.Log(heroes[j].name + " was defeated!");
                         }
                     }
 
                     if (defeatedHeroes >= heroes.Count)
                     {
+                        Debug.Log("All heroes have been defeated, Quest failed!");
+
                         completed = true;
                         success = false;
                         return;

@@ -6714,7 +6714,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-608558
+  m_Name: pb_Mesh-1550
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -10948,6 +10948,7 @@ MonoBehaviour:
   - {fileID: 1381480607}
   monsters:
   - {fileID: 331681553}
+  - {fileID: 1325403083}
   questType: 0
   questReward:
     experience: 10
@@ -11021,7 +11022,7 @@ Prefab:
     - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
         type: 2}
       propertyPath: reward.experience
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
         type: 2}
@@ -11036,12 +11037,16 @@ Prefab:
     - target: {fileID: 114643332487073794, guid: d0159f81e36ee86439eda7103b142798,
         type: 2}
       propertyPath: statGainsPerLevel.Array.data[0].health
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114643332487073794, guid: d0159f81e36ee86439eda7103b142798,
         type: 2}
       propertyPath: statGainsPerLevel.Array.data[0].dexterity
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059418521865214, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_Name
+      value: Goblin 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0159f81e36ee86439eda7103b142798, type: 2}
@@ -11138,6 +11143,93 @@ Transform:
   m_Father: {fileID: 117139109}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1325403082
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114643332487073794, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: statGainsPerLevel.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: reward.possibleItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.213083
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -8.670869
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 7.2019596
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242359974970346, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: reward.experience
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: reward.gold
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: reward.possibleItems.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114643332487073794, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: statGainsPerLevel.Array.data[0].health
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114643332487073794, guid: d0159f81e36ee86439eda7103b142798,
+        type: 2}
+      propertyPath: statGainsPerLevel.Array.data[0].dexterity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059418521865214, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+      propertyPath: m_Name
+      value: Goblin 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d0159f81e36ee86439eda7103b142798, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &1325403083 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114649738048970584, guid: d0159f81e36ee86439eda7103b142798,
+    type: 2}
+  m_PrefabInternal: {fileID: 1325403082}
+  m_Script: {fileID: 11500000, guid: 91640c9b397167347b8fb2cd525134be, type: 3}
 --- !u!1 &1334171895
 GameObject:
   m_ObjectHideFlags: 0
@@ -13063,7 +13155,7 @@ Prefab:
     - target: {fileID: 114529147118495694, guid: 78cfceb3520e3154f8254d834f6838e9,
         type: 2}
       propertyPath: statGainsPerLevel.Array.data[0].dexterity
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114529147118495694, guid: 78cfceb3520e3154f8254d834f6838e9,
         type: 2}
@@ -13073,7 +13165,7 @@ Prefab:
     - target: {fileID: 114529147118495694, guid: 78cfceb3520e3154f8254d834f6838e9,
         type: 2}
       propertyPath: statGainsPerLevel.Array.data[1].strength
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114529147118495694, guid: 78cfceb3520e3154f8254d834f6838e9,
         type: 2}

@@ -51,7 +51,15 @@ public class Trade
             if (heroStats.SpendGold(offeredGold))
             {
                 player.GetComponent<Stats>().ReceiveGold(offeredGold);
-                hero.AddItemToInventory(item);
+
+                if (item.GetType() == typeof(Equipment))
+                {
+                    hero.EquipItem((Equipment)item);
+                }
+                else
+                {
+                    hero.AddItemToInventory(item);
+                }
 
                 return true;
             }

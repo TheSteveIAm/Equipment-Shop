@@ -63,8 +63,9 @@ public class Stats : MonoBehaviour
     }
 
     private int currentHealth = 3;
-    private int maxHealth = 3, strength = 1, intelligence = 1, dexterity = 1;
-    private int baseDamage = 1, maxBonusDamage = 1, defence = 0;
+    private int maxHealth = 3, strength = 0, intelligence = 0, dexterity = 0;
+    private int baseDamage = 1, defence = 0;
+    public int maxBonusDamage = 1;
     //In heroes: experienced is used to gain levels
     //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
@@ -112,6 +113,7 @@ public class Stats : MonoBehaviour
     /// <returns>Is this character defeated?</returns>
     public int TakeDamage(int amount, DamageTypes type)
     {
+        Debug.Log("Damage roll was " + amount);
         int actualAmount = amount;
 
         for (int i = 0; i < defenceMods.Length; i++)
@@ -135,7 +137,9 @@ public class Stats : MonoBehaviour
             }
         }
 
-        currentHealth -= ((actualAmount - defence) > 0) ? actualAmount : 0;
+        actualAmount -= defence;
+
+        currentHealth -= ((actualAmount) > 0) ? actualAmount : 0;
 
         if (currentHealth <= 0)
         {
@@ -150,6 +154,20 @@ public class Stats : MonoBehaviour
 
         //character is not defeated
         return actualAmount;
+    }
+
+    /// <summary>
+    /// Heals the character for a certain amount
+    /// </summary>
+    /// <param name="amount"></param>
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 
     public bool IsDefeated()

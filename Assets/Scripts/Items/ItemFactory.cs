@@ -19,11 +19,35 @@ public enum ItemCode
 /// </summary>
 public class ItemFactory : MonoBehaviour
 {
+
+    private static ItemFactory instance = null;
+
+    public static ItemFactory Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     /// <summary>
     /// List of all available items
     /// </summary>
     public Item[] itemListToLoad;
     private Dictionary<ItemCode, Item> itemList = new Dictionary<ItemCode, Item>();
+
+    private void Awake()
+    {
+        // if the singleton hasn't been initialized yet
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Use this for initialization
     void Start()
