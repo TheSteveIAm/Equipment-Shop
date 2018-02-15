@@ -32,14 +32,33 @@ public class Hero : Character
         carriedItem = item;
     }
 
-    public void AddItemToInventory(Item item)
+    /// <summary>
+    /// Used for trades and dealing with the items when they are physically present
+    /// </summary>
+    /// <param name="item"></param>
+    public void AddItemToInventory(Item item, bool fromTrade)
     {
         inventory.AddItem(item);
         carriedItem = null;
-        brain.RemoveWantedItem(item.itemCode);
-        brain.StopTrading();
+
+        if (fromTrade)
+        {
+            ClearWanteditem(item.itemCode);
+        }
+
+        if(item.GetType() == typeof(Equipment))
+        {
+            Equipment equip = (Equipment)item;
+            EquipItem(equip.info);
+        }
+
+        Destroy(item.gameObject);
     }
 
+    /// <summary>
+    /// Used to move items around without having them physically present
+    /// </summary>
+    /// <param name="item"></param>
     public void AddItemToInventory(ItemCode item)
     {
         inventory.AddItem(item);
@@ -58,14 +77,18 @@ public class Hero : Character
         brain.StopTrading();
     }
 
-    public void EquipItem(Equipment equip)
+    public void EquipItem(EquipmentInfo equip)
     {
         //TODO: compare at some point (probably before buying) the stats of the items, and then decide to equip
         RemoveEquippedItemSlots(equip);
         stats.AddEquipment(equip);
         inventory.RemoveItem(equip.itemCode);
+    }
 
-        equip.gameObject.SetActive(false);
+    void ClearWanteditem(ItemCode item)
+    {
+        brain.RemoveWantedItem(item);
+        brain.StopTrading();
     }
 
     /// <summary>
@@ -73,17 +96,17 @@ public class Hero : Character
     /// If so, unequip them and return them to the inventory
     /// </summary>
     /// <param name="equip"></param>
-    public void RemoveEquippedItemSlots(Equipment equip)
+    public void RemoveEquippedItemSlots(EquipmentInfo equip)
     {
         //if (stats.HasEquipment(equip))
         //{
-        List<Equipment> returnedItems = stats.RemoveEquipment(equip);
+        List<ItemCode> returnedItems = stats.RemoveEquipment(equip.equipmentType);
 
         if (returnedItems.Count > 0)
         {
             for (int i = 0; i < returnedItems.Count; i++)
             {
-                inventory.AddItem(returnedItems[i]);
+                AddItemToInventory(returnedItems[i]);
             }
         }
         //}

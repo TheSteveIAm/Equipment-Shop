@@ -53,6 +53,7 @@ public struct DamageModifier
 public class Stats : MonoBehaviour
 {
     public StatsInfo info;
+    private ItemFactory itemList;
 
     public bool isPlayer;
     private int gold = 10;
@@ -70,7 +71,7 @@ public class Stats : MonoBehaviour
     //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
 
-    public List<Equipment> equippedItems = new List<Equipment>();
+    public Dictionary<EquipType, ItemCode> equippedItems = new Dictionary<EquipType, ItemCode>();
 
     /// <summary>
     /// Array of damage types this character interacts differently
@@ -93,12 +94,15 @@ public class Stats : MonoBehaviour
     public delegate void GoldChangeDelegate();
     public static event GoldChangeDelegate OnGoldChange;
 
+    void Start()
+    {
+        itemList = ItemFactory.Instance;
+    }
+
     public void Init()
     {
         GainStats();
         CalculateBases();
-
-
     }
 
     public int RollAttack()
@@ -113,7 +117,7 @@ public class Stats : MonoBehaviour
     /// <returns>Is this character defeated?</returns>
     public int TakeDamage(int amount, DamageTypes type)
     {
-        Debug.Log("Damage roll was " + amount);
+        Debug.Log("damage roll was " + amount);
         int actualAmount = amount;
 
         for (int i = 0; i < defenceMods.Length; i++)
@@ -164,7 +168,7 @@ public class Stats : MonoBehaviour
     {
         currentHealth += amount;
 
-        if(currentHealth > maxHealth)
+        if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
@@ -188,17 +192,17 @@ public class Stats : MonoBehaviour
     /// Adds a piece of equipment to this character's stats, and adds all the bonuses that equipment has
     /// </summary>
     /// <param name="equip"></param>
-    public void AddEquipment(Equipment equip)
+    public void AddEquipment(EquipmentInfo equip)
     {
-        equippedItems.Add(equip);
+        equippedItems.Add(equip.equipmentType, equip.itemCode);
 
-        baseDamage += equip.info.minDamage;
-        maxBonusDamage += equip.info.maxDamage;
-        defence += equip.info.armor;
-        strength += equip.info.strBonus;
-        intelligence += equip.info.intBonus;
-        dexterity += equip.info.dexBonus;
-        damageMod = equip.info.dmgType;
+        baseDamage += equip.minDamage;
+        maxBonusDamage += equip.maxDamage;
+        defence += equip.armor;
+        strength += equip.strBonus;
+        intelligence += equip.intBonus;
+        dexterity += equip.dexBonus;
+        damageMod = equip.dmgType;
     }
 
     /// <summary>
@@ -206,39 +210,44 @@ public class Stats : MonoBehaviour
     /// </summary>
     /// <param name="equip"></param>
     /// <returns></returns>
-    public List<Equipment> RemoveEquipment(Equipment equip)
+    public List<ItemCode> RemoveEquipment(EquipType equip)
     {
-        List<Equipment> returnedItems = new List<Equipment>();
+        List<ItemCode> returnedItems = new List<ItemCode>();
 
         for (int i = 0; i < equippedItems.Count; i++)
         {
             //TODO: Add logic for two-handed weapons
-            switch (equip.info.equipmentType)
+            switch (equip)
             {
                 case EquipType.TwoHandWeapon:
-                    if (equippedItems[i].info.equipmentType == EquipType.OneHandWeapon ||
-                       equippedItems[i].info.equipmentType == EquipType.Shield)
+                    if (equippedItems.ContainsKey(EquipType.OneHandWeapon))
                     {
-                        returnedItems.Add(equippedItems[i]);
-                        RemoveStats(equippedItems[i]);
+                        returnedItems.Add(equippedItems[EquipType.OneHandWeapon]);
+                        RemoveStats(EquipType.OneHandWeapon);
+                    }
+
+                    if (equippedItems.ContainsKey(EquipType.Shield))
+                    {
+                        returnedItems.Add(equippedItems[EquipType.Shield]);
+                        RemoveStats(EquipType.Shield);
                     }
                     break;
 
                 case EquipType.OneHandWeapon:
                 case EquipType.Shield:
-                    if (equippedItems[i].info.equipmentType == EquipType.TwoHandWeapon)
+                    if (equippedItems.ContainsKey(EquipType.TwoHandWeapon))
                     {
-                        returnedItems.Add(equippedItems[i]);
-                        RemoveStats(equippedItems[i]);
+                        returnedItems.Add(equippedItems[EquipType.TwoHandWeapon]);
+                        RemoveStats(EquipType.TwoHandWeapon);
                     }
                     break;
             }
 
-            if (equippedItems[i].info.equipmentType == equip.info.equipmentType)
+            if (equippedItems.ContainsKey(equip))
             {
                 //Equipment tempEquip = equip;
-                returnedItems.Add(equippedItems[i]);
-                RemoveStats(equippedItems[i]);
+                returnedItems.Add(equippedItems[equip]);
+                RemoveStats(equip);
             }
 
         }
@@ -246,17 +255,19 @@ public class Stats : MonoBehaviour
         return returnedItems;
     }
 
-    private void RemoveStats(Equipment equip)
+    private void RemoveStats(EquipType equip)
     {
-        equippedItems.Remove(equip);
+        EquipmentInfo equipStats = itemList.GetEquipmentInfo(equippedItems[equip]);
 
-        baseDamage -= equip.info.minDamage;
-        maxBonusDamage -= equip.info.maxDamage;
-        defence -= equip.info.armor;
-        strength -= equip.info.strBonus;
-        intelligence -= equip.info.intBonus;
-        dexterity -= equip.info.dexBonus;
+        baseDamage -= equipStats.minDamage;
+        maxBonusDamage -= equipStats.maxDamage;
+        defence -= equipStats.armor;
+        strength -= equipStats.strBonus;
+        intelligence -= equipStats.intBonus;
+        dexterity -= equipStats.dexBonus;
         damageMod = defaultDamageType;
+
+        equippedItems.Remove(equip);
     }
 
     /// <summary>

@@ -60,7 +60,15 @@ public class ItemFactory : MonoBehaviour
         //example: foreach(ItemCode item in Enum.GetValues(typeof(ItemCode)))
         for (int i = 0; i < itemListToLoad.Length; i++)
         {
-            itemList.Add(itemListToLoad[i].itemCode, itemListToLoad[i]);
+            if (itemListToLoad[i].GetType() == typeof(Equipment))
+            {
+                Equipment equip = (Equipment)itemListToLoad[i];
+                itemList.Add(equip.info.itemCode, equip);
+            }
+            else
+            {
+                itemList.Add(itemListToLoad[i].itemCode, itemListToLoad[i]);
+            }
         }
     }
 
@@ -108,6 +116,17 @@ public class ItemFactory : MonoBehaviour
     public int GetItemDropChance(ItemCode item)
     {
         return itemList[item].dropChance;
+    }
+
+    public EquipmentInfo GetEquipmentInfo(ItemCode item)
+    {
+        Item selectedItem = itemList[item];
+        if (selectedItem.GetType() == typeof(Equipment))
+        {
+            Equipment equip = (Equipment)selectedItem;
+            return equip.info;
+        }
+        return null;
     }
 
 #if UNITY_EDITOR

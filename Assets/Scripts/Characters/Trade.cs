@@ -54,11 +54,7 @@ public class Trade
 
                 if (item.GetType() == typeof(Equipment))
                 {
-                    hero.EquipItem((Equipment)item);
-                }
-                else
-                {
-                    hero.AddItemToInventory(item);
+                    hero.AddItemToInventory(item, true);
                 }
 
                 return true;

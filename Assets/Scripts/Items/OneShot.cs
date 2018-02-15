@@ -5,7 +5,7 @@ using UnityEngine;
 public class OneShot : Item {
 
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
 		
 	}
 	

@@ -12,7 +12,6 @@ public class TradeTable : Station
         Trade trade = new Trade(wantedItem, heroGoldOffer, inquiringHero);
         trade.player = FindObjectOfType<Player>();
         pendingTrades.Add(trade);
-        Debug.Log("trade made");
         return trade;
     }
 
@@ -35,7 +34,6 @@ public class TradeTable : Station
 
         if (pendingTrades.Count > 0)
         {
-            Debug.Log("trade confirmed");
             //TODO: Choice between these options will go in after some UI is implemented.
             //TEST #1: Successful trade:
             pendingTrades[0].Confirm();
