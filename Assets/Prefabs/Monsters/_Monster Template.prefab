@@ -52,8 +52,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364e97193e105dc44a94f1b2150ea1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info: {fileID: 0}
+  itemList: {fileID: 0}
   isPlayer: 0
-  damageMods: []
+  gold: 10
+  currentHealth: 3
+  maxHealth: 3
+  strength: 0
+  intelligence: 0
+  dexterity: 0
+  baseDamage: 1
+  defence: 0
+  maxBonusDamage: 1
+  level: 1
+  experience: 0
+  defenceMods: []
+  damageMod: 0
+  defaultDamageType: 0
+  statGainsPerLevel: []
 --- !u!114 &114649738048970584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,10 +81,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91640c9b397167347b8fb2cd525134be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: b93ec3dab8a34374480588db1b238ef0, type: 2}
+  info: {fileID: 0}
   reward:
-    experience: 0
-    gold: 0
-    possibleItems: 0100000002000000
+    experience: 10
+    gold: 2
+    possibleItems: 01000000
     rolledItem: 0
-  dropChance: 100
+  dropChance: 50

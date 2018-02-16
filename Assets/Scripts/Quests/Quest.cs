@@ -50,46 +50,64 @@ public struct Reward
 
 public enum QuestType
 {
-    Monsters,
+    Hunt,
     Boss,
     Deliver,
     Escort,
     Rescue
 }
 
-public class Quest : MonoBehaviour
+[CreateAssetMenu(fileName = "QuestName", menuName = "Quest", order = 4)]
+public class Quest 
 {
-    public List<Hero> heroes = new List<Hero>();
-    public List<Monster> monsters = new List<Monster>();
+    //public QuestInfo info;
 
-    public QuestType questType;
-    public Reward questReward;
+    public Quest(List<Hero> questHeroes, List<Monster> questMonsters, QuestType type, Reward reward, int level)
+    {
+        heroes = questHeroes;
+        monsters = questMonsters;
+        questType = type;
+        questReward = reward;
+        questLevel = level;
+    }
 
+    private List<Hero> heroes = new List<Hero>();
+    private List<Monster> monsters = new List<Monster>();
+    private int readyCount = 0;
+    private QuestType questType;
+    private Reward questReward;
+    private int questLevel = 1;
+    
     private List<Reward> monsterDrops = new List<Reward>();
+
+    public delegate void QuestCompleteDelegate(List<Hero> heroes);
+    public static event QuestCompleteDelegate OnQuestComplete;
 
     //Track if the hero has run through the quest, and if they have
     //Was it a success or failure?
-    public bool completed, success;
+    private bool completed, success;
 
-    //FOR TESTING PURPOSES
-    void Update()
+    public void HeroReady(Hero hero, bool isReady)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (heroes.Contains(hero))
         {
-            RunQuest();
+            readyCount += (isReady) ? 1 : -1;
+
+            if(readyCount == heroes.Count)
+            {
+                RunQuest();
+            }
         }
     }
 
     public void RunQuest()
     {
-        //do some fun battle logic of heroes vs monsters!
-
         switch (questType)
         {
             case QuestType.Boss:
             //Same as monsters, but signify on Quest that it's a boss
 
-            case QuestType.Monsters:
+            case QuestType.Hunt:
                 CalculateBattle();
                 break;
         }
@@ -156,6 +174,12 @@ public class Quest : MonoBehaviour
                 earnedItems.Clear();
             }
         }
+
+        if(OnQuestComplete != null)
+        {
+            OnQuestComplete(heroes);
+        }
+
     }
 
     public void CalculateBattle()

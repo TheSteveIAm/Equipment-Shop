@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: remove from being a character, make a basic class and not a monobehaviour, as this does not need to be a component
 public class Monster : Character
 {
-    
+    public MonsterInfo info;
     public Reward reward;
     //Percentage, 0-100% chance to drop an item
     [Range(0, 100)]

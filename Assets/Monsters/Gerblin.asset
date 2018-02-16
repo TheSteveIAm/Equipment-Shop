@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 496a3063f82c9174db7a797d381c581e, type: 3}
+  m_Name: Gerblin
+  m_EditorClassIdentifier: 
+  stats:
+    name: Gerblin
+    currentHealth: 5
+    maxHealth: 5
+    strength: 1
+    intelligence: 1
+    dexterity: 1
+    baseDamage: 1
+    defence: 0
+    maxBonusDamage: 2
+    level: 1
+    dropChance: 50
+    defenceMods: []
+    damageMod: 0
+  reward:
+    experience: 5
+    gold: 2
+    possibleItems: 01000000
+    rolledItem: 0

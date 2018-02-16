@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum BrainStates
+{
+    Lingering,
+    Browsing,
+    Moving,
+    WaitingToTrade,
+    Exiting,
+    Questing
+}
 
 public class HeroBrain : MonoBehaviour
 {
@@ -18,7 +27,12 @@ public class HeroBrain : MonoBehaviour
     public List<ItemCode> wantedItems = new List<ItemCode>();
     private NavMeshAgent agent;
 
-    private bool lingering, waitingToTrade;
+    private BrainStates state;
+
+    public BrainStates State
+    {
+        get { return state; }
+    }
     private float lingerTime = 1f, lingerTimer = 0f;
     private float rotationSpeed = 6f;
 
@@ -45,64 +59,111 @@ public class HeroBrain : MonoBehaviour
 
     void Update()
     {
-        if (lingering)
+
+        switch (state)
         {
-            lingerTimer += Time.deltaTime;
+            case BrainStates.Browsing:
 
-            if (CurrentStation != null && lingerTimer <= lingerTime)
-            {
-                RotateTowards(CurrentStation.transform);
+                break;
 
-                if (currentStation is ItemDisplay)
+            case BrainStates.Lingering:
+
+                lingerTimer += Time.deltaTime;
+
+                if (CurrentStation != null && lingerTimer <= lingerTime)
                 {
-                    ItemDisplay display = (ItemDisplay)currentStation;
+                    RotateTowards(CurrentStation.transform);
 
-                    if (display.displayedItem != null)
+                    if (currentStation is ItemDisplay)
                     {
-                        for (int i = 0; i < wantedItems.Count; i++)
+                        ItemDisplay display = (ItemDisplay)currentStation;
+
+                        if (display.displayedItem != null)
                         {
-                            if (wantedItems[i] == display.displayedItem.itemCode)
+                            for (int i = 0; i < wantedItems.Count; i++)
                             {
-                                hero.PickupItem(currentStation.Interact());
-                                lingering = false;
-                                lingerTimer = 0f;
-                                ChoosePointOfInterest(POIType.Trade);
-                                waitingToTrade = true;
-                                return;
+                                if (wantedItems[i] == display.displayedItem.itemCode)
+                                {
+                                    hero.PickupItem(currentStation.Interact());
+                                    lingerTimer = 0f;
+                                    ChoosePointOfInterest(POIType.Trade);
+                                    return;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            if (lingerTimer >= lingerTime)
-            {
-                lingering = false;
-                lingerTimer = 0f;
-                ChoosePointOfInterest(POIType.Item);
-            }
+                if (lingerTimer >= lingerTime)
+                {
+                    lingerTimer = 0f;
+                    ChoosePointOfInterest(POIType.Item);
+                }
+
+                break;
+
+            case BrainStates.Moving:
+                if (Vector3.Distance(transform.position, agent.destination) <= 1.1f)
+                {
+                    switch (currentPOI.navPointOfInterest)
+                    {
+                        case POIType.Door:
+                            state = BrainStates.Exiting;
+                            break;
+
+                        case POIType.Item:
+                            state = BrainStates.Lingering;
+                            lingerTime = Random.Range(1f, 5f);
+                            break;
+
+                        case POIType.Trade:
+                            state = BrainStates.WaitingToTrade;
+                            break;
+                    }
+                }
+                break;
+
+            case BrainStates.WaitingToTrade:
+
+                if (currentStation != null && currentStation is TradeTable && currentTrade == null)
+                {
+                    TradeTable table = (TradeTable)currentStation;
+                    //TODO: create actual gold offer logic
+                    currentTrade = table.CreateTrade(hero.carriedItem, 2, hero);
+                }
+                break;
+
+            case BrainStates.Exiting:
+                //for now: exit, go on quest, come back with new quest
+                //TODO: quest manager
+                ExitShop();
+                break;
         }
-        else if (!waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
-        {
-            lingering = true;
-            lingerTime = Random.Range(1f, 5f);
-        }
-        else if (waitingToTrade && Vector3.Distance(transform.position, agent.destination) <= 1.1f)
-        {
-            if (currentStation != null && currentStation is TradeTable && currentTrade == null)
-            {
-                TradeTable table = (TradeTable)currentStation;
-                //TODO: create actual gold offer logic
-                currentTrade = table.CreateTrade(hero.carriedItem, 2, hero);
-            }
-        }
+    }
+
+    public void EnterShop()
+    {
+        //TEMP, TODO: more logic to come when game loop is more built up
+        state = BrainStates.Lingering;
+    }
+
+    public void ExitShop()
+    {
+        state = BrainStates.Questing;
     }
 
     public void StopTrading()
     {
-        waitingToTrade = false;
-        lingering = true;
         currentTrade = null;
+
+        if (wantedItems.Count == 0)
+        {
+            ChoosePointOfInterest(POIType.Door);
+        }
+        else
+        {
+            state = BrainStates.Lingering;
+        }
     }
 
     public void AddWantedItem(ItemCode itemType)
@@ -139,6 +200,7 @@ public class HeroBrain : MonoBehaviour
         currentPOI = pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count)];
         agent.SetDestination(currentPOI.transform.position);
         currentPOI.occupied = true;
+        state = BrainStates.Moving;
     }
 
     /// <summary>

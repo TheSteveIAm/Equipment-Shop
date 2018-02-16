@@ -50,9 +50,10 @@ public struct DamageModifier
     public DamageTypes damageType;
 }
 
-public class Stats : MonoBehaviour
+[CreateAssetMenu(fileName = "HeroName", menuName = "Stats", order = 3)]
+public class Stats : ScriptableObject
 {
-    public StatsInfo info;
+    //public StatsInfo info;
     private ItemFactory itemList;
 
     public bool isPlayer;
@@ -94,13 +95,9 @@ public class Stats : MonoBehaviour
     public delegate void GoldChangeDelegate();
     public static event GoldChangeDelegate OnGoldChange;
 
-    void Start()
-    {
-        itemList = ItemFactory.Instance;
-    }
-
     public void Init()
     {
+        itemList = ItemFactory.Instance;
         GainStats();
         CalculateBases();
     }
