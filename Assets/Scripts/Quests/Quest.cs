@@ -57,7 +57,8 @@ public enum QuestType
     Rescue
 }
 
-[CreateAssetMenu(fileName = "QuestName", menuName = "Quest", order = 4)]
+//[CreateAssetMenu(fileName = "QuestName", menuName = "Quest", order = 4)]
+[System.Serializable]
 public class Quest 
 {
     //public QuestInfo info;
@@ -138,6 +139,7 @@ public class Quest
             {
                 totalGold += questReward.gold;
                 totalExp += questReward.experience;
+                questReward.RollLoot();
 
                 if (questReward.rolledItem != ItemCode.None)
                 {
@@ -148,8 +150,6 @@ public class Quest
             goldShare = Mathf.RoundToInt(totalGold / heroes.Count);
 
             int heroCount = 0;
-
-            //TODO: figure out how you're going to split the loot between heroes
 
             //each hero earns their experience and share of gold
             for (int i = 0; i < heroes.Count; i++)
@@ -179,7 +179,6 @@ public class Quest
         {
             OnQuestComplete(heroes);
         }
-
     }
 
     public void CalculateBattle()
@@ -195,7 +194,7 @@ public class Quest
                     Stats targetMonsterStats = targetMonster.stats;
                     int dmg = targetMonsterStats.TakeDamage(hero.RollAttack(), hero.damageMod);
 
-                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", hero.name, targetMonster.name, dmg, hero.damageMod));
+                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", heroes[i].name, targetMonster.name, dmg, hero.damageMod));
 
                     if (targetMonsterStats.IsDefeated())
                     {
@@ -222,7 +221,7 @@ public class Quest
                     Stats targetHeroStats = targetHero.stats;
                     int dmg = targetHeroStats.TakeDamage(monster.RollAttack(), monster.damageMod);
 
-                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", monster.name, targetHero.name, dmg, monster.damageMod));
+                    Debug.Log(string.Format("{0} hits {1} for {2} {3} Damage!", monsters[i].name, targetHero.name, dmg, monster.damageMod));
 
                     int defeatedHeroes = 0;
 

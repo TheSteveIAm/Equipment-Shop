@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: remove from being a character, make a basic class and not a monobehaviour, as this does not need to be a component
-public class Monster : Character
+[System.Serializable]
+public class Monster
 {
+    public string name;
+    public Stats stats;
     public MonsterInfo info;
     public Reward reward;
     //Percentage, 0-100% chance to drop an item
     [Range(0, 100)]
     public int dropChance;
 
-    protected override void Start()
+    public Monster(MonsterInfo newInfo)
     {
-        base.Start();
+        info = newInfo;
+
+        stats = new Stats(info.stats.maxHealth, info.stats.strength, info.stats.intelligence, info.stats.dexterity, info.stats.level);
+        reward = info.reward;
+
+        dropChance = info.stats.dropChance;
+
+        stats.defenceMods = info.stats.defenceMods;
+        stats.damageMod = info.stats.damageMod;
+
+        //stats.Init();
     }
 
     public Reward Defeat()

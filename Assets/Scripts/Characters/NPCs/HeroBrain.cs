@@ -87,6 +87,7 @@ public class HeroBrain : MonoBehaviour
                                     hero.PickupItem(currentStation.Interact());
                                     lingerTimer = 0f;
                                     ChoosePointOfInterest(POIType.Trade);
+
                                     return;
                                 }
                             }
@@ -97,7 +98,14 @@ public class HeroBrain : MonoBehaviour
                 if (lingerTimer >= lingerTime)
                 {
                     lingerTimer = 0f;
-                    ChoosePointOfInterest(POIType.Item);
+                    if (Random.Range(1, 11) == 1)
+                    {
+                        ChoosePointOfInterest(POIType.Door);
+                    }
+                    else
+                    {
+                        ChoosePointOfInterest(POIType.Item);
+                    }
                 }
 
                 break;
@@ -125,7 +133,7 @@ public class HeroBrain : MonoBehaviour
 
             case BrainStates.WaitingToTrade:
 
-                if (currentStation != null && currentStation is TradeTable && currentTrade == null)
+                if (currentStation != null && currentStation.GetType() == typeof(TradeTable) && currentTrade == null)
                 {
                     TradeTable table = (TradeTable)currentStation;
                     //TODO: create actual gold offer logic
@@ -134,9 +142,15 @@ public class HeroBrain : MonoBehaviour
                 break;
 
             case BrainStates.Exiting:
-                //for now: exit, go on quest, come back with new quest
-                //TODO: quest manager
                 ExitShop();
+                break;
+
+            case BrainStates.Questing:
+                hero.currentQuest.RunQuest();
+
+                //For now just remove the quest
+                //TODO: hold on to quest to tell player about?
+                EnterShop();
                 break;
         }
     }
@@ -195,6 +209,12 @@ public class HeroBrain : MonoBehaviour
         if (currentPOI != null)
         {
             currentPOI.occupied = false;
+        }
+
+        if (pointsOfSelectedType.Count == 0)
+        {
+            state = BrainStates.Lingering;
+            return;
         }
 
         currentPOI = pointsOfSelectedType[Random.Range(0, pointsOfSelectedType.Count)];

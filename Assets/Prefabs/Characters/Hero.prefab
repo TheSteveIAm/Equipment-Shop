@@ -53,7 +53,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4584604346808854}
   - component: {fileID: 114068519725650078}
-  - component: {fileID: 114529147118495694}
   - component: {fileID: 114731056930778666}
   - component: {fileID: 114359344665992342}
   - component: {fileID: 33303039059790290}
@@ -241,20 +240,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wantedItems: 
---- !u!114 &114529147118495694
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1957246589541638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364e97193e105dc44a94f1b2150ea1e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 0
-  damageMods: []
-  statGainsPerLevel: []
 --- !u!114 &114731056930778666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,10 +251,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f77a0e5c85ebc947925c178d992ff1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats:
+    isPlayer: 0
+    maxBonusDamage: 1
+    defenceMods: []
+    damageMod: 0
+    defaultDamageType: 0
+    statGainsPerLevel: []
+  info: {fileID: 11400000, guid: 71a0ebfd713928d419e2529bf1cf791c, type: 2}
   carriedItem: {fileID: 0}
   pickupPoint: {fileID: 4492239735016612}
-  currentQuest: {fileID: 0}
 --- !u!136 &136492117504229852
 CapsuleCollider:
   m_ObjectHideFlags: 1

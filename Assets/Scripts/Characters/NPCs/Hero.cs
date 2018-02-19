@@ -6,20 +6,21 @@ using UnityEngine;
 [RequireComponent(typeof(Inventory))]
 public class Hero : Character
 {
-
-    private Inventory inventory;
+    public HeroInfo info;
     public Item carriedItem;
     public Transform pickupPoint;
-    private Trade trade;
     public Quest currentQuest;
+
+    private Trade trade;
     private ItemFactory itemList;
+    private Inventory inventory;
 
     private HeroBrain brain;
 
     // Use this for initialization
     protected override void Start()
     {
-        base.Start();
+        stats = new Stats(info.stats.gold, info.stats.maxHealth, info.stats.strength, info.stats.intelligence, info.stats.dexterity, info.stats.level, info.stats.experience, info.statGainsPerLevel);
 
         inventory = GetComponent<Inventory>();
         brain = GetComponent<HeroBrain>();

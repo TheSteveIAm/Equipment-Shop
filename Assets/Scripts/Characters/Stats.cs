@@ -50,8 +50,8 @@ public struct DamageModifier
     public DamageTypes damageType;
 }
 
-[CreateAssetMenu(fileName = "HeroName", menuName = "Stats", order = 3)]
-public class Stats : ScriptableObject
+[System.Serializable]
+public class Stats
 {
     //public StatsInfo info;
     private ItemFactory itemList;
@@ -79,7 +79,7 @@ public class Stats : ScriptableObject
     /// example: Weak Fire, means this character takes more damage from fire, etc.
     /// NOTE: there should never be more than 1 modifier for any DamageType!
     /// </summary>
-    public DamageModifier[] defenceMods;
+    public List<DamageModifier> defenceMods = new List<DamageModifier>();
     public DamageTypes damageMod;
     public DamageTypes defaultDamageType = DamageTypes.Physical;
 
@@ -95,11 +95,52 @@ public class Stats : ScriptableObject
     public delegate void GoldChangeDelegate();
     public static event GoldChangeDelegate OnGoldChange;
 
+    public Stats()
+    {
+        Init();
+    }
+
+    /// <summary>
+    /// Set the stats for a Monster
+    /// </summary>
+    public Stats(int healthValue, int strengthValue, int intelligenceValue, int dexterityValue, int levelValue)
+    {
+        maxHealth = healthValue;
+        strength = strengthValue;
+        intelligence = intelligenceValue;
+        dexterity = dexterityValue;
+        level = levelValue;
+        currentHealth = maxHealth;
+
+        CalculateBases();
+
+        Init();
+    }
+
+    /// <summary>
+    /// Set the stats for a Hero
+    /// </summary>
+    public Stats(int goldValue, int healthValue, int strengthValue, int intelligenceValue, int dexterityValue, int levelValue, int experienceValue, LevelChart[] newLevelChart)
+    {
+        gold = goldValue;
+        maxHealth = healthValue;
+        strength = strengthValue;
+        intelligence = intelligenceValue;
+        dexterity = dexterityValue;
+        level = levelValue;
+        experience = experienceValue;
+        currentHealth = maxHealth;
+
+        statGainsPerLevel = newLevelChart;
+
+        CalculateBases();
+
+        Init();
+    }
+
     public void Init()
     {
         itemList = ItemFactory.Instance;
-        GainStats();
-        CalculateBases();
     }
 
     public int RollAttack()
@@ -117,7 +158,7 @@ public class Stats : ScriptableObject
         Debug.Log("damage roll was " + amount);
         int actualAmount = amount;
 
-        for (int i = 0; i < defenceMods.Length; i++)
+        for (int i = 0; i < defenceMods.Count; i++)
         {
             if (type == defenceMods[i].damageType)
             {
@@ -181,7 +222,7 @@ public class Stats : ScriptableObject
     /// </summary>
     private void CalculateBases()
     {
-        baseDamage = (level) + (strength);
+        baseDamage = (level + 1) + (strength);
         defence = Mathf.FloorToInt(dexterity / 2);
     }
 
@@ -213,7 +254,6 @@ public class Stats : ScriptableObject
 
         for (int i = 0; i < equippedItems.Count; i++)
         {
-            //TODO: Add logic for two-handed weapons
             switch (equip)
             {
                 case EquipType.TwoHandWeapon:
@@ -275,9 +315,9 @@ public class Stats : ScriptableObject
     {
         experience += experiencePoints;
 
-        if (experience >= (level * 100))
+        if (experience >= ((level + 1) * 100))
         {
-            experience -= (level * 100);
+            experience -= ((level + 1) * 100);
             level++;
             GainStats();
         }
@@ -288,7 +328,7 @@ public class Stats : ScriptableObject
     /// </summary>
     private void GainStats()
     {
-        if (statGainsPerLevel.Length > 0)
+        if (statGainsPerLevel.Length > level - 1)
         {
             maxHealth += statGainsPerLevel[level - 1].health;
             strength += statGainsPerLevel[level - 1].strength;
@@ -340,19 +380,5 @@ public class Stats : ScriptableObject
         {
             OnGoldChange();
         }
-    }
-
-    /// <summary>
-    /// Set the stats for a character
-    /// </summary>
-    public void SetStats(int goldValue, int healthValue, int strengthValue, int intelligenceValue, int dexterityValue, int levelValue, int experienceValue)
-    {
-        gold = goldValue;
-        maxHealth = healthValue;
-        strength = strengthValue;
-        intelligence = intelligenceValue;
-        dexterity = dexterityValue;
-        level = levelValue;
-        experience = experienceValue;
     }
 }

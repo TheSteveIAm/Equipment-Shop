@@ -4,6 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// The Trade class handles trades between the player and Heroes
 /// </summary>
+[System.Serializable]
 public class Trade
 {
     /// <summary>
@@ -46,11 +47,11 @@ public class Trade
     {
         if (player != null)
         {
-            Stats heroStats = hero.GetComponent<Stats>();
+            Stats heroStats = hero.stats;
 
             if (heroStats.SpendGold(offeredGold))
             {
-                player.GetComponent<Stats>().ReceiveGold(offeredGold);
+                player.stats.ReceiveGold(offeredGold);
 
                 if (item.GetType() == typeof(Equipment))
                 {

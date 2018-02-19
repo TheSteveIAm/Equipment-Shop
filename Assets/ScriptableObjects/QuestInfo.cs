@@ -5,9 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Lv1_Type_Name", menuName = "Quest", order = 0)]
 public class QuestInfo : ScriptableObject
 {
-    public List<Hero> heroes = new List<Hero>();
-    //TODO: to be changed to List<MonsterInfo> 
-    public List<Monster> monsters = new List<Monster>();
+    public int heroCount = 1;
+    public List<MonsterInfo> monsters = new List<MonsterInfo>();
     public QuestType questType;
     public Reward questReward;
     public int questLevel = 1;

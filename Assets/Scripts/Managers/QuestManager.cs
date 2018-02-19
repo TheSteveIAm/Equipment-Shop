@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour {
 
+    private static QuestManager instance = null;
+
+    public static QuestManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     public List<QuestInfo> availableQuests = new List<QuestInfo>();
-    public GameObject monsterTemplate;
 
     public List<Hero> availableHeroes = new List<Hero>();
     private List<Hero> heroesOnQuests = new List<Hero>();
@@ -20,28 +29,49 @@ public class QuestManager : MonoBehaviour {
         Quest.OnQuestComplete -= MakeHeroesAvailable;
     }
 
-     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Awake()
+    {
+        // if the singleton hasn't been initialized yet
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        AssignQuests();
+    }
 
     void AssignQuests()
     {
         for (int i = 0; i < availableHeroes.Count; i++)
         {
-            //TODO: roll quest, and do all this logic
-            List<Hero> attendingHeroes = new List<Hero>();
-            attendingHeroes.Add(availableHeroes[i]);
+            //select quest
+            QuestInfo selectedQuest = availableQuests[Random.Range(0, availableQuests.Count - 1)];
 
-            List<Monster> attendingMonsters = new List<Monster>();
+            //add available hero
+            List<Hero> questHeroes = new List<Hero>();
+            questHeroes.Add(availableHeroes[i]);
 
-            availableHeroes[i].currentQuest = new Quest(attendingHeroes, attendingMonsters, QuestType.Hunt, new Reward(), 1);
+            //add monsters from QuestInfo
+            List<Monster> questMonsters = new List<Monster>();
+
+            for (int j = 0; j < selectedQuest.monsters.Count; j++)
+            {
+                questMonsters.Add(new Monster(selectedQuest.monsters[j]));
+            }
+
+            availableHeroes[i].currentQuest = new Quest(questHeroes, questMonsters, selectedQuest.questType, selectedQuest.questReward, selectedQuest.questLevel);
+
+            heroesOnQuests.Add(availableHeroes[i]);
         }
+
+        availableHeroes.Clear();
     }
 
     /// <summary>
@@ -59,5 +89,7 @@ public class QuestManager : MonoBehaviour {
                 heroesOnQuests.Remove(tempHero);
             }
         }
+
+        AssignQuests();
     }
 }

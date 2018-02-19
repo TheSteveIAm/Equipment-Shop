@@ -11,8 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496a3063f82c9174db7a797d381c581e, type: 3}
   m_Name: Gerblin
   m_EditorClassIdentifier: 
+  name: 
+  image: {fileID: 0}
   stats:
-    name: Gerblin
     currentHealth: 5
     maxHealth: 5
     strength: 1
@@ -22,6 +23,8 @@ MonoBehaviour:
     defence: 0
     maxBonusDamage: 2
     level: 1
+    experience: 0
+    gold: 0
     dropChance: 50
     defenceMods: []
     damageMod: 0

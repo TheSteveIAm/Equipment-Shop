@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 4710972083326438}
   - component: {fileID: 33464208086279722}
   - component: {fileID: 23338677916085874}
-  - component: {fileID: 114682762940791244}
   - component: {fileID: 114135798415774156}
   - component: {fileID: 114807659381959334}
   - component: {fileID: 143452605331226868}
@@ -212,22 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c99ddb3abaecd489fa98c3c1bf2f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: ebbcf94e9aa96634f8d4a171ff14b997, type: 2}
   speed: 7.5
   pickupPoint: {fileID: 4484756652062262}
---- !u!114 &114682762940791244
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1202602618118974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364e97193e105dc44a94f1b2150ea1e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 1
-  damageMods: []
 --- !u!114 &114807659381959334
 MonoBehaviour:
   m_ObjectHideFlags: 1
