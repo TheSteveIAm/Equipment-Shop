@@ -70,11 +70,13 @@ public class HeroBrain : MonoBehaviour
 
                 lingerTimer += Time.deltaTime;
 
+                //Debug.Log(CurrentStation);
+
                 if (CurrentStation != null && lingerTimer <= lingerTime)
                 {
                     RotateTowards(CurrentStation.transform);
 
-                    if (currentStation is ItemDisplay)
+                    if (currentStation.GetType() == typeof(ItemDisplay))
                     {
                         ItemDisplay display = (ItemDisplay)currentStation;
 
@@ -132,6 +134,8 @@ public class HeroBrain : MonoBehaviour
                 break;
 
             case BrainStates.WaitingToTrade:
+
+                //Debug.Log(string.Format("{0} | {1} | {2} ", currentStation, currentStation.GetType(), currentTrade == null));
 
                 if (currentStation != null && currentStation.GetType() == typeof(TradeTable) && currentTrade == null)
                 {
@@ -242,13 +246,16 @@ public class HeroBrain : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        Station station = other.GetComponent<Station>();
-
-        if (station != null)
+        if (currentStation == null)
         {
-            currentStation = station;
+            Station station = other.GetComponent<Station>();
+
+            if (station != null)
+            {
+                currentStation = station;
+            }
         }
     }
 

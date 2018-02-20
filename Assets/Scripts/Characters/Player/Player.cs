@@ -28,6 +28,11 @@ public class Player : Character
         {
             Interact();
         }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
     }
 
     void FixedUpdate()
