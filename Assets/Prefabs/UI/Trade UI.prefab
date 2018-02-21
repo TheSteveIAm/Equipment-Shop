@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 223572512004331378}
   - component: {fileID: 114711099089156824}
   - component: {fileID: 114387699911820294}
+  - component: {fileID: 114052086531975310}
   m_Layer: 5
   m_Name: Trade UI
   m_TagString: Untagged
@@ -150,6 +151,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114052086531975310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1318493118387576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6a1a15f6420b049ac195682a333951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: {fileID: 114213010000289978}
+  goldOffer: {fileID: 114367134481225514}
 --- !u!114 &114194892502348880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,7 +212,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_FontSize: 75
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -206,7 +220,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Item:'
@@ -264,7 +278,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_FontSize: 75
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -272,7 +286,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Offer:'
@@ -384,7 +398,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114551072835624776}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114052086531975310}
+        m_MethodName: ConfirmTrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114594240252027412
@@ -458,7 +483,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114555171127312156}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114052086531975310}
+        m_MethodName: DeclineTrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114711099089156824
@@ -473,7 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 5
+  m_ReferencePixelsPerUnit: 6
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -551,7 +587,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1318493118387576}
   m_LocalRotation: {x: 0.4999996, y: -0, z: -0, w: 0.8660257}
-  m_LocalPosition: {x: 0, y: 0, z: 1.05}
+  m_LocalPosition: {x: 0, y: 0, z: 0.049999952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224776869592518992}
@@ -560,7 +596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 60.000004, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.66, y: 4.36}
+  m_AnchoredPosition: {x: 0.34000003, y: 2.8600001}
   m_SizeDelta: {x: 4, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224037502729640088
@@ -594,10 +630,10 @@ RectTransform:
   m_Father: {fileID: 224776869592518992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.36, y: 1.128}
-  m_SizeDelta: {x: 600, y: 30}
+  m_AnchorMin: {x: 0.028697908, y: 0.69586307}
+  m_AnchorMax: {x: 0.97028005, y: 0.89812225}
+  m_AnchoredPosition: {x: -0.3576606, y: 0.23745328}
+  m_SizeDelta: {x: 596.23206, y: 29.393091}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224550987878039710
 RectTransform:
@@ -644,16 +680,16 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1363509618976258}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 0.005, y: 0.0050000013, z: 0.0050000013}
   m_Children: []
   m_Father: {fileID: 224776869592518992}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.35998535, y: 0.453}
-  m_SizeDelta: {x: 600, y: 30}
+  m_AnchorMin: {x: 0.028697908, y: 0.469}
+  m_AnchorMax: {x: 0.95723015, y: 0.69586307}
+  m_AnchoredPosition: {x: -0.33180827, y: 0.11}
+  m_SizeDelta: {x: 596.2851, y: 29.319698}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224776869592518992
 RectTransform:
@@ -672,10 +708,10 @@ RectTransform:
   m_Father: {fileID: 224031506013604056}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4, y: 3}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.00026798248}
+  m_SizeDelta: {x: 0, y: 0.00000047683716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224929296317616110
 RectTransform:

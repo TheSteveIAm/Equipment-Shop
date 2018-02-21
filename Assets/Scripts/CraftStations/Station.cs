@@ -27,8 +27,12 @@ public class Station : MonoBehaviour
     /// </summary>
     public Transform itemSpitPosition;
 
+    //protected UIBase stationUI;
+
     protected virtual void Start()
     {
+        //stationUI = GetComponent<UIBase>();
+
         //give each station the ability to access the item factory, for easier item management
         itemList = ItemFactory.Instance;
 

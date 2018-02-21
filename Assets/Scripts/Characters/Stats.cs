@@ -309,6 +309,8 @@ public class Stats
 
     /// <summary>
     /// give this character experience points, which may level them up and make them stronger
+    /// NOTE: IN CASE YOU FORGET, HERO LEVELS CURRENTLY START AT 0 BY DESIGN.
+    /// FOR DISPLAY PURPOSES, WE'LL JUST ADD 1 TO SHOW THEIR LEVEL (example: level 0 + 1 = level 1!)
     /// </summary>
     /// <param name="experiencePoints"></param>
     public void EarnExperience(int experiencePoints)
