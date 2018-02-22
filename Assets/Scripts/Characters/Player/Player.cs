@@ -42,6 +42,11 @@ public class Player : Character
         move.MoveDelta(targetDir * speed);
     }
 
+    public bool CarryingObject()
+    {
+        return (carriedObject != null);
+    }
+
     void DropItem()
     {
         carriedObject.Drop();
@@ -110,17 +115,22 @@ public class Player : Character
                         return;
                     }
 
-                    Item removedItem = selectedStation.Interact();
-
-                    if (removedItem != null)
-                    {
-                        removedItem.Pickup(pickupPoint);
-                        carriedObject = removedItem;
-                        selectionTarget = null;
-                    }
+                    GetItemFromStation(selectedStation);
                 }
             }
 
+        }
+    }
+
+    void GetItemFromStation(Station selection)
+    {
+        Item removedItem = selection.Interact();
+
+        if (removedItem != null)
+        {
+            removedItem.Pickup(pickupPoint);
+            carriedObject = removedItem;
+            selectionTarget = null;
         }
     }
 

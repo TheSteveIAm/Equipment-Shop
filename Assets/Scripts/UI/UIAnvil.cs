@@ -2,15 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIAnvil : UIBase {
+public class UIAnvil : UIBase
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

@@ -9,6 +9,11 @@ public class Inventory : MonoBehaviour
 {
     private List<ItemCode> items = new List<ItemCode>();
 
+    public List<ItemCode> Items
+    {
+        get { return items; }
+    }
+
     public int ItemCount()
     {
         return items.Count;
