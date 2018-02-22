@@ -18,8 +18,5 @@ public class UIBase : MonoBehaviour
     {
         canvas.enabled = enabled;
         interactable = enabled;
-        
-        //this is to get around some weird bug in the canvas scaler
-        canvas.referencePixelsPerUnit = 5;
     }
 }

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class TradeTable : Station
 {
     public List<Trade> pendingTrades = new List<Trade>();
-    private UITrade tradeUI;
 
-    protected override void Start()
-    {
-        base.Start();
+    public delegate void OpenTradeDelegate(Trade currentTrade);
+    public static event OpenTradeDelegate OnOpenTrade;
 
-        tradeUI = GetComponentInChildren<UITrade>();
-    }
+
 
     public Trade CreateTrade(Item wantedItem, int heroGoldOffer, Hero inquiringHero)
     {
@@ -81,8 +80,10 @@ public class TradeTable : Station
 
         if (player != null && pendingTrades.Count > 0)
         {
-            tradeUI.EnableUI(true);
-            tradeUI.GetTrade(pendingTrades[0]);
+            if (OnOpenTrade != null)
+            {
+                OnOpenTrade(pendingTrades[0]);
+            }
         }
     }
 
@@ -92,7 +93,10 @@ public class TradeTable : Station
 
         if (player != null)
         {
-            tradeUI.EnableUI(false);
+            if (OnOpenTrade != null)
+            {
+                OnOpenTrade(null);
+            }
         }
     }
 }

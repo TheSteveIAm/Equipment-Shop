@@ -155,7 +155,6 @@ public class Stats
     /// <returns>Is this character defeated?</returns>
     public int TakeDamage(int amount, DamageTypes type)
     {
-        Debug.Log("damage roll was " + amount);
         int actualAmount = amount;
 
         for (int i = 0; i < defenceMods.Count; i++)

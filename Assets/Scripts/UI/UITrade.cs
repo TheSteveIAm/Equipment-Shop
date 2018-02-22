@@ -8,6 +8,15 @@ public class UITrade : UIBase
     private Trade currentTrade;
     public Text itemName, goldOffer;
 
+    void OnEnable()
+    {
+        TradeTable.OnOpenTrade += GetTrade;
+    }
+
+    void OnDisable()
+    {
+        TradeTable.OnOpenTrade -= GetTrade;
+    }
 
     void Update()
     {
@@ -16,9 +25,18 @@ public class UITrade : UIBase
 
     public void GetTrade(Trade trade)
     {
-        currentTrade = trade;
-        itemName.text = "Item: " + trade.ItemName;
-        goldOffer.text = "Offer: " + trade.OfferedGold;
+        if (trade != null)
+        {
+            currentTrade = trade;
+            itemName.text = "Item: " + trade.ItemName;
+            goldOffer.text = "Offer: " + trade.OfferedGold;
+            EnableUI(true);
+        }
+        else
+        {
+            currentTrade = null;
+            EnableUI(false);
+        }
     }
 
     public void ConfirmTrade()

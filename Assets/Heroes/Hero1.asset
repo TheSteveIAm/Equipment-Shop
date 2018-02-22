@@ -22,8 +22,8 @@ MonoBehaviour:
     baseDamage: 1
     defence: 1
     maxBonusDamage: 1
-    level: 1
-    experience: 90
+    level: 0
+    experience: 0
     gold: 10
     dropChance: 0
     defenceMods: []
