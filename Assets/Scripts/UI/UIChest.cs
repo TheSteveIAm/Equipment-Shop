@@ -14,11 +14,13 @@ public class UIChest : UIBase
     void OnEnable()
     {
         Chest.OnOpenChest += OpenChest;
+        UIChestItem.OnItemSelected += CloseChest;
     }
 
     void OnDisable()
     {
         Chest.OnOpenChest -= OpenChest;
+        UIChestItem.OnItemSelected -= CloseChest;
     }
 
     protected override void Start()
@@ -38,11 +40,11 @@ public class UIChest : UIBase
             //TODO: this is a bad way of doing this, items should be added when the chest receives an item
             for (int i = 0; i < inventory.ItemCount(); i++)
             {
-                GameObject chestItemGO = Instantiate(chestItemPrefab);
+                GameObject chestItemGO = Instantiate(chestItemPrefab,contentArea);
                 UIChestItem chestItem = chestItemGO.GetComponent<UIChestItem>();
                 chestItem.GetComponentInChildren<Text>().text = itemList.GetItemName(inventory.Items[i]);
                 //also set item image
-                chestItem.transform.SetParent(contentArea, false);
+                //chestItem.transform.SetParent(contentArea, false);
                 chestItem.item = inventory.Items[i];
                 chestItems.Add(chestItem);
             }
@@ -60,7 +62,7 @@ public class UIChest : UIBase
         //TODO: This is a bad way to do this, but it's low priority, so make it better later!
         for (int i = 0; i < chestItems.Count; i++)
         {
-            Destroy(chestItems[i]);
+            Destroy(chestItems[i].gameObject);
         }
 
         chestItems.Clear();

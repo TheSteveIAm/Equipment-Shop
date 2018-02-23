@@ -72,7 +72,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 0
+    m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -5585,7 +5585,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-801160
+  m_Name: pb_Mesh-2108
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -12856,6 +12856,21 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224137033942400582, guid: 2fd18f02541ddc548981e22c6aec5d83,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224137033942400582, guid: 2fd18f02541ddc548981e22c6aec5d83,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224137033942400582, guid: 2fd18f02541ddc548981e22c6aec5d83,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2fd18f02541ddc548981e22c6aec5d83, type: 2}
   m_IsPrefabParent: 0
@@ -16763,8 +16778,7 @@ Prefab:
         type: 2}
       propertyPath: stats
       value: 
-      objectReference: {fileID: 11400000, guid: 1d0f166a0c22d99498dd099334b2a566,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 78cfceb3520e3154f8254d834f6838e9, type: 2}

@@ -14,6 +14,16 @@ public class Player : Character
     GameObject selectionTarget;
     Item carriedObject;
 
+    void OnEnable()
+    {
+        UIChestItem.OnItemSelected += GetItemFromCurrentStation;
+    }
+
+    void OnDisable()
+    {
+        UIChestItem.OnItemSelected -= GetItemFromCurrentStation;
+    }
+
     // Use this for initialization
     protected override void Start()
     {
@@ -100,8 +110,7 @@ public class Player : Character
                 if (selectedItem != null)
                 {
                     //pickup item
-                    selectedItem.Pickup(pickupPoint);
-                    carriedObject = selectedItem;
+                    PickupItem(selectedItem);
                     selectionTarget = null;
 
                 }
@@ -109,7 +118,7 @@ public class Player : Character
                 {
                     //interact with station, no item in hand, will be used to remove selected item from station or
                     //activate its own behavior
-                    if(selectedStation is TradeTable)
+                    if (selectedStation is TradeTable)
                     {
                         selectedStation.Interact();
                         return;
@@ -119,6 +128,21 @@ public class Player : Character
                 }
             }
 
+        }
+    }
+
+    void PickupItem(Item selectedItem)
+    {
+        selectedItem.Pickup(pickupPoint);
+        carriedObject = selectedItem;
+    }
+
+    void GetItemFromCurrentStation(ItemCode item)
+    {
+        if (carriedObject == null)
+        {
+            Station selectedStation = selectionTarget.GetComponent<Station>();
+            PickupItem(selectedStation.CreateItem(item));
         }
     }
 

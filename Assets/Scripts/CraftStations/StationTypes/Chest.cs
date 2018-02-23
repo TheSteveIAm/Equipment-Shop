@@ -10,16 +10,6 @@ public class Chest : Station
     public delegate void OpenChestDelegate(Inventory chestInventory);
     public static event OpenChestDelegate OnOpenChest;
 
-    void OnEnable()
-    {
-        UIChestItem.OnItemSelected += CreateItem;
-    }
-
-    void OnDisable()
-    {
-        UIChestItem.OnItemSelected -= CreateItem;
-    }
-
     // Use this for initialization
     protected override void Start()
     {
