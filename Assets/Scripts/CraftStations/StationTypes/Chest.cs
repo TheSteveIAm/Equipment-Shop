@@ -28,7 +28,7 @@ public class Chest : Station
     {
         if (inventory.ItemCount() > 0)
         {
-            Item item = CreateItem(inventory.RemoveLastItem());
+            Item item = CreateItem(inventory.GetFirstItem());
 
             return item;
         }
