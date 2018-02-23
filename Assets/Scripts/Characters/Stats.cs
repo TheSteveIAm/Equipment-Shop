@@ -92,11 +92,12 @@ public class Stats
     /// <summary>
     /// Send a message out when the player's gold has changed, to update UI
     /// </summary>
-    public delegate void GoldChangeDelegate();
+    public delegate void GoldChangeDelegate(int amount);
     public static event GoldChangeDelegate OnGoldChange;
 
-    public Stats()
+    public Stats(bool player)
     {
+        isPlayer = player;
         Init();
     }
 
@@ -141,6 +142,11 @@ public class Stats
     public void Init()
     {
         itemList = ItemFactory.Instance;
+
+        if (isPlayer)
+        {
+            ChangeGold();
+        }
     }
 
     public int RollAttack()
@@ -379,7 +385,7 @@ public class Stats
     {
         if (isPlayer && OnGoldChange != null)
         {
-            OnGoldChange();
+            OnGoldChange(gold);
         }
     }
 }

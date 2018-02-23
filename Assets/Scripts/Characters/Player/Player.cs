@@ -27,8 +27,7 @@ public class Player : Character
     // Use this for initialization
     protected override void Start()
     {
-        base.Start();
-
+        stats = new Stats(true);
         move = GetComponent<Movement>();
     }
 
