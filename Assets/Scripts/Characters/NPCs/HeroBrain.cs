@@ -46,11 +46,14 @@ public class HeroBrain : MonoBehaviour
         get { return currentStation; }
     }
 
+    private ItemFactory itemList;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         points = FindObjectsOfType<PointOfInterest>();
         hero = GetComponent<Hero>();
+        itemList = ItemFactory.Instance;
 
         //Test Code:
         ChoosePointOfInterest(POIType.Item);
@@ -141,7 +144,7 @@ public class HeroBrain : MonoBehaviour
                 {
                     TradeTable table = (TradeTable)currentStation;
                     //TODO: create actual gold offer logic
-                    currentTrade = table.CreateTrade(hero.carriedItem, 2, hero);
+                    currentTrade = table.CreateTrade(hero.carriedItem, itemList.GetItemCost(hero.carriedItem.itemCode), hero);
                 }
                 break;
 

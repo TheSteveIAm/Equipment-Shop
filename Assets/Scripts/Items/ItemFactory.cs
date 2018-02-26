@@ -123,10 +123,20 @@ public class ItemFactory : MonoBehaviour
         Item selectedItem = itemList[item];
         if (selectedItem != null)
         {
-            
+
             return selectedItem.name;
         }
         return null;
+    }
+
+    public int GetItemCost(ItemCode item)
+    {
+        Item selectedItem = itemList[item];
+        if (selectedItem != null)
+        {
+            return selectedItem.cost;
+        }
+        return 0;
     }
 
     public EquipmentInfo GetEquipmentInfo(ItemCode item)

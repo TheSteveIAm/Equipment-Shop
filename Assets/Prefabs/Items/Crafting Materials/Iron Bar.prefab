@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemCode: 2
-  damageTypes: []
   dropChance: 15
+  cost: 4
   untouched: 1
 --- !u!114 &114762900451078552
 MonoBehaviour:

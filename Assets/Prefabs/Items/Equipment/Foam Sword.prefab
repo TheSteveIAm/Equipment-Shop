@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: 0
   dropChance: 0
+  cost: 6
   untouched: 1
   info: {fileID: 11400000, guid: fc4abada03ee622469db0adfb54985b1, type: 2}
 --- !u!114 &114083368666086724
