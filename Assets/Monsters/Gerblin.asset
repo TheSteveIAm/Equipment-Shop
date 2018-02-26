@@ -21,7 +21,7 @@ MonoBehaviour:
     dexterity: 1
     baseDamage: 1
     defence: 0
-    maxBonusDamage: 2
+    maxBonusDamage: 1
     level: 1
     experience: 0
     gold: 0

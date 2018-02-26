@@ -92,11 +92,12 @@ public class Stats
     /// <summary>
     /// Send a message out when the player's gold has changed, to update UI
     /// </summary>
-    public delegate void GoldChangeDelegate();
+    public delegate void GoldChangeDelegate(int amount);
     public static event GoldChangeDelegate OnGoldChange;
 
-    public Stats()
+    public Stats(bool player)
     {
+        isPlayer = player;
         Init();
     }
 
@@ -141,6 +142,11 @@ public class Stats
     public void Init()
     {
         itemList = ItemFactory.Instance;
+
+        if (isPlayer)
+        {
+            ChangeGold();
+        }
     }
 
     public int RollAttack()
@@ -155,7 +161,6 @@ public class Stats
     /// <returns>Is this character defeated?</returns>
     public int TakeDamage(int amount, DamageTypes type)
     {
-        Debug.Log("damage roll was " + amount);
         int actualAmount = amount;
 
         for (int i = 0; i < defenceMods.Count; i++)
@@ -309,6 +314,8 @@ public class Stats
 
     /// <summary>
     /// give this character experience points, which may level them up and make them stronger
+    /// NOTE: IN CASE YOU FORGET, HERO LEVELS CURRENTLY START AT 0 BY DESIGN.
+    /// FOR DISPLAY PURPOSES, WE'LL JUST ADD 1 TO SHOW THEIR LEVEL (example: level 0 + 1 = level 1!)
     /// </summary>
     /// <param name="experiencePoints"></param>
     public void EarnExperience(int experiencePoints)
@@ -378,7 +385,7 @@ public class Stats
     {
         if (isPlayer && OnGoldChange != null)
         {
-            OnGoldChange();
+            OnGoldChange(gold);
         }
     }
 }

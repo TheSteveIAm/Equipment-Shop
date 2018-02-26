@@ -18,7 +18,20 @@ public class Trade
     /// </summary>
     private int offeredGold;
 
+    public int OfferedGold
+    {
+        get { return offeredGold; }
+    }
+
     private Item item;
+
+    public string ItemName
+    {
+        get { return item.name; }
+    }
+
+    public delegate void TradeDelegate();
+    public static event TradeDelegate OnTradeComplete;
 
     /// <summary>
     /// Creates a blank trade
@@ -57,7 +70,7 @@ public class Trade
                 {
                     hero.AddItemToInventory(item, true);
                 }
-
+                FinishTrade();
                 return true;
             }
         }
@@ -69,6 +82,7 @@ public class Trade
     /// </summary>
     public void DeclineOffer()
     {
+        FinishTrade();
         hero.CancelTrade();
     }
 
@@ -78,5 +92,13 @@ public class Trade
     public void CounterOffer()
     {
 
+    }
+
+    void FinishTrade()
+    {
+        if(OnTradeComplete != null)
+        {
+            OnTradeComplete();
+        }
     }
 }

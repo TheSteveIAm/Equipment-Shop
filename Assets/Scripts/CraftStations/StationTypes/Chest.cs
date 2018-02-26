@@ -7,6 +7,9 @@ public class Chest : Station
 
     private Inventory inventory;
 
+    public delegate void OpenChestDelegate(Inventory chestInventory);
+    public static event OpenChestDelegate OnOpenChest;
+
     // Use this for initialization
     protected override void Start()
     {
@@ -25,7 +28,7 @@ public class Chest : Station
     {
         if (inventory.ItemCount() > 0)
         {
-            Item item = CreateItem(inventory.RemoveLastItem());
+            Item item = CreateItem(inventory.GetFirstItem());
 
             return item;
         }
@@ -35,6 +38,36 @@ public class Chest : Station
 
     public override Item CreateItem(ItemCode item)
     {
-        return itemList.CreateItem(item);
+        if (inventory.RemoveItem(item) != ItemCode.None)
+        {
+            return itemList.CreateItem(item);
+        }
+        return null;
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null && !player.CarryingObject())
+        {
+            if (OnOpenChest != null)
+            {
+                OnOpenChest(inventory);
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null)
+        {
+            if (OnOpenChest != null)
+            {
+                OnOpenChest(null);
+            }
+        }
     }
 }

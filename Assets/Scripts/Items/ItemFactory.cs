@@ -118,6 +118,27 @@ public class ItemFactory : MonoBehaviour
         return itemList[item].dropChance;
     }
 
+    public string GetItemName(ItemCode item)
+    {
+        Item selectedItem = itemList[item];
+        if (selectedItem != null)
+        {
+
+            return selectedItem.name;
+        }
+        return null;
+    }
+
+    public int GetItemCost(ItemCode item)
+    {
+        Item selectedItem = itemList[item];
+        if (selectedItem != null)
+        {
+            return selectedItem.cost;
+        }
+        return 0;
+    }
+
     public EquipmentInfo GetEquipmentInfo(ItemCode item)
     {
         Item selectedItem = itemList[item];

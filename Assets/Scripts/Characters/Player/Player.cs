@@ -14,11 +14,20 @@ public class Player : Character
     GameObject selectionTarget;
     Item carriedObject;
 
+    void OnEnable()
+    {
+        UIChestItem.OnItemSelected += GetItemFromCurrentStation;
+    }
+
+    void OnDisable()
+    {
+        UIChestItem.OnItemSelected -= GetItemFromCurrentStation;
+    }
+
     // Use this for initialization
     protected override void Start()
     {
-        base.Start();
-
+        stats = new Stats(true);
         move = GetComponent<Movement>();
     }
 
@@ -40,6 +49,11 @@ public class Player : Character
         //this isn't normalized yet, because this method of moving the character causes normalized vectors to act janky
         targetDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         move.MoveDelta(targetDir * speed);
+    }
+
+    public bool CarryingObject()
+    {
+        return (carriedObject != null);
     }
 
     void DropItem()
@@ -95,8 +109,7 @@ public class Player : Character
                 if (selectedItem != null)
                 {
                     //pickup item
-                    selectedItem.Pickup(pickupPoint);
-                    carriedObject = selectedItem;
+                    PickupItem(selectedItem);
                     selectionTarget = null;
 
                 }
@@ -104,23 +117,43 @@ public class Player : Character
                 {
                     //interact with station, no item in hand, will be used to remove selected item from station or
                     //activate its own behavior
-                    if(selectedStation is TradeTable)
+                    if (selectedStation is TradeTable)
                     {
                         selectedStation.Interact();
                         return;
                     }
 
-                    Item removedItem = selectedStation.Interact();
-
-                    if (removedItem != null)
-                    {
-                        removedItem.Pickup(pickupPoint);
-                        carriedObject = removedItem;
-                        selectionTarget = null;
-                    }
+                    GetItemFromStation(selectedStation);
                 }
             }
 
+        }
+    }
+
+    void PickupItem(Item selectedItem)
+    {
+        selectedItem.Pickup(pickupPoint);
+        carriedObject = selectedItem;
+    }
+
+    void GetItemFromCurrentStation(ItemCode item)
+    {
+        if (carriedObject == null)
+        {
+            Station selectedStation = selectionTarget.GetComponent<Station>();
+            PickupItem(selectedStation.CreateItem(item));
+        }
+    }
+
+    void GetItemFromStation(Station selection)
+    {
+        Item removedItem = selection.Interact();
+
+        if (removedItem != null)
+        {
+            removedItem.Pickup(pickupPoint);
+            carriedObject = removedItem;
+            selectionTarget = null;
         }
     }
 

@@ -211,7 +211,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c99ddb3abaecd489fa98c3c1bf2f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: ebbcf94e9aa96634f8d4a171ff14b997, type: 2}
+  stats:
+    isPlayer: 1
+    maxBonusDamage: 1
+    defenceMods: []
+    damageMod: 0
+    defaultDamageType: 0
+    statGainsPerLevel: []
   speed: 7.5
   pickupPoint: {fileID: 4484756652062262}
 --- !u!114 &114807659381959334

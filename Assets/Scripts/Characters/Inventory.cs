@@ -9,6 +9,11 @@ public class Inventory : MonoBehaviour
 {
     private List<ItemCode> items = new List<ItemCode>();
 
+    public List<ItemCode> Items
+    {
+        get { return items; }
+    }
+
     public int ItemCount()
     {
         return items.Count;
@@ -37,10 +42,12 @@ public class Inventory : MonoBehaviour
         return ItemCode.None;
     }
 
-    public ItemCode RemoveLastItem()
+    public ItemCode GetFirstItem()
     {
-        ItemCode item = items[items.Count - 1];
-        items.RemoveAt(items.Count - 1);
-        return item;
+        if (items.Count > 0)
+        {
+            return items[0];
+        }
+        return ItemCode.None;
     }
 }

@@ -14,6 +14,7 @@ public class Item : MonoBehaviour
     protected Rigidbody body;
     protected Collider col;
     public int dropChance;
+    public int cost;
     //private float noTouchTime = 0.2f, noTouchTimer = 0f;
     //private bool untouchable = false;
 

@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114014274101879834}
   - component: {fileID: 54419865804225020}
   m_Layer: 0
-  m_Name: Garbage Sword
+  m_Name: Foam Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: 0
   dropChance: 0
+  cost: 6
   untouched: 1
   info: {fileID: 11400000, guid: fc4abada03ee622469db0adfb54985b1, type: 2}
 --- !u!114 &114083368666086724
