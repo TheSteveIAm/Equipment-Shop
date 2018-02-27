@@ -19,7 +19,6 @@ public enum ItemCode
 /// </summary>
 public class ItemFactory : MonoBehaviour
 {
-
     private static ItemFactory instance = null;
 
     public static ItemFactory Instance
@@ -29,6 +28,8 @@ public class ItemFactory : MonoBehaviour
             return instance;
         }
     }
+
+    public UIItem itemUIPrefab;
 
     /// <summary>
     /// List of all available items
