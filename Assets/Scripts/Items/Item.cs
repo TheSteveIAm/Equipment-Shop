@@ -93,16 +93,13 @@ public class Item : MonoBehaviour
         col.enabled = false;
         untouched = false;
 
-        //TODO: FIX THIS
-        if (OnItemPopup != null)
-        {
-            OnItemPopup(null);
-        }
+        ItemPopup(null);
+        
         //}
     }
 
     /// <summary>
-    /// Allows player to drop this item
+    /// Allows character to drop this item
     /// </summary>
     public void Drop()
     {
@@ -115,16 +112,21 @@ public class Item : MonoBehaviour
         //untouchable = true;
     }
 
+    public void ItemPopup(Transform item)
+    {
+        if (OnItemPopup != null)
+        {
+            OnItemPopup(item);
+        }
+    }
+
     void OnTriggerEnter(Collider col)
     {
         Player player = col.GetComponent<Player>();
 
         if (player != null && !player.CarryingObject())
         {
-            if (OnItemPopup != null)
-            {
-                OnItemPopup(transform);
-            }
+            ItemPopup(transform);
         }
     }
 
@@ -134,10 +136,7 @@ public class Item : MonoBehaviour
 
         if (player != null)
         {
-            if (OnItemPopup != null)
-            {
-                OnItemPopup(null);
-            }
+            ItemPopup(null);
         }
     }
 }

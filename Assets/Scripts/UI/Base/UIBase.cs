@@ -10,14 +10,23 @@ public class UIBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        canvas = GetComponent<Canvas>();
-        Canvas.ForceUpdateCanvases();
+        EnsureComponents();
         canvas.enabled = false;
+    }
 
+    public void EnsureComponents()
+    {
+        if (canvas == null)
+        {
+            canvas = GetComponent<Canvas>();
+        }
+        Canvas.ForceUpdateCanvases();
     }
 
     public virtual void EnableUI(bool enabled)
     {
+        EnsureComponents();
+
         canvas.enabled = enabled;
         interactable = enabled;
     }
