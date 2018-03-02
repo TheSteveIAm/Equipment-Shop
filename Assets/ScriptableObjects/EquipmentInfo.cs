@@ -11,11 +11,10 @@ public class EquipmentInfo : ScriptableObject {
     public int minDamage, maxDamage;
     public int armor;
     public int strBonus, intBonus, dexBonus;
-    public DamageTypes dmgType;
+    public DamageModifier dmgType;
     public Rarity rarity;
 
     public ItemCode itemCode;
-    public EquipType equipmentType;
-
-
+    public EquipmentType equipType;
+    
 }

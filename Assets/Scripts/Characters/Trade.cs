@@ -30,7 +30,7 @@ public class Trade
         get { return item.name; }
     }
 
-    public delegate void TradeDelegate();
+    public delegate void TradeDelegate(Trade trade);
     public static event TradeDelegate OnTradeComplete;
 
     /// <summary>
@@ -98,7 +98,7 @@ public class Trade
     {
         if(OnTradeComplete != null)
         {
-            OnTradeComplete();
+            OnTradeComplete(this);
         }
     }
 }

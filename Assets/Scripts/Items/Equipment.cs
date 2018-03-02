@@ -11,7 +11,7 @@ public enum Rarity
     Unique
 }
 
-public enum EquipType
+public enum EquipSlot
 {
     Helmet,
     Armor,
@@ -21,6 +21,36 @@ public enum EquipType
     Boots,
     Necklace,
     Ring
+}
+
+public enum EquipType
+{
+    //Weapons
+    Melee,
+    Magic,
+    Ranged,
+    //Armor
+    Cloth,
+    Light,
+    Heavy
+    //Spells
+
+    //Accessories
+
+    //Potions
+}
+
+public enum BaseType
+{  
+    Weapon,
+    Armor
+}
+
+public struct EquipmentType
+{
+    public BaseType baseType;
+    public EquipSlot slot;
+    public EquipType equipType;
 }
 
 public class Equipment : Item

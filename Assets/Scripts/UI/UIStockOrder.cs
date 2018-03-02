@@ -98,13 +98,20 @@ public class UIStockOrder : UIBase
 
     public void ConfirmOrder()
     {
+        float timer = 0.4f, spawnTime = 0.4f;
         if (playerStats.SpendGold(cartTotal))
         {
             for (int i = 0; i < cartItems.Count; i++)
             {
-                //TEMPORARY, TODO: GIVE ITEMS TO SHIPMENT AND ASSIGN DAY ON CALENDAR
-                Item item = itemList.CreateItem(cartItems[i].itemCode);
-                item.transform.position = transform.position;
+                timer += Time.deltaTime;
+
+                if (timer <= spawnTime)
+                {
+                    //TEMPORARY, TODO: GIVE ITEMS TO SHIPMENT AND ASSIGN DAY ON CALENDAR
+                    Item item = itemList.CreateItem(cartItems[i].itemCode);
+                    item.transform.position = transform.position;
+                    timer = 0f;
+                }
             }
 
             ClearCart();

@@ -36,12 +36,12 @@ public class TradeTable : Station
 
     void OnEnable()
     {
-        Trade.OnTradeComplete += RemoveCurrentTrade;
+        Trade.OnTradeComplete += RemoveTrade;
     }
 
     void OnDisable()
     {
-        Trade.OnTradeComplete -= RemoveCurrentTrade;
+        Trade.OnTradeComplete -= RemoveTrade;
     }
 
     public override Item Interact()
@@ -69,9 +69,14 @@ public class TradeTable : Station
         return null;
     }
 
-    void RemoveCurrentTrade()
+    void RemoveTrade(Trade toRemove)
     {
-        pendingTrades.RemoveAt(0);
+        pendingTrades.Remove(toRemove);
+    }
+
+    public bool HasTrade(Trade trade)
+    {
+        return pendingTrades.Contains(trade);
     }
 
     void OnTriggerEnter(Collider col)
