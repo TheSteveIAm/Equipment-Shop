@@ -13,6 +13,17 @@ public struct ItemRequirement
     public bool filled;
 }
 
+[CreateAssetMenu(fileName = "NewRecipe", menuName = "Recipe", order = 5)]
+public class RecipeInfo : ScriptableObject
+{
+    //List of item requirements this receipe needs to craft an item
+    public ItemRequirement[] requirements;
+    //Item this recipe produces
+    public ItemCode itemCreated;
+    //Time it takes to process this recipe (if any)
+    public float processTime = 0;
+}
+
 /// <summary>
 /// A Recipe is what's used to craft new Items
 /// It contains a list of Item Requirements
@@ -22,14 +33,10 @@ public struct ItemRequirement
 public class Recipe : MonoBehaviour
 {
     #region Properties
+    //Recipe Info (See above)
+    public RecipeInfo info;
     //List of items given to this receipe (via crafting station)
     public List<Item> givenItems = new List<Item>();
-    //List of item requirements this receipe needs to craft an item
-    public ItemRequirement[] requirements;
-    //Item this recipe produces
-    public ItemCode itemCreated;
-    //Time it takes to process this recipe (if any)
-    public float processTime = 0;
     //Production time put into this recipe
     private float currentProcessingTime = 0;
     //Does this recipe contain all the requirements necessary to craft the item?
@@ -46,12 +53,12 @@ public class Recipe : MonoBehaviour
     public bool GiveItem(Item item)
     {
         //check if given item matches an unfilled requirement
-        for (int i = 0; i < requirements.Length; i++)
+        for (int i = 0; i < info.requirements.Length; i++)
         {
-            if (requirements[i].item == item.itemCode && !requirements[i].filled)
+            if (info.requirements[i].item == item.itemCode && !info.requirements[i].filled)
             {
                 //fill requirement
-                requirements[i].filled = true;
+                info.requirements[i].filled = true;
                 Destroy(item.gameObject);
                 CheckRequirements();
                 //Tell craft station fulfillment was successful
@@ -68,11 +75,11 @@ public class Recipe : MonoBehaviour
     /// <param name="item"></param>
     public ItemCode RemoveItem(Item item)
     {
-        for (int i = 0; i < requirements.Length; i++)
+        for (int i = 0; i < info.requirements.Length; i++)
         {
-            if (item.itemCode == requirements[i].item && requirements[i].filled)
+            if (item.itemCode == info.requirements[i].item && info.requirements[i].filled)
             {
-                requirements[i].filled = false;
+                info.requirements[i].filled = false;
                 CheckRequirements();
                 return item.itemCode;
             }
@@ -89,9 +96,9 @@ public class Recipe : MonoBehaviour
     void CheckRequirements()
     {
 
-        for (int i = 0; i < requirements.Length; i++)
+        for (int i = 0; i < info.requirements.Length; i++)
         {
-            if (!requirements[i].filled)
+            if (!info.requirements[i].filled)
             {
                 requirementsMet = false;
                 return;
@@ -100,7 +107,7 @@ public class Recipe : MonoBehaviour
 
         requirementsMet = true;
 
-        if (currentProcessingTime >= processTime)
+        if (currentProcessingTime >= info.processTime)
         {
             itemReady = true;
         }
@@ -114,7 +121,7 @@ public class Recipe : MonoBehaviour
     {
         currentProcessingTime += Time.deltaTime;
 
-        if (currentProcessingTime >= processTime)
+        if (currentProcessingTime >= info.processTime)
         {
             itemReady = true;
         }
@@ -129,7 +136,7 @@ public class Recipe : MonoBehaviour
     {
         currentProcessingTime += time;
 
-        if (currentProcessingTime >= processTime)
+        if (currentProcessingTime >= info.processTime)
         {
             itemReady = true;
         }
@@ -146,7 +153,7 @@ public class Recipe : MonoBehaviour
             itemReady = false;
             currentProcessingTime = 0;
 
-            return itemCreated;
+            return info.itemCreated;
         }
         return ItemCode.None;
     }
