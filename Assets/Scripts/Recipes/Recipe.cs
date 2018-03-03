@@ -23,8 +23,12 @@ public struct ItemRequirement
 public class Recipe : MonoBehaviour
 {
     #region Properties
-    //Recipe Info (See above)
-    public RecipeInfo info;
+    //List of item requirements this receipe needs to craft an item
+    public ItemRequirement[] requirements;
+    //Item this recipe produces
+    public ItemCode itemCreated;
+    //Time it takes to process this recipe (if any)
+    public float processTime = 0;
     //List of items given to this receipe (via crafting station)
     public List<Item> givenItems = new List<Item>();
     //Production time put into this recipe
@@ -43,12 +47,12 @@ public class Recipe : MonoBehaviour
     public bool GiveItem(Item item)
     {
         //check if given item matches an unfilled requirement
-        for (int i = 0; i < info.requirements.Length; i++)
+        for (int i = 0; i < requirements.Length; i++)
         {
-            if (info.requirements[i].item == item.itemCode && !info.requirements[i].filled)
+            if (requirements[i].item == item.itemCode && !requirements[i].filled)
             {
                 //fill requirement
-                info.requirements[i].filled = true;
+                requirements[i].filled = true;
                 Destroy(item.gameObject);
                 CheckRequirements();
                 //Tell craft station fulfillment was successful
@@ -65,11 +69,11 @@ public class Recipe : MonoBehaviour
     /// <param name="item"></param>
     public ItemCode RemoveItem(Item item)
     {
-        for (int i = 0; i < info.requirements.Length; i++)
+        for (int i = 0; i < requirements.Length; i++)
         {
-            if (item.itemCode == info.requirements[i].item && info.requirements[i].filled)
+            if (item.itemCode == requirements[i].item && requirements[i].filled)
             {
-                info.requirements[i].filled = false;
+                requirements[i].filled = false;
                 CheckRequirements();
                 return item.itemCode;
             }
@@ -86,9 +90,9 @@ public class Recipe : MonoBehaviour
     void CheckRequirements()
     {
 
-        for (int i = 0; i < info.requirements.Length; i++)
+        for (int i = 0; i < requirements.Length; i++)
         {
-            if (!info.requirements[i].filled)
+            if (!requirements[i].filled)
             {
                 requirementsMet = false;
                 return;
@@ -97,7 +101,7 @@ public class Recipe : MonoBehaviour
 
         requirementsMet = true;
 
-        if (currentProcessingTime >= info.processTime)
+        if (currentProcessingTime >= processTime)
         {
             itemReady = true;
         }
@@ -111,7 +115,7 @@ public class Recipe : MonoBehaviour
     {
         currentProcessingTime += Time.deltaTime;
 
-        if (currentProcessingTime >= info.processTime)
+        if (currentProcessingTime >= processTime)
         {
             itemReady = true;
         }
@@ -126,7 +130,7 @@ public class Recipe : MonoBehaviour
     {
         currentProcessingTime += time;
 
-        if (currentProcessingTime >= info.processTime)
+        if (currentProcessingTime >= processTime)
         {
             itemReady = true;
         }
@@ -143,7 +147,7 @@ public class Recipe : MonoBehaviour
             itemReady = false;
             currentProcessingTime = 0;
 
-            return info.itemCreated;
+            return itemCreated;
         }
         return ItemCode.None;
     }

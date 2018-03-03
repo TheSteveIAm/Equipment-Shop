@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemUIPrefab: {fileID: 114492651545640102, guid: c04a967915fe62e42ac547a436419891,
     type: 2}
+  recipePrefab: {fileID: 114411244482829312, guid: b30b64bfd67a3cf49bf0b135de904f26,
+    type: 2}
   itemListToLoad:
   - {fileID: 114946288729454770, guid: 920fe47459b849b4c871b23a596d8646, type: 2}
   - {fileID: 114737481131241370, guid: 29d088981da96384193a66036ca2e537, type: 2}
