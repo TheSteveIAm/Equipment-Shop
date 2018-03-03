@@ -100,27 +100,21 @@ public class UIStockOrder : UIBase
     {
         if (playerStats.SpendGold(cartTotal))
         {
-        //float timer = 0.4f, spawnTime = 0.4f;
-            //TEMP TIMER
-            //timer += Time.deltaTime;
-            //int i = 0;
-            //NOT COMPLETE, FIX
-
-            //if (timer >= spawnTime && i < cartItems.Count)
-            //{
-            for (int i = 0; i < cartItems.Count; i++)
-            {
-
-                //TEMPORARY, TODO: GIVE ITEMS TO SHIPMENT AND ASSIGN DAY ON CALENDAR
-                Item item = itemList.CreateItem(cartItems[i].itemCode);
-                item.transform.position = transform.position;
-                //timer = 0f;
-            }
-            //i++;
-            //}
-
-            ClearCart();
+            StartCoroutine(TimedSpawn(0.4f));
         }
+    }
+
+    public IEnumerator TimedSpawn(float spawnCooldown)
+    {
+        int i = 0;
+        while (i < cartItems.Count)
+        {
+            Item item = itemList.CreateItem(cartItems[i].itemCode);
+            item.transform.position = transform.position;
+            yield return new WaitForSeconds(spawnCooldown);
+            i++;
+        }
+        ClearCart();
     }
 
     void ClearCart()

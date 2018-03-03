@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4510549288900020}
   - component: {fileID: 114411244482829312}
   m_Layer: 0
-  m_Name: IronBarRecipe
+  m_Name: RecipePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,11 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8192245af36df8846a99b66dfa9ec225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info: {fileID: 0}
   givenItems: []
-  requirements:
-  - item: 1
-    filled: 0
-  itemCreated: 2
-  processTime: 5
   requirementsMet: 0
   itemReady: 0

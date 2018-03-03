@@ -31,6 +31,7 @@ public class ItemFactory : MonoBehaviour
     }
 
     public UIItem itemUIPrefab;
+    public Recipe recipePrefab;
 
     /// <summary>
     /// List of all available items

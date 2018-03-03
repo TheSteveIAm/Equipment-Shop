@@ -14,7 +14,7 @@ public class Station : MonoBehaviour
     /// Recipes that this station will handle
     /// Some stations won't use recipes
     /// </summary>
-    public Recipe[] possibleRecipes;
+    public RecipeInfo[] possibleRecipes;
 
     /// <summary>
     /// The active recipe this station is using
