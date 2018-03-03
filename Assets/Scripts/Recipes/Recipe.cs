@@ -13,16 +13,6 @@ public struct ItemRequirement
     public bool filled;
 }
 
-[CreateAssetMenu(fileName = "NewRecipe", menuName = "Recipe", order = 5)]
-public class RecipeInfo : ScriptableObject
-{
-    //List of item requirements this receipe needs to craft an item
-    public ItemRequirement[] requirements;
-    //Item this recipe produces
-    public ItemCode itemCreated;
-    //Time it takes to process this recipe (if any)
-    public float processTime = 0;
-}
 
 /// <summary>
 /// A Recipe is what's used to craft new Items
