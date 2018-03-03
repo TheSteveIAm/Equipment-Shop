@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Art/Models.meta
 guid: 45d55c7c5ca74954d90bd85ee604b1ba
 folderAsset: yes
 timeCreated: 1516850623
+=======
+guid: 9530cf3fb4dad6b45a38872d5209e776
+folderAsset: yes
+timeCreated: 1520100244
+>>>>>>> origin/develop:Assets/Art/Models.meta
 licenseType: Free
 DefaultImporter:
   externalObjects: {}
