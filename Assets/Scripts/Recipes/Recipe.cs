@@ -13,6 +13,7 @@ public struct ItemRequirement
     public bool filled;
 }
 
+
 /// <summary>
 /// A Recipe is what's used to craft new Items
 /// It contains a list of Item Requirements
@@ -22,14 +23,14 @@ public struct ItemRequirement
 public class Recipe : MonoBehaviour
 {
     #region Properties
-    //List of items given to this receipe (via crafting station)
-    public List<Item> givenItems = new List<Item>();
     //List of item requirements this receipe needs to craft an item
     public ItemRequirement[] requirements;
     //Item this recipe produces
     public ItemCode itemCreated;
     //Time it takes to process this recipe (if any)
     public float processTime = 0;
+    //List of items given to this receipe (via crafting station)
+    public List<Item> givenItems = new List<Item>();
     //Production time put into this recipe
     private float currentProcessingTime = 0;
     //Does this recipe contain all the requirements necessary to craft the item?

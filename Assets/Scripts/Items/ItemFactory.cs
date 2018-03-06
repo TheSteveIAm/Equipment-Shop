@@ -10,7 +10,8 @@ public enum ItemCode
     None,
     IronOre,
     IronBar,
-    IronSword
+    IronSword,
+    SuperUltraTestSword
 }
 
 /// <summary>
@@ -19,7 +20,6 @@ public enum ItemCode
 /// </summary>
 public class ItemFactory : MonoBehaviour
 {
-
     private static ItemFactory instance = null;
 
     public static ItemFactory Instance
@@ -29,6 +29,9 @@ public class ItemFactory : MonoBehaviour
             return instance;
         }
     }
+
+    public UIItem itemUIPrefab;
+    public Recipe recipePrefab;
 
     /// <summary>
     /// List of all available items
@@ -123,7 +126,6 @@ public class ItemFactory : MonoBehaviour
         Item selectedItem = itemList[item];
         if (selectedItem != null)
         {
-
             return selectedItem.name;
         }
         return null;
@@ -147,6 +149,59 @@ public class ItemFactory : MonoBehaviour
             Equipment equip = (Equipment)selectedItem;
             return equip.info;
         }
+        return null;
+    }
+
+    /// <summary>
+    /// compares and returns the equipment info of the better equipment
+    /// </summary>
+    /// <param name="item1"></param>
+    /// <param name="item2"></param>
+    /// <returns></returns>
+    public EquipmentInfo CompareEquipment(ItemCode item1, ItemCode item2)
+    {
+        EquipmentInfo equip1 = GetEquipmentInfo(item1);
+        EquipmentInfo equip2 = GetEquipmentInfo(item2);
+        if (equip1.equipType.baseType == equip2.equipType.baseType)
+        {
+            int score1 = 0, score2 = 0;
+
+            switch (equip1.equipType.baseType)
+            {
+                case BaseType.Armor:
+                    score1 += equip1.armor + Mathf.FloorToInt(equip1.dexBonus / 2);
+                    score2 += equip2.armor + Mathf.FloorToInt(equip2.dexBonus / 2);
+                    break;
+
+                case BaseType.Weapon:
+                    score1 += equip1.minDamage + equip1.maxDamage + Mathf.FloorToInt(equip1.strBonus / 2);
+                    score2 += equip2.minDamage + equip2.maxDamage + Mathf.FloorToInt(equip2.strBonus / 2);
+                    break;
+            }
+
+            if (score1 > score2)
+            {
+                return equip1;
+            }
+            else if (score2 > score1)
+            {
+                return equip2;
+            }
+            else if (score1 == score2)
+            {
+                if (equip1.dmgType.damageType != DamageTypes.Physical &&
+                    equip2.dmgType.damageType == DamageTypes.Physical)
+                {
+                    return equip1;
+                }
+                else if (equip2.dmgType.damageType != DamageTypes.Physical &&
+                         equip1.dmgType.damageType == DamageTypes.Physical)
+                {
+                    return equip2;
+                }
+            }
+        }
+
         return null;
     }
 

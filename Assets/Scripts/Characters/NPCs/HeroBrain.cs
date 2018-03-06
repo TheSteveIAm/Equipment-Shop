@@ -85,9 +85,30 @@ public class HeroBrain : MonoBehaviour
 
                         if (display.displayedItem != null)
                         {
+                            if (display.displayedItem.GetType() == typeof(Equipment))
+                            {
+                                Equipment displayedEquip = (Equipment)display.displayedItem;
+                                bool wantThisitem = false;
+
+                                if (hero.stats.equippedItems.ContainsKey(displayedEquip.info.equipType.slot))
+                                {
+                                    wantThisitem = CompareItems(displayedEquip.itemCode, hero.stats.equippedItems[displayedEquip.info.equipType.slot]);
+                                }
+                                else
+                                {
+                                    wantThisitem = true;
+                                }
+
+                                if (wantThisitem && !wantedItems.Contains(displayedEquip.itemCode))
+                                {
+                                    AddWantedItem(displayedEquip.itemCode);
+                                }
+                            }
+
                             for (int i = 0; i < wantedItems.Count; i++)
                             {
-                                if (wantedItems[i] == display.displayedItem.itemCode)
+                                if (wantedItems[i] == display.displayedItem.itemCode &&
+                                    display.displayedItem.cost <= hero.stats.Gold)
                                 {
                                     hero.PickupItem(currentStation.Interact());
                                     lingerTimer = 0f;
@@ -102,15 +123,7 @@ public class HeroBrain : MonoBehaviour
 
                 if (lingerTimer >= lingerTime)
                 {
-                    lingerTimer = 0f;
-                    if (Random.Range(1, 11) == 1)
-                    {
-                        ChoosePointOfInterest(POIType.Door);
-                    }
-                    else
-                    {
-                        ChoosePointOfInterest(POIType.Item);
-                    }
+                    StopLingering();
                 }
 
                 break;
@@ -131,6 +144,7 @@ public class HeroBrain : MonoBehaviour
 
                         case POIType.Trade:
                             state = BrainStates.WaitingToTrade;
+                            lingerTime = Random.Range(10f, 20f);
                             break;
                     }
                 }
@@ -139,13 +153,27 @@ public class HeroBrain : MonoBehaviour
             case BrainStates.WaitingToTrade:
 
                 //Debug.Log(string.Format("{0} | {1} | {2} ", currentStation, currentStation.GetType(), currentTrade == null));
+                TradeTable table = (TradeTable)currentStation;
+
+                lingerTimer += Time.deltaTime;
+
+                if (lingerTimer >= lingerTime)
+                {
+                    currentTrade.DeclineOffer();
+                    return;
+                }
 
                 if (currentStation != null && currentStation.GetType() == typeof(TradeTable) && currentTrade == null)
                 {
-                    TradeTable table = (TradeTable)currentStation;
                     //TODO: create actual gold offer logic
                     currentTrade = table.CreateTrade(hero.carriedItem, itemList.GetItemCost(hero.carriedItem.itemCode), hero);
                 }
+
+                if (currentTrade != null && !table.HasTrade(currentTrade))
+                {
+                    currentTrade = null;
+                }
+
                 break;
 
             case BrainStates.Exiting:
@@ -159,6 +187,19 @@ public class HeroBrain : MonoBehaviour
                 //TODO: hold on to quest to tell player about?
                 EnterShop();
                 break;
+        }
+    }
+
+    void StopLingering()
+    {
+        lingerTimer = 0f;
+        if (Random.Range(1, 11) == 1)
+        {
+            ChoosePointOfInterest(POIType.Door);
+        }
+        else
+        {
+            ChoosePointOfInterest(POIType.Item);
         }
     }
 
@@ -185,6 +226,16 @@ public class HeroBrain : MonoBehaviour
         {
             state = BrainStates.Lingering;
         }
+    }
+
+    bool CompareItems(ItemCode newItem, ItemCode equippedItem)
+    {
+        if (itemList.CompareEquipment(newItem, equippedItem).itemCode == newItem)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void AddWantedItem(ItemCode itemType)

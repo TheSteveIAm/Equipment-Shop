@@ -47,7 +47,7 @@ public class Hero : Character
             ClearWanteditem(item.itemCode);
         }
 
-        if(item.GetType() == typeof(Equipment))
+        if (item.GetType() == typeof(Equipment))
         {
             Equipment equip = (Equipment)item;
             EquipItem(equip.info);
@@ -101,13 +101,16 @@ public class Hero : Character
     {
         //if (stats.HasEquipment(equip))
         //{
-        List<ItemCode> returnedItems = stats.RemoveEquipment(equip.equipmentType);
+        List<ItemCode> returnedItems = stats.RemoveEquipment(equip.equipType.slot);
 
         if (returnedItems.Count > 0)
         {
             for (int i = 0; i < returnedItems.Count; i++)
             {
-                AddItemToInventory(returnedItems[i]);
+                if (returnedItems[i] != ItemCode.None)
+                {
+                    AddItemToInventory(returnedItems[i]);
+                }
             }
         }
         //}

@@ -10,5 +10,5 @@ public class HeroInfo : ScriptableObject
     public StatsInfo stats;
     public LevelChart[] statGainsPerLevel;
 
-    public Dictionary<EquipType, ItemCode> equippedItems = new Dictionary<EquipType, ItemCode>();
+    public Dictionary<EquipSlot, ItemCode> equippedItems = new Dictionary<EquipSlot, ItemCode>();
 }

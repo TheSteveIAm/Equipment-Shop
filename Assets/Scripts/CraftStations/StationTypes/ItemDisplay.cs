@@ -28,4 +28,24 @@ public class ItemDisplay : Station
         }
         return null;
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null && !player.CarryingObject() && displayedItem != null)
+        {
+            displayedItem.ItemPopup(displayedItem.transform);
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null && displayedItem != null)
+        {
+            displayedItem.ItemPopup(null);
+        }
+    }
 }

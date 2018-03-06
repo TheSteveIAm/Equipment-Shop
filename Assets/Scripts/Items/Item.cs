@@ -9,14 +9,21 @@ using UnityEngine;
 /// </summary>
 public class Item : MonoBehaviour
 {
-
     public ItemCode itemCode;
     protected Rigidbody body;
     protected Collider col;
     public int dropChance;
     public int cost;
+
+    //private UIItem itemUIPrefab;
     //private float noTouchTime = 0.2f, noTouchTimer = 0f;
     //private bool untouchable = false;
+
+    public delegate void ItemPopupDelegate(Transform itemTransform);
+    public static event ItemPopupDelegate OnItemPopup;
+
+    public delegate void ItemRemovedDelegate(Transform itemTransform);
+    public static event ItemRemovedDelegate OnItemRemoved;
 
     /// <summary>
     /// Inform if the item has been touched by the player after coming out of a crafting station
@@ -25,8 +32,15 @@ public class Item : MonoBehaviour
 
     protected virtual void Start()
     {
-        col = GetComponent<Collider>();
-        body = GetComponent<Rigidbody>();
+        EnsureComponents();
+    }
+
+    void OnDestroy()
+    {
+        if (OnItemRemoved != null)
+        {
+            OnItemRemoved(transform);
+        }
     }
 
     /// <summary>
@@ -37,8 +51,15 @@ public class Item : MonoBehaviour
     {
         if (body == null || col == null)
         {
-            Start();
+            col = GetComponent<Collider>();
+            body = GetComponent<Rigidbody>();
+
+            ItemFactory itemList = ItemFactory.Instance;
+
+            UIItem itemUIPrefab = Instantiate(itemList.itemUIPrefab);
+            itemUIPrefab.AssignUI(transform, itemList.GetItemName(itemCode), cost);
         }
+
     }
 
     //private void Update()
@@ -64,18 +85,21 @@ public class Item : MonoBehaviour
         EnsureComponents();
         //if (!untouchable)
         //{
-            transform.parent = newParent;
-            transform.rotation = newParent.rotation;
-            transform.position = newParent.position;
+        transform.parent = newParent;
+        transform.rotation = newParent.rotation;
+        transform.position = newParent.position;
 
-            body.isKinematic = true;
-            col.enabled = false;
-            untouched = false;
+        body.isKinematic = true;
+        col.enabled = false;
+        untouched = false;
+
+        ItemPopup(null);
+        
         //}
     }
 
     /// <summary>
-    /// Allows player to drop this item
+    /// Allows character to drop this item
     /// </summary>
     public void Drop()
     {
@@ -86,5 +110,33 @@ public class Item : MonoBehaviour
 
         //TODO: create a very short "No Pickup" timer after dropping item
         //untouchable = true;
+    }
+
+    public void ItemPopup(Transform item)
+    {
+        if (OnItemPopup != null)
+        {
+            OnItemPopup(item);
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null && !player.CarryingObject())
+        {
+            ItemPopup(transform);
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        Player player = col.GetComponent<Player>();
+
+        if (player != null)
+        {
+            ItemPopup(null);
+        }
     }
 }

@@ -18,6 +18,8 @@ public class UIStockOrder : UIBase
     private int cartTotal;
     private Stats playerStats;
 
+    private bool dispensingItems;
+
     void OnEnable()
     {
         UIStockItem.OnItemSelected += ItemSelected;
@@ -100,15 +102,23 @@ public class UIStockOrder : UIBase
     {
         if (playerStats.SpendGold(cartTotal))
         {
-            for (int i = 0; i < cartItems.Count; i++)
-            {
-                //TEMPORARY, TODO: GIVE ITEMS TO SHIPMENT AND ASSIGN DAY ON CALENDAR
-                Item item = itemList.CreateItem(cartItems[i].itemCode);
-                item.transform.position = transform.position;
-            }
-
-            ClearCart();
+            EnableUI(false);
+            dispensingItems = true;
+            StartCoroutine(TimedSpawn(0.4f));
         }
+    }
+
+    public IEnumerator TimedSpawn(float spawnCooldown)
+    {
+        int i = 0;
+        while (i < cartItems.Count)
+        {
+            Item item = itemList.CreateItem(cartItems[i].itemCode);
+            item.transform.position = transform.position;
+            yield return new WaitForSeconds(spawnCooldown);
+            i++;
+        }
+        ClearCart();
     }
 
     void ClearCart()
@@ -119,8 +129,8 @@ public class UIStockOrder : UIBase
         }
 
         cartItems.Clear();
+        dispensingItems = false;
         CalculateCartTotal();
-        EnableUI(false);
     }
 
     void OpenStockOrder(Player player)
@@ -136,7 +146,11 @@ public class UIStockOrder : UIBase
         }
         else
         {
-            ClearCart();
+            EnableUI(false);
+            if (!dispensingItems)
+            {
+                ClearCart();
+            }
         }
     }
 }

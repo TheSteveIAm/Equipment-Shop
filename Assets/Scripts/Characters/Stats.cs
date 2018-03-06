@@ -72,7 +72,7 @@ public class Stats
     //In Monsters: experience is the amount a hero gains when killing it
     private int level = 1, experience = 0;
 
-    public Dictionary<EquipType, ItemCode> equippedItems = new Dictionary<EquipType, ItemCode>();
+    public Dictionary<EquipSlot, ItemCode> equippedItems = new Dictionary<EquipSlot, ItemCode>();
 
     /// <summary>
     /// Array of damage types this character interacts differently
@@ -237,7 +237,7 @@ public class Stats
     /// <param name="equip"></param>
     public void AddEquipment(EquipmentInfo equip)
     {
-        equippedItems.Add(equip.equipmentType, equip.itemCode);
+        equippedItems.Add(equip.equipType.slot, equip.itemCode);
 
         baseDamage += equip.minDamage;
         maxBonusDamage += equip.maxDamage;
@@ -245,7 +245,7 @@ public class Stats
         strength += equip.strBonus;
         intelligence += equip.intBonus;
         dexterity += equip.dexBonus;
-        damageMod = equip.dmgType;
+        damageMod = equip.dmgType.damageType;
     }
 
     /// <summary>
@@ -253,7 +253,7 @@ public class Stats
     /// </summary>
     /// <param name="equip"></param>
     /// <returns></returns>
-    public List<ItemCode> RemoveEquipment(EquipType equip)
+    public List<ItemCode> RemoveEquipment(EquipSlot equip)
     {
         List<ItemCode> returnedItems = new List<ItemCode>();
 
@@ -261,26 +261,26 @@ public class Stats
         {
             switch (equip)
             {
-                case EquipType.TwoHandWeapon:
-                    if (equippedItems.ContainsKey(EquipType.OneHandWeapon))
+                case EquipSlot.TwoHandWeapon:
+                    if (equippedItems.ContainsKey(EquipSlot.OneHandWeapon))
                     {
-                        returnedItems.Add(equippedItems[EquipType.OneHandWeapon]);
-                        RemoveStats(EquipType.OneHandWeapon);
+                        returnedItems.Add(equippedItems[EquipSlot.OneHandWeapon]);
+                        RemoveStats(EquipSlot.OneHandWeapon);
                     }
 
-                    if (equippedItems.ContainsKey(EquipType.Shield))
+                    if (equippedItems.ContainsKey(EquipSlot.Shield))
                     {
-                        returnedItems.Add(equippedItems[EquipType.Shield]);
-                        RemoveStats(EquipType.Shield);
+                        returnedItems.Add(equippedItems[EquipSlot.Shield]);
+                        RemoveStats(EquipSlot.Shield);
                     }
                     break;
 
-                case EquipType.OneHandWeapon:
-                case EquipType.Shield:
-                    if (equippedItems.ContainsKey(EquipType.TwoHandWeapon))
+                case EquipSlot.OneHandWeapon:
+                case EquipSlot.Shield:
+                    if (equippedItems.ContainsKey(EquipSlot.TwoHandWeapon))
                     {
-                        returnedItems.Add(equippedItems[EquipType.TwoHandWeapon]);
-                        RemoveStats(EquipType.TwoHandWeapon);
+                        returnedItems.Add(equippedItems[EquipSlot.TwoHandWeapon]);
+                        RemoveStats(EquipSlot.TwoHandWeapon);
                     }
                     break;
             }
@@ -297,7 +297,7 @@ public class Stats
         return returnedItems;
     }
 
-    private void RemoveStats(EquipType equip)
+    private void RemoveStats(EquipSlot equip)
     {
         EquipmentInfo equipStats = itemList.GetEquipmentInfo(equippedItems[equip]);
 
