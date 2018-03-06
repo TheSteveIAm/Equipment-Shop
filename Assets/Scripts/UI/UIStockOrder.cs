@@ -18,6 +18,8 @@ public class UIStockOrder : UIBase
     private int cartTotal;
     private Stats playerStats;
 
+    private bool dispensingItems;
+
     void OnEnable()
     {
         UIStockItem.OnItemSelected += ItemSelected;
@@ -100,6 +102,8 @@ public class UIStockOrder : UIBase
     {
         if (playerStats.SpendGold(cartTotal))
         {
+            EnableUI(false);
+            dispensingItems = true;
             StartCoroutine(TimedSpawn(0.4f));
         }
     }
@@ -125,8 +129,8 @@ public class UIStockOrder : UIBase
         }
 
         cartItems.Clear();
+        dispensingItems = false;
         CalculateCartTotal();
-        EnableUI(false);
     }
 
     void OpenStockOrder(Player player)
@@ -142,7 +146,11 @@ public class UIStockOrder : UIBase
         }
         else
         {
-            ClearCart();
+            EnableUI(false);
+            if (!dispensingItems)
+            {
+                ClearCart();
+            }
         }
     }
 }

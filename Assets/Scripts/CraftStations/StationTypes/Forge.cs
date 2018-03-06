@@ -37,10 +37,11 @@ public class Forge : Station
                     //accept item, give to recipe, start smelting timer
                     processingItem = true;
                     currentRecipe = Instantiate(itemList.recipePrefab, transform); //APPARENTLY THIS WORKS ON THE PREFAB. CREATE AN INSTANCE OF THE RECIPE AND USE THAT PLEASE.
-                    currentRecipe.requirements = possibleRecipes[i].requirements;
+                    currentRecipe.requirements = new ItemRequirement[possibleRecipes[i].requirements.Length];
+                    System.Array.Copy(possibleRecipes[i].requirements, currentRecipe.requirements, possibleRecipes[i].requirements.Length);
                     currentRecipe.itemCreated = possibleRecipes[i].itemCreated;
                     currentRecipe.processTime = possibleRecipes[i].processTime;
-
+                    currentRecipe.GiveItem(item);
                     return true;
                 }
             }
