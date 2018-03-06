@@ -25,6 +25,7 @@ public class HeroBrain : MonoBehaviour
     /// </summary>
     //public ItemCode[] wantedItems;
     public List<ItemCode> wantedItems = new List<ItemCode>();
+    public DamageTypes wantedDamageType;
     private NavMeshAgent agent;
 
     private BrainStates state;

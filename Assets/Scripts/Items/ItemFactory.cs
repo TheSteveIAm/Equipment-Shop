@@ -8,10 +8,29 @@ using UnityEngine;
 public enum ItemCode
 {
     None,
+    //Raw Materials
+    Herb,
+    Sand,
+    WoodLog,
     IronOre,
+    //Refined Materials
+    Glass,
+    WoodPlank,
     IronBar,
+    //Weapons / Hands
+    SuperUltraTestSword,
     IronSword,
-    SuperUltraTestSword
+    IronShield,
+    //Armor
+    IronHelmet,
+    IronArmor,
+    IronGauntlets,
+    IronGreaves,
+    IronBoots,
+    //Potions
+    HealthPotion,
+    //Spells
+    FireBallSpell
 }
 
 /// <summary>
@@ -189,16 +208,8 @@ public class ItemFactory : MonoBehaviour
             }
             else if (score1 == score2)
             {
-                if (equip1.dmgType.damageType != DamageTypes.Physical &&
-                    equip2.dmgType.damageType == DamageTypes.Physical)
-                {
-                    return equip1;
-                }
-                else if (equip2.dmgType.damageType != DamageTypes.Physical &&
-                         equip1.dmgType.damageType == DamageTypes.Physical)
-                {
-                    return equip2;
-                }
+                //return the first item, the first item should always be the one the hero already has equipped
+                return equip1;
             }
         }
 
