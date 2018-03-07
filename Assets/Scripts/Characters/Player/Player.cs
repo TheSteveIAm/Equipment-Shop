@@ -17,11 +17,13 @@ public class Player : Character
     void OnEnable()
     {
         UIChestItem.OnItemSelected += GetItemFromCurrentStation;
+        Anvil.OnItemCreated += PickupItem;
     }
 
     void OnDisable()
     {
         UIChestItem.OnItemSelected -= GetItemFromCurrentStation;
+        Anvil.OnItemCreated -= PickupItem;
     }
 
     // Use this for initialization
