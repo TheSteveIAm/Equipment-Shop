@@ -120,6 +120,7 @@ public class Recipe : MonoBehaviour
             itemReady = true;
         }
     }
+    
 
     /// <summary>
     /// Process the item closer to completion, this version is used to manually update

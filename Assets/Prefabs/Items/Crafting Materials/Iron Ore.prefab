@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d7565cbcd243c4fb9df1d6b6c7dc7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCode: 1
+  itemCode: 4
   dropChance: 50
   cost: 2
   untouched: 1

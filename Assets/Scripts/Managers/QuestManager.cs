@@ -64,6 +64,7 @@ public class QuestManager : MonoBehaviour {
             for (int j = 0; j < selectedQuest.monsters.Count; j++)
             {
                 questMonsters.Add(new Monster(selectedQuest.monsters[j]));
+                //TODO: count monster type weaknesses, tell hero they want an item that exploits those weaknesses
             }
 
             availableHeroes[i].currentQuest = new Quest(questHeroes, questMonsters, selectedQuest.questType, selectedQuest.questReward, selectedQuest.questLevel);
