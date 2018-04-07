@@ -9,7 +9,7 @@ Material:
   m_Name: Window
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
-  m_LightmapFlags: 2
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -73,5 +73,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.9083164, b: 0.1691176, a: 0.215}
-    - _EmissionColor: {r: 1, g: 0.94533473, b: 0.6397058, a: 1}
+    - _Color: {r: 0.7647059, g: 0.93333334, b: 1, a: 1}
+    - _EmissionColor: {r: 0.89705884, g: 0.9659229, b: 1, a: 1}
