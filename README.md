@@ -1,7 +1,3 @@
 # Equipment Shop Game #
 
-
-
-### Technical Info ###
-
-* Unity Version: 2017.3.0f3
+A cancelled game where you craft equipment for adventurers visiting your shop, in the style of overcooked.
